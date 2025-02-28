@@ -1,8 +1,9 @@
+import Image from "next/image";
 import { revalidatePath } from "next/cache";
+import { Nav } from "react-bootstrap";
+import Tab from "react-bootstrap/Tab";
 import FormButtons from "@/components/global/formbuttons";
 import { fetchurl } from "@/helpers/fetchurl";
-import Services from "@/components/services";
-import Business from "@/components/business";
 import Head from "@/app/head";
 import ErrorPage from "@/layout/errorpage";
 
@@ -61,8 +62,130 @@ const Home = async () => {
 					</div>
 				</div>
 			</header>
-			<Services />
-			<Business />
+			{/* OUR SERVICES */}
+			<section className="bg-black text-bg-dark py-5">
+				<div className="container">
+					<h2 className="text-center">OUR SERVICES</h2>
+					<p className="text-center text-secondary">
+						Expertise in both NFA transfers and software development.
+					</p>
+					<Tab.Container defaultActiveKey="nfatransfers">
+						<Nav variant="pills" className="nav-justified mb-3">
+							<Nav.Item>
+								<Nav.Link
+									eventKey="nfatransfers"
+									className="my-nav-links text-bg-dark me-1"
+								>
+									NFA Transfers
+								</Nav.Link>
+							</Nav.Item>
+							<Nav.Item>
+								<Nav.Link
+									eventKey="softwaredevelopment"
+									className="my-nav-links text-bg-dark ms-1"
+								>
+									Software Development
+								</Nav.Link>
+							</Nav.Item>
+						</Nav>
+						<Tab.Content>
+							<Tab.Pane eventKey="nfatransfers">
+								<h3>NFA Transfer Services</h3>
+								<p className="text-secondary">
+									Professional handling of all your NFA item transfers
+								</p>
+								<div className="row">
+									<div className="col">
+										<h4>Form 4 Transfers</h4>
+										<p className="text-secondary">
+											Individual and trust transfers for suppressors, SBRs, and
+											more
+										</p>
+										<h4>eForm Processing</h4>
+										<p className="text-secondary">
+											Digital submission for faster approval times
+										</p>
+									</div>
+									<div className="col">
+										<h4>Form 3 Dealer Transfers</h4>
+										<p className="text-secondary">
+											Fast and efficient FFL to FFL transfers
+										</p>
+										<h4>Trust Formation</h4>
+										<p className="text-secondary">
+											Assistance with NFA trust creation and management
+										</p>
+									</div>
+								</div>
+							</Tab.Pane>
+							<Tab.Pane eventKey="softwaredevelopment">
+								<h3>Software Development</h3>
+								<p className="text-secondary">
+									Custom software solutions for your business needs
+								</p>
+								<div className="row">
+									<div className="col">
+										<h4>Web Applications</h4>
+										<p className="text-secondary">
+											Responsive, modern web applications built with the latest
+											technologies
+										</p>
+										<h4>Database Solutions</h4>
+										<p className="text-secondary">
+											Efficient data storage and management systems
+										</p>
+									</div>
+									<div className="col">
+										<h4>Mobile Development</h4>
+										<p className="text-secondary">
+											Native and cross-platform mobile applications
+										</p>
+										<h4>Custom Integrations</h4>
+										<p className="text-secondary">
+											Connect your existing systems and streamline workflows
+										</p>
+									</div>
+								</div>
+							</Tab.Pane>
+						</Tab.Content>
+					</Tab.Container>
+				</div>
+			</section>
+			{/* BUSINESS */}
+			<section className="bg-dark text-bg-dark py-5">
+				<div className="container">
+					<div className="row">
+						<div className="col-lg-6">
+							<h2>ABOUT OUR BUSINESS</h2>
+							<p className="text-secondary">
+								With years of experience in both NFA transfers and software
+								development, we provide professional services that meet the
+								highest standards.
+							</p>
+							<h3>Why Choose Us?</h3>
+							<ul>
+								<li>Licensed and experienced NFA dealer</li>
+								<li>Professional software development team</li>
+								<li>Personalized service and support</li>
+								<li>Transparent pricing and processes</li>
+							</ul>
+						</div>
+						<div className="col-lg-6">
+							<Image
+								src="https://www.ijwhite.com/wp-content/uploads/2017/05/placeholder-800x400.jpeg"
+								width="800"
+								height="400"
+								alt="Business office"
+								className="img-fluid rounded"
+								style={{
+									objectFit: "cover",
+								}}
+							/>
+						</div>
+					</div>
+				</div>
+			</section>
+			{/* CONTACT US */}
 			<section className="bg-black text-bg-dark py-5">
 				<div className="container">
 					<h2 className="text-center">CONTACT US</h2>
