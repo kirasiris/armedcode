@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { formatDateWithoutTime } from "befree-utilities";
 import { fetchurl } from "@/helpers/fetchurl";
 import ParseHtml from "@/layout/parseHtml";
+import NotVisiblePage from "@/layout/notvisiblepage";
 
 async function getPage(params) {
 	const res = await fetchurl(`/pages${params}`, "GET", "no-cache");
@@ -18,36 +19,32 @@ const PrivacyPolicyIndex = async ({ params, searchParams }) => {
 	);
 
 	return (
-		<>
-			{/* CONTACT US */}
-
-			<div className="container">
-				{page.data.status === "published" || awtdParams.isAdmin === "true" ? (
-					<div className="row">
-						<div className="col-lg-12">
-							<article>
-								<div className="mb-3">
-									<h1>{page?.data?.title}</h1>
-									<div className="text-muted fst-italic mb-2">
-										Posted&nbsp;on&nbsp;
-										{formatDateWithoutTime(page?.data?.createdAt)}
-										{page?.data?.user?.username && (
-											<>
-												&nbsp;by&nbsp;
-												{page?.data?.user?.username}
-											</>
-										)}
-									</div>
+		<div className="container">
+			{page.data.status === "published" || awtdParams.isAdmin === "true" ? (
+				<div className="row">
+					<div className="col-lg-12">
+						<article>
+							<div className="mb-3">
+								<h1>{page?.data?.title}</h1>
+								<div className="text-muted fst-italic mb-2">
+									Posted&nbsp;on&nbsp;
+									{formatDateWithoutTime(page?.data?.createdAt)}
+									{page?.data?.user?.username && (
+										<>
+											&nbsp;by&nbsp;
+											{page?.data?.user?.username}
+										</>
+									)}
 								</div>
-								<ParseHtml text={page?.data?.text} />
-							</article>
-						</div>
+							</div>
+							<ParseHtml text={page?.data?.text} />
+						</article>
 					</div>
-				) : (
-					<p>Not visible</p>
-				)}
-			</div>
-		</>
+				</div>
+			) : (
+				<NotVisiblePage />
+			)}
+		</div>
 	);
 };
 
