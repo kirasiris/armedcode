@@ -1,19 +1,8 @@
-import Image from "next/image";
 import { revalidatePath } from "next/cache";
 import FormButtons from "@/components/global/formbuttons";
 import { fetchurl } from "@/helpers/fetchurl";
-import Head from "@/app/head";
-import ErrorPage from "@/layout/errorpage";
-import Services from "@/components/services";
 
-async function getSetting(params) {
-	const res = await fetchurl(`/settings/${params}`, "GET", "default");
-	return res;
-}
-
-const Home = async () => {
-	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
-
+const ContactIndex = async () => {
 	const createContact = async (formData) => {
 		"use server";
 		const rawFormData = {
@@ -23,83 +12,11 @@ const Home = async () => {
 			text: formData.get("text"),
 		};
 		await fetchurl(`/emails`, "POST", "no-cache", rawFormData);
-		revalidatePath(`/`);
+		revalidatePath(`/contact`);
 	};
-	return settings?.data?.maintenance === false ? (
+
+	return (
 		<>
-			<Head
-				title={settings.data.title}
-				description={settings.data.text}
-				favicon={settings.data.favicon}
-				postImage={settings.data.showcase_image}
-				imageWidth="800"
-				imageHeight="450"
-				videoWidth=""
-				videoHeight=""
-				card="summary"
-				robots=""
-				category=""
-				url="/"
-				author={settings.data.author}
-				createdAt={settings.data.createdAt}
-				updatedAt={settings.data.updatedAt}
-				locales=""
-				posType="website"
-			/>
-			<header className="bg-dark text-bg-dark py-5">
-				<div className="container py-5">
-					<h1 className="display-1 text-center text-uppercase">
-						NFA Transfers and Software Development
-					</h1>
-					<p className="display-6 text-center text-uppercase">
-						Streamlining your NFA transfers and building powerful software
-						solutions for your business needs.
-					</p>
-					<div className="text-center">
-						<a className="btn btn-light me-1">Get Started</a>
-						<a className="btn btn-secondary ms-1">Learn More</a>
-					</div>
-				</div>
-			</header>
-			{/* OUR SERVICES */}
-			<Services />
-			{/* BUSINESS */}
-			<section className="bg-dark text-bg-dark py-5">
-				<div className="container">
-					<div className="row">
-						<div className="col-lg-6">
-							<h2>ABOUT OUR BUSINESS</h2>
-							<p className="text-secondary">
-								With years of experience in both NFA transfers and software
-								development, we provide professional services that meet the
-								highest standards.
-							</p>
-							<h3>Why Choose Us?</h3>
-							<ul>
-								<li>Licensed and experienced NFA dealer</li>
-								<li>Professional software development team</li>
-								<li>Personalized service and support</li>
-								<li>Transparent pricing and processes</li>
-							</ul>
-						</div>
-						<div className="col-lg-6">
-							<Image
-								src={
-									settings.data.showcase_image ||
-									"https://www.ijwhite.com/wp-content/uploads/2017/05/placeholder-800x400.jpeg"
-								}
-								width="800"
-								height="400"
-								alt="Business office"
-								className="img-fluid rounded"
-								style={{
-									objectFit: "cover",
-								}}
-							/>
-						</div>
-					</div>
-				</div>
-			</section>
 			{/* CONTACT US */}
 			<section className="bg-black text-bg-dark py-5">
 				<div className="container">
@@ -210,9 +127,7 @@ const Home = async () => {
 				</div>
 			</section>
 		</>
-	) : (
-		<ErrorPage />
 	);
 };
 
-export default Home;
+export default ContactIndex;

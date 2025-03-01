@@ -91,10 +91,6 @@ SCHEDULE
 /*****************************
 ERROR COMPONENT
 *****************************/
-.error-container {
-	padding-top: 3rem !important;
-	padding-bottom: 3rem !important;
-}
 
 /*****************************
 TABS
@@ -106,4 +102,8 @@ TABS
 
 .my-nav-links.active {
 	background-color: #000000 !important;
+}
+
+.my-border-color {
+	border-color: #212529 !important;
 }

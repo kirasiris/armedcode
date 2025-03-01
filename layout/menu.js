@@ -58,23 +58,6 @@ const Menu = ({
 						<li className="nav-item">
 							<Link
 								href={{
-									pathname: `${canonical}/services`,
-									query: {},
-								}}
-								passHref
-								legacyBehavior
-							>
-								<a
-									className={`nav-link ${isActive(`${canonical}/services`)}`}
-									aria-current="page"
-								>
-									Services
-								</a>
-							</Link>
-						</li>
-						<li className="nav-item">
-							<Link
-								href={{
 									pathname: `${canonical}/about`,
 									query: {},
 								}}

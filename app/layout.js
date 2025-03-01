@@ -22,7 +22,11 @@ const RootLayout = async ({ children }) => {
 				favicon={settings?.data?.favicon}
 			/>
 			<body>
-				<Menu />
+				<Menu
+					title={settings?.data?.title}
+					logo={settings?.data?.logo}
+					canonical={process.env.NEXT_PUBLIC_WEBSITE_URL}
+				/>
 				<main>{children}</main>
 				<Footer canonical={process.env.NEXT_PUBLIC_WEBSITE_URL} />
 			</body>

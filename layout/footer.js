@@ -50,14 +50,32 @@ const Footer = ({
 				</p>
 				<ul className="list-unstyled d-flex">
 					<li className="me-3">
-						<a href="#" className="text-secondary text-decoration-underline">
-							Privacy Policy
-						</a>
+						<Link
+							href={{
+								pathname: `${canonical}/privacy-policy`,
+								query: {},
+							}}
+							passHref
+							legacyBehavior
+						>
+							<a className="text-secondary text-decoration-underline">
+								Privacy Policy
+							</a>
+						</Link>
 					</li>
 					<li>
-						<a href="#" className="text-secondary text-decoration-underline">
-							Terms of Service
-						</a>
+						<Link
+							href={{
+								pathname: `${canonical}/terms-of-service`,
+								query: {},
+							}}
+							passHref
+							legacyBehavior
+						>
+							<a className="text-secondary text-decoration-underline">
+								Terms of Service
+							</a>
+						</Link>
 					</li>
 				</ul>
 			</div>
