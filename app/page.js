@@ -175,7 +175,7 @@ const Home = async () => {
 									<li>
 										<p className="fw-bold mb-0">Phone</p>
 										<p className="text-secondary mb-0">682-375-9607</p>
-										<p className="text-secondary">Monday-Friday, 9am-5pm</p>
+										<p className="text-secondary">Monday-Friday, 9am-6pm</p>
 									</li>
 									<li>
 										<p className="fw-bold mb-0">Email</p>
@@ -191,16 +191,16 @@ const Home = async () => {
 									<h4>Business Hours</h4>
 									<ul className="list-unstyled">
 										<li className="list-items-for-schedule justify-content-between">
-											<span>Monday - Friday</span>
-											<span>9:00 AM - 5:00 PM</span>
+											<span>Friday</span>
+											<span>6:00 PM - 10:00 PM</span>
 										</li>
 										<li className="list-items-for-schedule justify-content-between">
 											<span>Saturday</span>
-											<span>By appointment</span>
+											<span>9:00 AM - 6:00 PM</span>
 										</li>
 										<li className="list-items-for-schedule justify-content-between">
 											<span>Sunday</span>
-											<span>Closed</span>
+											<span>9:00 AM - 6:00 PM</span>
 										</li>
 									</ul>
 								</div>

@@ -6,8 +6,34 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "rebuild": "rimraf .next && npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirasiris/armedcode.git"
+  },
+  "keywords": [
+    "javascript",
+    "portfolio",
+    "business",
+    "reactjs",
+    "nextjs",
+    "weapons",
+    "llc",
+    "2a",
+    "arms",
+    "limited-liability-companies",
+    "second-amendment",
+    "right-to-bear-arms"
+  ],
+  "author": "Kevin Uriel Fonseca",
+  "license": "MIT",
+  "bugs": {
+    "email": "kebin1421@hotmail.com",
+    "url": "https://github.com/kirasiris/armedcode/issues"
+  },
+  "homepage": "https://github.com/kirasiris/armedcode#readme",
   "dependencies": {
     "befree-utilities": "^1.0.4",
     "bootstrap": "^5.3.3",

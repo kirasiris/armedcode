@@ -13,10 +13,9 @@ const Footer = ({
 }) => {
 	return (
 		<footer
-			className={`py-5 bg-black text-bg-dark ${classList}`}
+			className={`bg-black text-bg-dark py-5 border-top border-dark ${classList}`}
 			style={styleList}
 		>
-			<hr />
 			<div className="container">
 				<div className="text-center text-secondary">
 					<p>
@@ -43,8 +42,7 @@ const Footer = ({
 					</p>
 				</div>
 			</div>
-			<hr />
-			<div className="container d-flex flex-column flex-sm-row justify-content-between py-4 my-4">
+			<div className="container d-flex justify-content-between">
 				<p className="text-secondary">
 					© 2025 {process.env.NEXT_PUBLIC_WEBSITE_NAME}. All rights reserved.
 				</p>

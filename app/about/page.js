@@ -3,6 +3,12 @@ import { formatDateWithoutTime } from "befree-utilities";
 import { fetchurl } from "@/helpers/fetchurl";
 import ParseHtml from "@/layout/parseHtml";
 import NotVisiblePage from "@/layout/notvisiblepage";
+import ErrorPage from "@/layout/errorpage";
+
+async function getSetting(params) {
+	const res = await fetchurl(`/settings/${params}`, "GET", "default");
+	return res;
+}
 
 async function getPage(params) {
 	const res = await fetchurl(`/pages${params}`, "GET", "no-cache");
@@ -14,9 +20,10 @@ const AboutIndex = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 
+	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 	const page = await getPage(`/${process.env.NEXT_PUBLIC_ABOUT_PAGE_ID}`);
 
-	return (
+	return settings?.data?.maintenance === false ? (
 		<div className="container">
 			{page.data.status === "published" || awtdParams.isAdmin === "true" ? (
 				<div className="row">
@@ -43,6 +50,8 @@ const AboutIndex = async ({ params, searchParams }) => {
 				<NotVisiblePage />
 			)}
 		</div>
+	) : (
+		<ErrorPage />
 	);
 };
 
