@@ -26,32 +26,34 @@ const TermsOfServiceIndex = async ({ params, searchParams }) => {
 	);
 
 	return settings?.data?.maintenance === false ? (
-		<div className="container">
-			{page.data.status === "published" || awtdParams.isAdmin === "true" ? (
-				<div className="row">
-					<div className="col-lg-12">
-						<article>
-							<div className="mb-3">
-								<h1>{page?.data?.title}</h1>
-								<div className="text-muted fst-italic mb-2">
-									Posted&nbsp;on&nbsp;
-									{formatDateWithoutTime(page?.data?.createdAt)}
-									{page?.data?.user?.username && (
-										<>
-											&nbsp;by&nbsp;
-											{page?.data?.user?.username}
-										</>
-									)}
+		<section className="bg-dark py-5 text-bg-dark">
+			<div className="container">
+				{page.data.status === "published" || awtdParams.isAdmin === "true" ? (
+					<div className="row">
+						<div className="col-lg-12">
+							<article>
+								<div className="mb-3">
+									<h1>{page?.data?.title}</h1>
+									<div className="text-muted fst-italic mb-2">
+										Posted&nbsp;on&nbsp;
+										{formatDateWithoutTime(page?.data?.createdAt)}
+										{page?.data?.user?.username && (
+											<>
+												&nbsp;by&nbsp;
+												{page?.data?.user?.username}
+											</>
+										)}
+									</div>
 								</div>
-							</div>
-							<ParseHtml text={page?.data?.text} />
-						</article>
+								<ParseHtml text={page?.data?.text} />
+							</article>
+						</div>
 					</div>
-				</div>
-			) : (
-				<NotVisiblePage />
-			)}
-		</div>
+				) : (
+					<NotVisiblePage />
+				)}
+			</div>
+		</section>
 	) : (
 		<ErrorPage />
 	);
