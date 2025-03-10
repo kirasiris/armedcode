@@ -36,6 +36,8 @@ const Footer = ({
 						<a
 							href={process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}
 							className="btn btn-secondary btn-sm"
+							target="_blank"
+							rel="noreferrer noopener"
 						>
 							KEVIN&nbsp;URIEL
 						</a>

@@ -11,7 +11,7 @@ const Services = () => {
 					Expertise in both NFA transfers and software development.
 				</p>
 				<Tab.Container defaultActiveKey="nfatransfers">
-					<Nav variant="pills" className="nav-justified mb-3">
+					<Nav variant="pills" className="nav-justified bg-dark rounded mb-3">
 						<Nav.Item>
 							<Nav.Link
 								eventKey="nfatransfers"

@@ -190,15 +190,15 @@ const Home = async () => {
 								<div className="bg-dark p-4 rounded">
 									<h4>Business Hours</h4>
 									<ul className="list-unstyled">
-										<li className="list-items-for-schedule justify-content-between">
+										<li className="d-flex justify-content-between">
 											<span>Friday</span>
 											<span>6:00 PM - 10:00 PM</span>
 										</li>
-										<li className="list-items-for-schedule justify-content-between">
+										<li className="d-flex justify-content-between">
 											<span>Saturday</span>
 											<span>9:00 AM - 6:00 PM</span>
 										</li>
-										<li className="list-items-for-schedule justify-content-between">
+										<li className="d-flex justify-content-between">
 											<span>Sunday</span>
 											<span>9:00 AM - 6:00 PM</span>
 										</li>
