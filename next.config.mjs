@@ -13,7 +13,12 @@ const nextConfig = {
 	// },
 	poweredByHeader: false,
 	reactStrictMode: true,
-	experimental: {},
+	experimental: {
+		serverActions: {
+			// This is required to upload files to Cloudinary through reviews form
+			bodySizeLimit: "3mb",
+		},
+	},
 	images: {
 		remotePatterns: [
 			{
@@ -26,26 +31,9 @@ const nextConfig = {
 			},
 		],
 	},
-	headers: async () => {
-		return [
-			{
-				source: "/:path*",
-				headers: [
-					{ key: "Access-Control-Allow-Credentials", value: "true" },
-					{ key: "Access-Control-Allow-Origin", value: "*" },
-					{
-						key: "Access-Control-Allow-Methods",
-						value: "GET,POST,PUT,DELETE,PATCH, OPTIONS",
-					},
-					{
-						key: "Access-Control-Allow-Headers",
-						value:
-							"X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
-					},
-				],
-			},
-		];
-	},
+	// headers: async () => {
+	// 	return [];
+	// },
 };
 
 // module.exports = nextConfig;

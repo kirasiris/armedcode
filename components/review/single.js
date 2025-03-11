@@ -1,5 +1,7 @@
 "use client";
 
+import ParseHtml from "@/layout/parseHtml";
+import { calculateTimeSincePublished } from "befree-utilities";
 import Image from "next/image";
 import { Suspense } from "react";
 
@@ -15,27 +17,41 @@ const Single = ({
 }) => {
 	return (
 		<Suspense fallback={<Loading />}>
-			<article className={`${object._id}`}>
-				<div className="card bg-black text-bg-dark mb-3">
+			<article className={`${object?._id}`}>
+				<div className="card border border-1 my-border-color bg-black text-bg-dark mb-3">
 					<div className="card-header d-flex justify-content-between align-items-center">
-						<a>Excellent NFA Transfer Service</a>
-						<button className="btn btn-light btn-sm">Stars</button>
+						<div>
+							<p className="mb-0">{object?.title}</p>
+							<small className="text-secondary">
+								About {calculateTimeSincePublished(object?.createdAt)} by{" "}
+								{object?.name}
+							</small>
+						</div>
+						<p className="mb-0">
+							{[...Array(object.rating)].map((_, index) => (
+								<i key={index} aria-hidden className="fa-solid fa-star"></i>
+							))}
+						</p>
 					</div>
 					<div className="card-body">
-						<small>about 1 year ago by John D.</small>
-						<p>
-							The process was smooth and much faster than I expected. The team
-							was professional and kept me updated throughout the process.
-							Highly recommended for anyone looking for NFA transfer services.
-						</p>
-						<Image
-							alt="Placeholder image"
-							src={`https://kzmjk7r94butx83hi0jq.lite.vusercontent.net/placeholder.svg?height=400&width=600`}
-							className="rounded"
-							width={600}
-							height={400}
-							style={{ maxHeight: "300px", objectFit: "contain" }}
-						/>
+						<ParseHtml text={object?.text} parseAs="p" />
+						{/* <div className="d-flex flex-wrap gap-3">
+							{[...Array(10)].map((_, index) => (
+								<Image
+									key={index}
+									alt="Placeholder image"
+									src={`https://kzmjk7r94butx83hi0jq.lite.vusercontent.net/placeholder.svg?height=400&width=600`}
+									className="img-fluid rounded m-1 m-sm-0"
+									width={600}
+									height={400}
+									style={{
+										maxWidth: "150px",
+										height: "auto",
+										objectFit: "cover",
+									}}
+								/>
+							))}
+						</div> */}
 					</div>
 				</div>
 			</article>

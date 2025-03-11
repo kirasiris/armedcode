@@ -13,10 +13,15 @@ const ReviewIndex = async ({ params, searchParams }) => {
 	const limit = awtdSearchParams.limit || 10;
 	const sort = awtdSearchParams.sort || "-createdAt";
 	const postType = awtdSearchParams.postType || "review";
-	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
+	const rating =
+		awtdSearchParams.rating !== undefined
+			? `&rating=${awtdSearchParams.rating}`
+			: "";
+
+	console.log(awtdSearchParams);
 
 	const getReviewsData = getReviews(
-		`?page=${page}&limit=${limit}&sort=${sort}&postType=${postType}&status=published${decrypt}`
+		`?page=${page}&limit=${limit}&sort=${sort}&postType=${postType}&status=published${rating}&decrypt=true`
 	);
 
 	const [reviews] = await Promise.all([getReviewsData]);
@@ -25,7 +30,7 @@ const ReviewIndex = async ({ params, searchParams }) => {
 		<List
 			objects={reviews}
 			searchParams={awtdSearchParams}
-			returtopageurl="/reviews"
+			returtopageurl="/review"
 		/>
 	);
 };
