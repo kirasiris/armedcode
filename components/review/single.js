@@ -21,8 +21,9 @@ const Single = ({
 				<div className="card border border-1 my-border-color bg-black text-bg-dark mb-3">
 					<div className="card-header d-flex justify-content-between align-items-center">
 						<div>
-							<p className="mb-0">{object?.title}</p>
+							<p className="fw-bold mb-0">{object?.title}</p>
 							<small className="text-secondary">
+								<i className="fa-regular fa-calendar me-1" />
 								About {calculateTimeSincePublished(object?.createdAt)} by{" "}
 								{object?.name}
 							</small>
