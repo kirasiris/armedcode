@@ -1,6 +1,11 @@
 import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/review/list";
-import NotVisiblePage from "@/layout/notvisiblepage";
+import ErrorPage from "@/layout/errorpage";
+
+async function getSetting(params) {
+	const res = await fetchurl(`/settings/${params}`, "GET", "default");
+	return res;
+}
 
 async function getReviews(params) {
 	const res = await fetchurl(`/comments${params}`, "GET", "no-cache");
@@ -9,6 +14,9 @@ async function getReviews(params) {
 
 const ReviewIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
+
+	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
+
 	const page = awtdSearchParams.page || 1;
 	const limit = awtdSearchParams.limit || 10;
 	const sort = awtdSearchParams.sort || "-createdAt";
@@ -18,20 +26,20 @@ const ReviewIndex = async ({ params, searchParams }) => {
 			? `&rating=${awtdSearchParams.rating}`
 			: "";
 
-	console.log(awtdSearchParams);
-
 	const getReviewsData = getReviews(
 		`?page=${page}&limit=${limit}&sort=${sort}&postType=${postType}&status=published${rating}&decrypt=true`
 	);
 
 	const [reviews] = await Promise.all([getReviewsData]);
 
-	return (
+	return settings?.data?.maintenance === false ? (
 		<List
 			objects={reviews}
 			searchParams={awtdSearchParams}
 			returtopageurl="/review"
 		/>
+	) : (
+		<ErrorPage />
 	);
 };
 

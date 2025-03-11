@@ -1,9 +1,11 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { formatDateWithoutTime } from "befree-utilities";
 import { fetchurl } from "@/helpers/fetchurl";
 import ParseHtml from "@/layout/parseHtml";
 import NotVisiblePage from "@/layout/notvisiblepage";
 import ErrorPage from "@/layout/errorpage";
+import Loading from "@/app/about/loading";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
@@ -21,37 +23,40 @@ const AboutIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
+
 	const page = await getPage(`/${process.env.NEXT_PUBLIC_ABOUT_PAGE_ID}`);
 
 	return settings?.data?.maintenance === false ? (
-		<section className="bg-dark py-5 text-bg-dark">
-			<div className="container">
-				{page.data.status === "published" || awtdParams.isAdmin === "true" ? (
-					<div className="row">
-						<div className="col-lg-12">
-							<article>
-								<div className="mb-3">
-									<h1>{page?.data?.title}</h1>
-									<div className="text-muted fst-italic mb-2">
-										Posted&nbsp;on&nbsp;
-										{formatDateWithoutTime(page?.data?.createdAt)}
-										{page?.data?.user?.username && (
-											<>
-												&nbsp;by&nbsp;
-												{page?.data?.user?.username}
-											</>
-										)}
+		<Suspense fallback={<Loading />}>
+			<section className="bg-dark py-5 text-bg-dark">
+				<div className="container">
+					{page.data.status === "published" || awtdParams.isAdmin === "true" ? (
+						<div className="row">
+							<div className="col-lg-12">
+								<article>
+									<div className="mb-3">
+										<h1>{page?.data?.title}</h1>
+										<div className="text-muted fst-italic mb-2">
+											Posted&nbsp;on&nbsp;
+											{formatDateWithoutTime(page?.data?.createdAt)}
+											{page?.data?.user?.username && (
+												<>
+													&nbsp;by&nbsp;
+													{page?.data?.user?.username}
+												</>
+											)}
+										</div>
 									</div>
-								</div>
-								<ParseHtml text={page?.data?.text} />
-							</article>
+									<ParseHtml text={page?.data?.text} />
+								</article>
+							</div>
 						</div>
-					</div>
-				) : (
-					<NotVisiblePage />
-				)}
-			</div>
-		</section>
+					) : (
+						<NotVisiblePage />
+					)}
+				</div>
+			</section>
+		</Suspense>
 	) : (
 		<ErrorPage />
 	);

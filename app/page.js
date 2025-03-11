@@ -1,10 +1,9 @@
 import Image from "next/image";
-import { revalidatePath } from "next/cache";
-import FormButtons from "@/components/global/formbuttons";
 import { fetchurl } from "@/helpers/fetchurl";
 import Head from "@/app/head";
 import ErrorPage from "@/layout/errorpage";
 import Services from "@/components/services";
+import ContactForm from "@/components/forms/pages/contact/contactform";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
@@ -14,17 +13,6 @@ async function getSetting(params) {
 const Home = async () => {
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
-	const createContact = async (formData) => {
-		"use server";
-		const rawFormData = {
-			name: formData.get("name"),
-			email: formData.get("email"),
-			subject: formData.get("subject"),
-			text: formData.get("text"),
-		};
-		await fetchurl(`/emails`, "POST", "no-cache", rawFormData);
-		revalidatePath(`/`);
-	};
 	return settings?.data?.maintenance === false ? (
 		<>
 			<Head
@@ -116,53 +104,7 @@ const Home = async () => {
 									Fill out the form below and we&apos;ll get back to you
 									shortly.
 								</p>
-								<form action={createContact}>
-									<label htmlFor="name" className="form-label">
-										Name
-									</label>
-									<input
-										id="name"
-										name="name"
-										type="text"
-										className="form-control text-bg-dark mb-3"
-										placeholder="John Doe"
-									/>
-									<label htmlFor="email" className="form-label">
-										Email
-									</label>
-									<input
-										id="email"
-										name="email"
-										type="email"
-										className="form-control text-bg-dark mb-3"
-										placeholder="john@doe.com"
-									/>
-									<label htmlFor="subject" className="form-label">
-										Service Interested In
-									</label>
-									<select
-										id="subject"
-										name="subject"
-										className="form-control text-bg-dark mb-3"
-									>
-										<option value="none">Choose an option</option>
-										<option value="nfa-transfer">NFA Transfers</option>
-										<option value="software-development">
-											Software Development
-										</option>
-									</select>
-									<label htmlFor="text" className="form-label">
-										Message
-									</label>
-									<textarea
-										id="text"
-										name="text"
-										className="form-control text-bg-dark mb-3"
-										placeholder={`Here goes the message`}
-										rows="3"
-									/>
-									<FormButtons />
-								</form>
+								<ContactForm />
 							</div>
 						</div>
 						<div className="col-lg-6 mb-3">

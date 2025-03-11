@@ -36,14 +36,18 @@
   "homepage": "https://github.com/kirasiris/armedcode#readme",
   "dependencies": {
     "axios": "^1.8.2",
+    "base-64": "^1.0.0",
     "befree-utilities": "^1.0.4",
     "bootstrap": "^5.3.3",
     "he": "^1.2.0",
+    "lodash": "^4.17.21",
     "next": "15.2.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "rss": "^1.2.2",
+    "showdown": "^2.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -20,7 +20,7 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 		files: [],
 		uploadedFileData: [], // Store data from secondary API
 	});
-
+	const [btnText, setBtnText] = useState("Submit");
 	const { rating, title, text, name, email, website } = reviewData;
 
 	// Function to handle file upload to secondary API
@@ -80,6 +80,7 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 
 	const createReview = async (e) => {
 		e.preventDefault();
+		setBtnText("Processing...");
 		const res = await fetchurl(`/comments`, "POST", "no-cache", {
 			...reviewData,
 			user: undefined,
@@ -91,8 +92,10 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 		});
 		if (res.status === "error") {
 			toast.error(res.message, `bottom`);
+			setBtnText("Submit");
 			return;
 		}
+		setBtnText("Submit");
 		toast.success(`Review added`, `bottom`);
 		resetForm();
 		router.push(returtopageurl);
@@ -364,8 +367,9 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 								});
 							}}
 							className="form-control text-bg-dark mb-3"
-							rows="5"
+							required
 							placeholder="Tell us what you think!"
+							rows="3"
 						/>
 						<label htmlFor="name" className="form-label">
 							Name
@@ -418,7 +422,6 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 							}}
 							type="url"
 							className="form-control text-bg-dark mb-3"
-							required
 							placeholder="Website"
 						/>
 						{/* <label htmlFor="files" className="form-label">
@@ -433,7 +436,7 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 							onChange={handleFileChange}
 						/> */}
 						<button type="submit" className="btn btn-light btn-sm float-start">
-							Submit
+							{btnText}
 						</button>
 						<button
 							type="reset"
