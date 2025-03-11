@@ -34,7 +34,7 @@ const Single = ({
 						</p>
 					</div>
 					<div className="card-body">
-						<ParseHtml text={object?.text} parseAs="p" />
+						<ParseHtml text={object?.text} parseAs="p" classList="mb-0" />
 						{/* <div className="d-flex flex-wrap gap-3">
 							{[...Array(10)].map((_, index) => (
 								<Image
