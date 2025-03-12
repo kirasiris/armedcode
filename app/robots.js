@@ -3,9 +3,9 @@ const robots = () => {
 		rules: {
 			userAgent: "*",
 			allow: "/",
-			disallow: ["/noadmin", "/dashboard", "playground"],
+			disallow: [],
 		},
-		sitemap: "https://armedcodellc.com/blog/sitemap.xml",
+		sitemap: "https://armedcodellc.com/review/sitemap.xml",
 	};
 };
 
