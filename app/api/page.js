@@ -32,6 +32,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 	}
 
 	const loadUser = async () => {
+		"use server";
 		const res = await fetchurl(`/auth/me`, "GET", "default");
 		await setUserOnServer(res?.data);
 	};
