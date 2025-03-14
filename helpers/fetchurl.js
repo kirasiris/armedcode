@@ -1,5 +1,24 @@
 "use server";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+export const getAuthTokenOnServer = async () => {
+	const myCookies = await cookies();
+	return myCookies.get("xAuthToken");
+};
+
+export const getUserOnServer = async () => {
+	const myCookies = await cookies();
+
+	const cookiesReturned = {
+		userStripeChargesEnabled: myCookies.get("userStripeChargesEnabled")?.value,
+		userId: myCookies.get("userId")?.value,
+		username: myCookies.get("username")?.value,
+		email: myCookies.get("email")?.value,
+		avatar: myCookies.get("avatar")?.value,
+	};
+	return cookiesReturned;
+};
 
 export const setAuthTokenOnServer = async (token) => {
 	if (token) {

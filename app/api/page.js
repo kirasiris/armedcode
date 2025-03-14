@@ -5,6 +5,7 @@ import TabMenu from "@/layout/api/tabmenu";
 import ErrorPage from "@/layout/errorpage";
 import ParseHtml from "@/layout/parseHtml";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
@@ -18,6 +19,9 @@ const ApiIndex = async ({ params, searchParams }) => {
 	if (awtdSearchParams?.xAuthToken) {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
+
+	const myCookies = await cookies();
+	const token = myCookies.get("xAuthToken")?.value;
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
