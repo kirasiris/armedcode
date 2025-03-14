@@ -11,6 +11,17 @@ import ParseHtml from "@/layout/parseHtml";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
+async function getToken() {
+	const myCookies = await cookies();
+	const token = myCookies.get("xAuthToken")?.value;
+	await setAuthTokenOnServer(token);
+}
+
+async function getAuthenticatedUser() {
+	const loadUser = await fetchurl("/auth/me", "GET", "default");
+	await setUserOnServer(loadUser?.data);
+}
+
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
 	return res;
@@ -24,15 +35,14 @@ const ApiIndex = async ({ params, searchParams }) => {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
-	const myCookies = await cookies();
-	const token = myCookies.get("xAuthToken")?.value;
+	const getTokenData = getToken();
 
-	const loginAccount = async () => {
-		"use server";
-		await setAuthTokenOnServer(token);
-		const loadUser = await fetchurl("/auth/me", "GET", "default");
-		await setUserOnServer(loadUser?.data);
-	};
+	const getAuthenticatedUserData = getAuthenticatedUser();
+
+	const [token, user] = await Promise.all([
+		getTokenData,
+		getAuthenticatedUserData,
+	]);
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
