@@ -24,12 +24,11 @@ const ApiIndex = async ({ params, searchParams }) => {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
-	let token = "";
+	const myCookies = await cookies();
+	const token = myCookies.get("xAuthToken")?.value;
 
 	const loginAccount = async () => {
 		"use server";
-		const myCookies = await cookies();
-		token = myCookies.get("xAuthToken")?.value;
 		await setAuthTokenOnServer(token);
 		const loadUser = await fetchurl("/auth/me", "GET", "default");
 		await setUserOnServer(loadUser?.data);
