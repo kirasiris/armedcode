@@ -34,8 +34,6 @@ const ApiIndex = async ({ params, searchParams }) => {
 		await setUserOnServer(loadUser?.data);
 	};
 
-	console.log("token", token);
-
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
 	return settings?.data?.maintenance === false ? (
@@ -177,7 +175,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 									</ol>
 									{token === "" || token === undefined || token === null ? (
 										<a
-											href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}`}
+											href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api`}
 											className="btn btn-light btn-sm"
 											target="_blank"
 											rel="noreferrer noopener"
