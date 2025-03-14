@@ -185,12 +185,11 @@ const ApiIndex = async ({ params, searchParams }) => {
 											Sign In / Register to get API Access
 										</a>
 									) : (
-										<button
-											formAction={loginAccount}
-											className="btn btn-light btn-sm"
-										>
-											Retrieve token?
-										</button>
+										<form action={loginAccount}>
+											<button type="submit" className="btn btn-light btn-sm">
+												Retrieve token?
+											</button>
+										</form>
 									)}
 								</div>
 							</div>
