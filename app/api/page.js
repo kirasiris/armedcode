@@ -24,15 +24,15 @@ const ApiIndex = async ({ params, searchParams }) => {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
-	const myCookies = await cookies();
-	const token = myCookies.get("xAuthToken")?.value;
+	let token = "";
 
-	const loadUser = await fetchurl("/auth/me", "GET", "default");
-	console.log("Response from loadUser", loadUser);
-
-	await setUserOnServer(loadUser?.data);
-
-	// myCookies.set();
+	const loginAccount = async () => {
+		"use server";
+		const myCookies = await cookies();
+		token = myCookies.get("xAuthToken")?.value;
+		const loadUser = await fetchurl("/auth/me", "GET", "default");
+		await setUserOnServer(loadUser?.data);
+	};
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
@@ -173,14 +173,16 @@ const ApiIndex = async ({ params, searchParams }) => {
 											agreement
 										</li>
 									</ol>
-									<a
-										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}`}
-										className="btn btn-light btn-sm"
-										target="_blank"
-										rel="noreferrer noopener"
-									>
-										Sign In / Register to get API Access
-									</a>
+									{token === "" && (
+										<a
+											href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}`}
+											className="btn btn-light btn-sm"
+											target="_blank"
+											rel="noreferrer noopener"
+										>
+											Sign In / Register to get API Access
+										</a>
+									)}
 								</div>
 							</div>
 							<div className="col-lg-12 mb-3">
