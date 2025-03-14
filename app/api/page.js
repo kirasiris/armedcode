@@ -9,6 +9,12 @@ import TabMenu from "@/layout/api/tabmenu";
 import ErrorPage from "@/layout/errorpage";
 import ParseHtml from "@/layout/parseHtml";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+
+async function getAuthenticatedUser() {
+	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
+	return res;
+}
 
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
@@ -18,26 +24,21 @@ async function getSetting(params) {
 const ApiIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
 
+	const auth = await getAuthenticatedUser();
+
+	// Redirect if user is not logged in
+	auth?.data?.isOnline && redirect(`/`);
+
 	// Set cookies
-	// if (awtdSearchParams?.xAuthToken) {
-	// 	await setAuthTokenOnServer(awtdSearchParams.xAuthToken);
-	// 	const loadUser = async () => await fetchurl(`/auth/me`, "GET", "default");
-	// 	const loadedUser = await loadUser();
-
-	// 	await setUserOnServer(await loadedUser?.data);
-	// }
-
 	if (awtdSearchParams?.xAuthToken) {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
-	const loadUser = async () => {
-		"use server";
-		const res = await fetchurl(`/auth/me`, "GET", "default");
-		await setUserOnServer(res?.data);
-	};
-	// const loadedUser = await loadUser();
-	console.log("Response from loadedUser", await loadUser());
+	const myCookies = await cookies();
+	const token = myCookies.get("xAuthToken")?.value;
+
+	const user = await fetchurl("/auth/me", "GET", "default");
+	console.log("Response from loadedUser", user);
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
@@ -193,7 +194,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 									<h4>Your API Key</h4>
 									<div className="d-flex gap-2">
 										<input
-											value="sk_test_nfa_12345abcdef67890"
+											value={`${token || "sk_test_nfa_12345abcdef67890"}`}
 											type="text"
 											className="form-control text-bg-dark"
 											disabled
@@ -216,10 +217,12 @@ const ApiIndex = async ({ params, searchParams }) => {
 								<div className="bg-dark p-4 rounded">
 									<div className="d-flex gap-2">
 										<ParseHtml
-											text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons', {
+											text={`fetch('${
+												process.env.NEXT_PUBLIC_API_URL
+											}/weapons', {
   method: "GET" || "POST" || "PUT",
   headers: {
-    'Authorization': 'Bearer sk_test_nfa_12345abcdef67890',
+    'Authorization': 'Bearer ${token || "sk_test_nfa_12345abcdef67890"}',
     'Content-Type': 'application/json'
   }
 })`}
