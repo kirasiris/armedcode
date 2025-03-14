@@ -175,7 +175,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 											agreement
 										</li>
 									</ol>
-									{(token === "" || token === undefined || token === null) && (
+									{token === "" || token === undefined || token === null ? (
 										<a
 											href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}`}
 											className="btn btn-light btn-sm"
@@ -184,6 +184,13 @@ const ApiIndex = async ({ params, searchParams }) => {
 										>
 											Sign In / Register to get API Access
 										</a>
+									) : (
+										<button
+											formAction={loginAccount}
+											className="btn btn-light btn-sm"
+										>
+											Retrieve token?
+										</button>
 									)}
 								</div>
 							</div>
