@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
 	const { searchParams } = new URL(req.url);
 	const token = searchParams.get("xAuthToken");
+	// One day equals to...
+	const daysInTime = 24 * 60 * 60 * 1000;
 
 	if (!token) {
 		return NextResponse.json({ error: "Token missing" }, { status: 400 });
