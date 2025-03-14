@@ -18,12 +18,16 @@ const ApiIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
 
 	// Set cookies
-	if (awtdSearchParams.xAuthToken) {
-		await setAuthTokenOnServer(awtdSearchParams?.xAuthToken);
-		const loadUser = async () => await fetchurl(`/auth/me`, "GET", "default");
-		const loadedUser = await loadUser();
+	// if (awtdSearchParams?.xAuthToken) {
+	// 	await setAuthTokenOnServer(awtdSearchParams.xAuthToken);
+	// 	const loadUser = async () => await fetchurl(`/auth/me`, "GET", "default");
+	// 	const loadedUser = await loadUser();
 
-		await setUserOnServer(await loadedUser?.data);
+	// 	await setUserOnServer(await loadedUser?.data);
+	// }
+
+	if (awtdSearchParams?.xAuthToken) {
+		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
