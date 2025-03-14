@@ -11,11 +11,6 @@ import ParseHtml from "@/layout/parseHtml";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
-async function getAuthenticatedUser() {
-	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
-	return res;
-}
-
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
 	return res;
@@ -23,11 +18,6 @@ async function getSetting(params) {
 
 const ApiIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
-
-	const auth = await getAuthenticatedUser();
-
-	// Redirect if user is not logged in
-	auth?.data?.isOnline && redirect(`/`);
 
 	// Set cookies
 	if (awtdSearchParams?.xAuthToken) {
