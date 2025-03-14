@@ -43,7 +43,7 @@ const Menu = ({
 				</div>
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav as="ul" className="me-auto">
-						<li className="nav-item mx-1">
+						<li className="nav-item">
 							<Link href={canonical} passHref legacyBehavior>
 								<a
 									className={`nav-link ${isActive(canonical)}`}
@@ -53,6 +53,23 @@ const Menu = ({
 								</a>
 							</Link>
 						</li>
+						{/* <li className="nav-item">
+							<Link
+								href={{
+									pathname: `${canonical}/api`,
+									query: {},
+								}}
+								passHref
+								legacyBehavior
+							>
+								<a
+									className={`nav-link ${isActive(`${canonical}/api`)}`}
+									aria-current="page"
+								>
+									API
+								</a>
+							</Link>
+						</li> */}
 					</Nav>
 					<Nav as="ul">
 						<li className="nav-item">

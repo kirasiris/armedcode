@@ -23,7 +23,7 @@ const Single = ({
 						<div>
 							<p className="fw-bold mb-0">{object?.title}</p>
 							<small className="text-secondary">
-								<i className="fa-regular fa-calendar me-1" />
+								<i aria-hidden className="fa-regular fa-calendar me-1" />
 								About {calculateTimeSincePublished(object?.createdAt)} by{" "}
 								{object?.name}
 							</small>

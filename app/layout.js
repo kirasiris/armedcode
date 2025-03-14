@@ -16,11 +16,13 @@ const RootLayout = async ({ children }) => {
 
 	return (
 		<html lang="en">
-			<Head
-				title={settings?.data?.title}
-				description={settings?.data?.text}
-				favicon={settings?.data?.favicon}
-			/>
+			<head>
+				<Head
+					title={settings?.data?.title}
+					description={settings?.data?.text}
+					favicon={settings?.data?.favicon}
+				/>
+			</head>
 			<body>
 				<Menu
 					title={settings?.data?.title}
