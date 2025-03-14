@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { fetchurl } from "@/helpers/fetchurl";
 import ParseHtml from "@/layout/parseHtml";
 
-const CreateForm = () => {
+const CreateForm = ({ token = "" }) => {
 	const [rawFormData, setRawFormData] = useState({
 		manufacturer: ``,
 		title: ``,
@@ -234,7 +234,7 @@ const CreateForm = () => {
 							text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons', {
   method: "POST",
   headers: {
-    'Authorization': 'Bearer sk_test_nfa_12345abcdef67890',
+    'Authorization': 'Bearer ${token || "sk_test_nfa_12345abcdef67890"}',
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
