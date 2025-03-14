@@ -11,17 +11,6 @@ import ParseHtml from "@/layout/parseHtml";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
-async function getToken() {
-	const myCookies = await cookies();
-	const token = myCookies.get("xAuthToken")?.value;
-	await setAuthTokenOnServer(token);
-}
-
-async function getAuthenticatedUser() {
-	const loadUser = await fetchurl("/auth/me", "GET", "default");
-	await setUserOnServer(loadUser?.data);
-}
-
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
 	return res;
@@ -35,14 +24,17 @@ const ApiIndex = async ({ params, searchParams }) => {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
-	const getTokenData = getToken();
+	const myCookies = await cookies();
+	const token = myCookies.get("xAuthToken")?.value;
 
-	const getAuthenticatedUserData = getAuthenticatedUser();
+	const loginAccountAutomatically = async () => {
+		"use server";
+		await setAuthTokenOnServer(token);
+		const loadUser = await fetchurl("/auth/me", "GET", "default");
+		await setUserOnServer(loadUser?.data);
+	};
 
-	const [token, user] = await Promise.all([
-		getTokenData,
-		getAuthenticatedUserData,
-	]);
+	await loginAccountAutomatically();
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
@@ -183,7 +175,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 											agreement
 										</li>
 									</ol>
-									{token === "" || token === undefined || token === null ? (
+									{(token === "" || token === undefined || token === null) && (
 										<a
 											href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api`}
 											className="btn btn-light btn-sm"
@@ -192,12 +184,6 @@ const ApiIndex = async ({ params, searchParams }) => {
 										>
 											Sign In / Register to get API Access
 										</a>
-									) : (
-										<form action={loginAccount}>
-											<button type="submit" className="btn btn-light btn-sm">
-												Retrieve token?
-											</button>
-										</form>
 									)}
 								</div>
 							</div>
