@@ -175,7 +175,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 											agreement
 										</li>
 									</ol>
-									{token === "" && (
+									{(token === "" || token === undefined || token === null) && (
 										<a
 											href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}`}
 											className="btn btn-light btn-sm"
