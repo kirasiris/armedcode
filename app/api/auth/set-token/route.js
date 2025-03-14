@@ -1,4 +1,9 @@
-import { cookies } from "next/headers";
+import {
+	fetchurl,
+	setAuthTokenOnServer,
+	setUserOnServer,
+} from "@/helpers/fetchurl";
+// import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
@@ -11,17 +16,25 @@ export async function GET(req) {
 
 	// Set token in secure cookie
 	if (token) {
-		const myCookies = await cookies();
-		// One day equals to...
-		const daysInTime = 24 * 60 * 60 * 1000;
-		console.log("setAuthTokenOnServer function was a success", token);
-		myCookies.set("xAuthToken", token, {
-			secure: process.env.NODE_ENV === "production" ? true : false,
-			maxAge: new Date(
-				Date.now() + process.env.NEXT_PUBLIC_JWT_COOKIE_EXPIRE * daysInTime
-			),
-			sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-		});
+		// const myCookies = await cookies();
+		// // One day equals to...
+		// const daysInTime = 24 * 60 * 60 * 1000;
+		// console.log("setAuthTokenOnServer function was a success", token);
+		// myCookies.set("xAuthToken", token, {
+		// 	secure: process.env.NODE_ENV === "production" ? true : false,
+		// 	maxAge: new Date(
+		// 		Date.now() + process.env.NEXT_PUBLIC_JWT_COOKIE_EXPIRE * daysInTime
+		// 	),
+		// 	sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+		// });
+
+		await setAuthTokenOnServer(token);
+
+		const user = fetchurl(`/auth/me`, "GET", "default");
+
+		if (user?.data) {
+			await setUserOnServer(user.data);
+		}
 	}
 
 	// Redirect to a clean URL without token for security
