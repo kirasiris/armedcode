@@ -177,7 +177,9 @@ const ApiIndex = async ({ params, searchParams }) => {
 									<h4>Your API Key</h4>
 									<div className="d-flex gap-2">
 										<input
-											value={`${token || "sk_test_nfa_12345abcdef67890"}`}
+											value={`${
+												token?.value || "sk_test_nfa_12345abcdef67890"
+											}`}
 											type="text"
 											className="form-control text-bg-dark"
 											disabled
@@ -205,7 +207,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 											}/weapons', {
   method: "GET" || "POST" || "PUT",
   headers: {
-    'Authorization': 'Bearer ${token || "sk_test_nfa_12345abcdef67890"}',
+    'Authorization': 'Bearer ${token?.value || "sk_test_nfa_12345abcdef67890"}',
     'Content-Type': 'application/json'
   }
 })`}
