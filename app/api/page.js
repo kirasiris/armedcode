@@ -31,9 +31,12 @@ const ApiIndex = async ({ params, searchParams }) => {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
-	const loadUser = async () => await fetchurl(`/auth/me`, "GET", "default");
-	const loadedUser = await loadUser();
-	console.log("Response from loadedUser", await loadedUser?.data);
+	const loadUser = async () => {
+		const res = await fetchurl(`/auth/me`, "GET", "default");
+		await setUserOnServer(res?.data);
+	};
+	// const loadedUser = await loadUser();
+	console.log("Response from loadedUser", await loadUser());
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
