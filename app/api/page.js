@@ -174,14 +174,9 @@ const ApiIndex = async ({ params, searchParams }) => {
 											Sign In / Register to get API Access
 										</a>
 									) : (
-										<button
-											className="btn btn-light btn-sm"
-											onClick={async () => {
-												await deleteAuthTokenOnServer();
-											}}
-										>
-											Log Out
-										</button>
+										<form action={deleteAuthTokenOnServer}>
+											<button className="btn btn-light btn-sm">Log Out</button>
+										</form>
 									)}
 								</div>
 							</div>
