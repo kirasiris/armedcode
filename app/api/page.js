@@ -8,6 +8,7 @@ import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
 import ErrorPage from "@/layout/errorpage";
 import ParseHtml from "@/layout/parseHtml";
+import { redirect } from "next/navigation";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
