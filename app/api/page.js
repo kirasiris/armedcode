@@ -27,8 +27,12 @@ const ApiIndex = async ({ params, searchParams }) => {
 	const myCookies = await cookies();
 	const token = myCookies.get("xAuthToken")?.value;
 
-	const user = await fetchurl("/auth/me", "GET", "default");
-	console.log("Response from loadedUser", user);
+	const loadUser = await fetchurl("/auth/me", "GET", "default");
+	console.log("Response from loadUser", loadUser);
+
+	await setUserOnServer(loadUser?.data);
+
+	// myCookies.set();
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
