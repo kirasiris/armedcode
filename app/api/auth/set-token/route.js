@@ -30,7 +30,7 @@ export async function GET(req) {
 
 		await setAuthTokenOnServer(token);
 
-		const user = fetchurl(`/auth/me`, "GET", "default");
+		const user = await fetchurl(`/auth/me`, "GET", "default");
 
 		if (user?.data) {
 			await setUserOnServer(user.data);

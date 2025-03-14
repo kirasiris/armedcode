@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { fetchurl } from "@/helpers/fetchurl";
+import { redirect } from "next/navigation";
+import { fetchurl, getAuthTokenOnServer } from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
 import ErrorPage from "@/layout/errorpage";
 import ParseHtml from "@/layout/parseHtml";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
@@ -20,8 +19,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
-	const myCookies = await cookies();
-	const token = myCookies.get("xAuthToken")?.value;
+	const token = await getAuthTokenOnServer();
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
