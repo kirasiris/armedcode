@@ -31,6 +31,10 @@ const ApiIndex = async ({ params, searchParams }) => {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
+	const loadUser = async () => await fetchurl(`/auth/me`, "GET", "default");
+	const loadedUser = await loadUser();
+	console.log("Response from loadedUser", await loadedUser?.data);
+
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
 	return settings?.data?.maintenance === false ? (
@@ -171,7 +175,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 										</li>
 									</ol>
 									<a
-										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api`}
+										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}`}
 										className="btn btn-light btn-sm"
 										target="_blank"
 										rel="noreferrer noopener"
