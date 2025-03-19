@@ -115,6 +115,7 @@ export const fetchurl = async (
 		Authorization: `Bearer ${token?.value}`,
 		"Content-Type": "application/json",
 		credentials: "include",
+		armed_code_sk: "",
 	};
 
 	if (

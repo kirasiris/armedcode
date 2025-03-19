@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { fetchurl } from "@/helpers/fetchurl";
 import ParseHtml from "@/layout/parseHtml";
+import JsonResponses from "@/components/global/jsonresponses";
 
 const CreateForm = ({ token = "" }) => {
 	const [rawFormData, setRawFormData] = useState({
@@ -230,7 +231,7 @@ const CreateForm = ({ token = "" }) => {
 						Creates a new weapon record in your collection.
 					</p>
 					<div className="d-flex gap-2">
-						<ParseHtml
+						<JsonResponses
 							text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons', {
   method: "POST",
   headers: {
@@ -247,18 +248,14 @@ const CreateForm = ({ token = "" }) => {
     notes: ${text}
   })
 })`}
-							classList="bg-black text-bg-dark w-100 m-0"
-							parseAs="pre"
 						/>
-						<button className="btn btn-light btn-sm">
-							<i aria-hidden className="fa-regular fa-clone" />
-						</button>
 					</div>
 				</div>
 				<div className="bg-dark p-4 rounded">
 					<h6>Response</h6>
-					<ParseHtml
-						text={`{
+					<div className="d-flex gap-2">
+						<JsonResponses
+							text={`{
   "success": ${weaponData?.success || true},
   "data": {
     "id": ${weaponData?.data?._id || 1},
@@ -276,9 +273,8 @@ const CreateForm = ({ token = "" }) => {
     "updatedAt": ${weaponData?.data?.updatedAt || "2025-03-14T00:18:29.577Z"}
   }
 }`}
-						classList="bg-black text-bg-dark w-100 m-0"
-						parseAs="pre"
-					/>
+						/>
+					</div>
 				</div>
 			</div>
 		</div>

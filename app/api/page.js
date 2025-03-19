@@ -8,14 +8,31 @@ import {
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
 import ErrorPage from "@/layout/errorpage";
-import ParseHtml from "@/layout/parseHtml";
+import YourApiKey from "@/components/api/yourapikey";
+import JsonResponses from "@/components/global/jsonresponses";
+import List from "@/components/memberships/list";
+
+async function getAuthenticatedUser() {
+	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
+	return res;
+}
 
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
 	return res;
 }
 
+async function getAPIMemberships(params) {
+	const res = await fetchurl(
+		`/extras/stripe/memberships${params}&sort=createdAt`,
+		"GET",
+		"default"
+	);
+	return res;
+}
+
 const ApiIndex = async ({ params, searchParams }) => {
+	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 
 	// Set cookies
@@ -23,9 +40,15 @@ const ApiIndex = async ({ params, searchParams }) => {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
+	const auth = await getAuthenticatedUser();
+
 	const token = await getAuthTokenOnServer();
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
+
+	const memberships = await getAPIMemberships(
+		`?active=true&status=published&project=armedcodellc&postType=api-usage&decrypt=true`
+	);
 
 	return settings?.data?.maintenance === false ? (
 		<section className="bg-black text-bg-dark py-5">
@@ -140,8 +163,9 @@ const ApiIndex = async ({ params, searchParams }) => {
 					<div className="card-body">
 						<p className="text-secondary">
 							To use our API, you&apos;ll need to authenticate first to receive
-							your API key. This key authenticates your requests and ensures
-							only authorized users can access the API.
+							your AUTHENTICATION KEY. You will then be required tp purchase a
+							membership plan that fits your needs. Each plan provides different
+							levels of API access.
 						</p>
 						<div className="row">
 							<div className="col-lg-12 mb-3">
@@ -156,45 +180,36 @@ const ApiIndex = async ({ params, searchParams }) => {
 											1. Create an account or sign in to your existing account
 										</li>
 										<li>
-											2. Complete identity verification (required for
-											NFA-related data)
+											2. Verify and activate your account to sign in to system
 										</li>
+										<li>3. Select a membership tier that fits your needs</li>
 										<li>
-											3. Accept the API terms of service and data usage
+											4. Accept the API terms of service and data usage
 											agreement
 										</li>
 									</ol>
-									{token === "" || token === undefined || token === null ? (
+									{auth?.data?.isOnline ? (
+										<form action={deleteAuthTokenOnServer}>
+											<button className="btn btn-light btn-sm">Log Out</button>
+										</form>
+									) : (
 										<a
 											href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api`}
 											className="btn btn-light btn-sm"
 											target="_blank"
 											rel="noreferrer noopener"
 										>
-											Sign In / Register to get API Access
+											Sign In / Register to get Authentication Access
 										</a>
-									) : (
-										<form action={deleteAuthTokenOnServer}>
-											<button className="btn btn-light btn-sm">Log Out</button>
-										</form>
 									)}
 								</div>
 							</div>
+							<List auth={auth} objects={memberships} />
 							<div className="col-lg-12 mb-3">
 								<div className="bg-dark p-4 rounded">
-									<h4>Your API Key</h4>
+									<h4>Your SECRET API Key</h4>
 									<div className="d-flex gap-2">
-										<input
-											value={`${
-												token?.value || "sk_test_nfa_12345abcdef67890"
-											}`}
-											type="text"
-											className="form-control text-bg-dark"
-											disabled
-										/>
-										<button className="btn btn-light btn-sm">
-											<i aria-hidden className="fa-regular fa-clone" />
-										</button>
+										<YourApiKey token={token} />
 									</div>
 									<p className="text-secondary m-0">
 										<strong>Important</strong>: Keep your API key secure and
@@ -205,26 +220,21 @@ const ApiIndex = async ({ params, searchParams }) => {
 							<div className="col-lg-12">
 								<h4>Authentication</h4>
 								<p className="text-secondary">
-									Include your API key in the headers of all requests:
+									Include your SECRET API key in the headers of all requests:
 								</p>
 								<div className="bg-dark p-4 rounded">
 									<div className="d-flex gap-2">
-										<ParseHtml
+										<JsonResponses
 											text={`fetch('${
 												process.env.NEXT_PUBLIC_API_URL
 											}/weapons', {
   method: "GET" || "POST" || "PUT",
   headers: {
-    'Authorization': 'Bearer ${token?.value || "sk_test_nfa_12345abcdef67890"}',
+    'armed_code_sk': '${token?.value || "armed_code_sk_12345abcdef67890"}',
     'Content-Type': 'application/json'
   }
 })`}
-											classList="bg-black text-bg-dark w-100 m-0"
-											parseAs="pre"
 										/>
-										<button className="btn btn-light btn-sm">
-											<i aria-hidden className="fa-regular fa-clone" />
-										</button>
 									</div>
 								</div>
 							</div>
