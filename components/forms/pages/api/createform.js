@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { fetchurl } from "@/helpers/fetchurl";
-import ParseHtml from "@/layout/parseHtml";
 import JsonResponses from "@/components/global/jsonresponses";
 
 const CreateForm = ({ token = "" }) => {
@@ -14,7 +13,9 @@ const CreateForm = ({ token = "" }) => {
 		serialNumber: ``,
 		nfaClassification: ``,
 		text: ``,
+		files: [""],
 	});
+
 	const [btnText, setBtnText] = useState("Submit");
 	const {
 		manufacturer,
@@ -24,16 +25,40 @@ const CreateForm = ({ token = "" }) => {
 		serialNumber,
 		nfaClassification,
 		text,
+		files,
 	} = rawFormData;
+
 	const [weaponData, setWeaponData] = useState({});
+
+	const handleAddFile = () => {
+		setRawFormData({
+			...rawFormData,
+			files: [...files, ""],
+		});
+	};
+
+	const handleRemoveFile = (index) => {
+		const newFiles = files.filter((_, i) => i !== index);
+		setRawFormData({
+			...rawFormData,
+			files: newFiles,
+		});
+	};
+
+	const handleChange = (index, value) => {
+		const newFiles = [...files];
+		newFiles[index] = value;
+		setRawFormData({
+			...rawFormData,
+			files: newFiles,
+		});
+	};
 
 	const createWeapon = async (e) => {
 		e.preventDefault();
 		setBtnText(`Processing...`);
 		const res = await fetchurl(`/weapons`, "POST", "no-cache", {
 			...rawFormData,
-			registeredFrom: process.env.NEXT_PUBLIC_WEBSITE_NAME,
-			registeredAt: process.env.NEXT_PUBLIC_WEBSITE_URL,
 		});
 		if (res.status === "error") {
 			toast.error(res.message, "bottom");
@@ -60,6 +85,7 @@ const CreateForm = ({ token = "" }) => {
 			serialNumber: ``,
 			nfaClassification: ``,
 			text: ``,
+			files: [""],
 		});
 	};
 
@@ -190,6 +216,38 @@ const CreateForm = ({ token = "" }) => {
 						<option value="machine-gun">Machine Gun</option>
 						<option value="none">None (Non-NFA Item)</option>
 					</select>
+					<label htmlFor="files" className="form-label">
+						Files (File URLs)
+					</label>
+					{files.map((file, index) => (
+						<div key={index} className="d-flex mb-3">
+							<input
+								id={`file-${index}`}
+								name="files[]"
+								value={file}
+								onChange={(e) => handleChange(index, e.target.value)}
+								type="text"
+								className="form-control text-bg-dark me-2"
+								required
+								placeholder="Enter file URL"
+							/>
+							<button
+								type="button"
+								className="btn btn-danger"
+								onClick={() => handleRemoveFile(index)}
+								disabled={files.length === 1}
+							>
+								Remove
+							</button>
+						</div>
+					))}
+					<button
+						type="button"
+						className="btn btn-dark mb-3 w-100"
+						onClick={handleAddFile}
+					>
+						Add File
+					</button>
 					<label htmlFor="text" className="form-label">
 						Message
 					</label>
@@ -245,6 +303,7 @@ const CreateForm = ({ token = "" }) => {
     caliber: ${caliber},
     serialNumber: ${serialNumber},
     nfaClassification: ${nfaClassification},
+    files: [${files}],
     notes: ${text}
   })
 })`}
@@ -265,6 +324,7 @@ const CreateForm = ({ token = "" }) => {
     "caliber": ${weaponData?.data?.caliber || "5.56x45mm NATO"},
     "serialNumber": ${weaponData?.data?.serialNumber || "COL123456"},
     "nfaClassification": ${weaponData?.data?.nfaClassification},
+    "files": ${weaponData?.data?.files},
     "notes": ${
 			weaponData?.data?.text ||
 			'Yada yada14.5" barrel with pinned and welded flash hider'
