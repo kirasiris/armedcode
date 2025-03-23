@@ -13,14 +13,15 @@ const Single = ({ auth = {}, object = {} }) => {
 			if (!auth?.data?._id || !object?._id) return;
 
 			const res = await fetchurl(
-				`/subscribers?user=${
-					auth.data._id || process.env.NEXT_PUBLIC_ADMIN_ACCOUNT_ID
-				}&resourceId=${object._id}&onModel=Membership&isPaid=true`,
+				`/subscribers?user=${auth.data._id}&resourceId=${object._id}&onModel=Membership&isPaid=true`,
 				"GET",
 				"no-cache"
 			);
 			setEnrollmentVerification(res);
-			console.log("Authenticated user coming from enrollment", res);
+			console.dir({
+				authenticatedUserId: auth.data._id,
+				responseFromMembership: res.data.user._id,
+			});
 		};
 		checkEnrollment();
 	}, [auth, object]);
