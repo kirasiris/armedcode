@@ -9,7 +9,7 @@ const Single = ({ auth = {}, object = {} }) => {
 
 	// Function to check if the user is enrolled in the current membership
 	useEffect(() => {
-		const checkForToken = async (res) => {
+		const checkForToken = async () => {
 			if (!auth?.data?._id || !object._id) return;
 
 			const token = await fetchurl(
@@ -29,7 +29,7 @@ const Single = ({ auth = {}, object = {} }) => {
 
 			if (res.data[0].user._id === auth?.data?._id) {
 				setEnrollmentVerification(res);
-				checkForToken(res);
+				checkForToken();
 			}
 		};
 		checkEnrollment();
