@@ -7,6 +7,11 @@ export const getAuthTokenOnServer = async () => {
 	return myCookies.get("xAuthToken");
 };
 
+export const getAPITokenOnServer = async () => {
+	const myCookies = await cookies();
+	return myCookies.get("armed_code_sk");
+};
+
 export const getUserOnServer = async () => {
 	const myCookies = await cookies();
 

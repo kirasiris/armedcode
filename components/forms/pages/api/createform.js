@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { fetchurl } from "@/helpers/fetchurl";
 import JsonResponses from "@/components/global/jsonresponses";
 
-const CreateForm = ({ token = "" }) => {
+const CreateForm = ({ token = "", apitoken = "" }) => {
 	const [rawFormData, setRawFormData] = useState({
 		manufacturer: ``,
 		title: ``,
@@ -293,7 +293,8 @@ const CreateForm = ({ token = "" }) => {
 							text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons', {
   method: "POST",
   headers: {
-    'Authorization': 'Bearer ${token || "sk_test_nfa_12345abcdef67890"}',
+    'Authorization': 'Bearer ${token || "12345abcdef67890"}',
+    'armed_code_sk': '${apitoken}',
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({

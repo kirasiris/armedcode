@@ -1,5 +1,9 @@
 import CreateForm from "@/components/forms/pages/api/createform";
-import { fetchurl, getAuthTokenOnServer } from "@/helpers/fetchurl";
+import {
+	fetchurl,
+	getAPITokenOnServer,
+	getAuthTokenOnServer,
+} from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
 import ErrorPage from "@/layout/errorpage";
@@ -13,6 +17,8 @@ const ApiCreate = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
 
 	const token = await getAuthTokenOnServer();
+
+	const apitoken = await getAPITokenOnServer();
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
@@ -29,7 +35,7 @@ const ApiCreate = async ({ params, searchParams }) => {
 						</p>
 					</div>
 					<div className="card-body">
-						<CreateForm token={token?.value} />
+						<CreateForm token={token?.value} apitoken={apitoken?.value} />
 					</div>
 				</div>
 			</div>

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import {
 	deleteAuthTokenOnServer,
 	fetchurl,
+	getAPITokenOnServer,
 	getAuthTokenOnServer,
 } from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
@@ -43,6 +44,8 @@ const ApiIndex = async ({ params, searchParams }) => {
 	const auth = await getAuthenticatedUser();
 
 	const token = await getAuthTokenOnServer();
+
+	const apitoken = await getAPITokenOnServer();
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
@@ -209,7 +212,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 								<div className="bg-dark p-4 rounded">
 									<h4>Your SECRET API Key</h4>
 									<div className="d-flex gap-2">
-										<YourApiKey token={token} />
+										<YourApiKey token={apitoken} />
 									</div>
 									<p className="text-secondary m-0">
 										<strong>Important</strong>: Keep your API key secure and
@@ -230,7 +233,8 @@ const ApiIndex = async ({ params, searchParams }) => {
 											}/weapons', {
   method: "GET" || "POST" || "PUT",
   headers: {
-    'armed_code_sk': '${token?.value || "armed_code_sk_12345abcdef67890"}',
+    'Authorization': 'Bearer ${token?.value || "12345abcdef67890"}',
+    'armed_code_sk': '${apitoken?.value}',
     'Content-Type': 'application/json'
   }
 })`}
