@@ -9,6 +9,15 @@ const Single = ({ auth = {}, object = {} }) => {
 
 	// Function to check if the user is enrolled in the current membership
 	useEffect(() => {
+		const checkForToken = async (res) => {
+			if (!auth?.data?._id || !object._id) return;
+
+			const token = await fetchurl(
+				`/stripe/token/${object._id}/generate`,
+				"POST"
+			);
+			console.log("token from checkForToken() function", token);
+		};
 		const checkEnrollment = async () => {
 			if (!auth?.data?._id || !object?._id) return;
 
@@ -18,10 +27,10 @@ const Single = ({ auth = {}, object = {} }) => {
 				"no-cache"
 			);
 
-			const response =
-				res.data[0].user._id === auth?.data?._id &&
+			if (res.data[0].user._id === auth?.data?._id) {
 				setEnrollmentVerification(res);
-			console.log("Response", response);
+				checkForToken(res);
+			}
 		};
 		checkEnrollment();
 	}, [auth, object]);
@@ -124,7 +133,7 @@ const Single = ({ auth = {}, object = {} }) => {
 						// If free/not free and already enrolled
 						((object?.isFree || !object?.isFree) &&
 							enrollmentVerification?.success && (
-								<p className="bg-dark text-bg-dark rounded text-center m-0 p-2">
+								<p className="bg-dark text-bg-dark rounded text-center p-2 mb-3">
 									Already enrolled
 								</p>
 							))

@@ -40,6 +40,10 @@ export const setAuthTokenOnServer = async (token) => {
 	}
 };
 
+export const setAPITokenOnServer = async (token = {}) => {
+	console.log("Setting token in server", token);
+};
+
 export const setUserOnServer = async (object) => {
 	if (object) {
 		const myCookies = await cookies();
