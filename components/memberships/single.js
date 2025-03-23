@@ -13,12 +13,16 @@ const Single = ({ auth = {}, object = {} }) => {
 			if (!auth?.data?._id || !object?._id) return;
 
 			const res = await fetchurl(
-				`/subscribers?user=${auth.data._id}&resourceId=${object._id}&onModel=Membership&isPaid=true`,
+				`/subscribers?user=${
+					auth.data._id || process.env.NEXT_PUBLIC_ADMIN_ACCOUNT_ID
+				}&resourceId=${object._id}&onModel=Membership&isPaid=true`,
 				"GET",
 				"no-cache"
 			);
 			setEnrollmentVerification(res);
 		};
+
+		console.log("Authenticated user coming from enrollment", auth);
 
 		checkEnrollment();
 	}, [auth, object]);
@@ -83,7 +87,6 @@ const Single = ({ auth = {}, object = {} }) => {
 				</div>
 				<div className="card-body">
 					<ParseHtml text={object.text} parseAs="p" />
-
 					{auth?.data?.isOnline ? (
 						// If enrollment check is still loading
 						enrollmentVerification === null ? (
@@ -117,9 +120,13 @@ const Single = ({ auth = {}, object = {} }) => {
 										</button>
 									</div>
 								))) ||
-							// If enrolled
+							// If free/not free and already enrolled
 							((object?.data?.isFree || !object?.data?.isFree) &&
-								enrollmentVerification?.success && <p>Already enrolled</p>)
+								enrollmentVerification?.success && (
+									<p className="bg-dark text-bg-dark rounded text-center m-0 p-2">
+										Already enrolled
+									</p>
+								))
 						)
 					) : (
 						<a
