@@ -20,7 +20,7 @@ const Single = ({ auth = {}, object = {} }) => {
 			setEnrollmentVerification(res);
 			console.dir({
 				authenticatedUserId: auth.data._id,
-				responseFromMembership: res.data.user._id,
+				responseFromMembership: res.data[0].user._id,
 			});
 		};
 		checkEnrollment();
