@@ -10,10 +10,10 @@ const Single = ({ auth = {}, object = {} }) => {
 	// Function to check if the user is enrolled in the current membership
 	useEffect(() => {
 		const checkEnrollment = async () => {
-			if (!auth?.data?._id || !object?._id) return;
+			if (!auth?.data?._id || !object?.data._id) return;
 
 			const res = await fetchurl(
-				`/subscribers?user=${auth.data._id}&resourceId=${object._id}&onModel=Membership&isPaid=true&limit=1`,
+				`/subscribers?user=${auth.data._id}&resourceId=${object.data._id}&onModel=Membership&isPaid=true&limit=1`,
 				"GET",
 				"no-cache"
 			);
