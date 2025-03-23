@@ -89,7 +89,10 @@ const Single = ({ auth = {}, object = {} }) => {
 					{auth?.data?.isOnline ? (
 						// If free and not enrolled
 						(object?.isFree && !enrollmentVerification?.success && (
-							<button onClick={() => handleFreeEnrollment()}>
+							<button
+								className="btn btn-dark btn-sm w-100"
+								onClick={() => handleFreeEnrollment()}
+							>
 								Enroll for Free
 							</button>
 						)) ||
@@ -98,7 +101,10 @@ const Single = ({ auth = {}, object = {} }) => {
 							!enrollmentVerification?.success &&
 							(auth.data.stripe.latestStripeCheckoutLink === null ||
 							auth?.data?.stripe.latestStripeCheckoutLink === undefined ? (
-								<button onClick={() => handlePaidEnrollment()}>
+								<button
+									className="btn btn-dark btn-sm w-100"
+									onClick={() => handlePaidEnrollment()}
+								>
 									Pay to Enroll
 								</button>
 							) : (
