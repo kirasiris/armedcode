@@ -18,14 +18,10 @@ const Single = ({ auth = {}, object = {} }) => {
 				"no-cache"
 			);
 
-			setEnrollmentVerification(res);
-
-			console.dir({
-				objectId: object?._id,
-				autheticatedUserId: auth.data._id,
-				// responseUserId: res?.data.user._id,
-				responseObject: res,
-			});
+			const response =
+				res.data[0].user._id === auth?.data?._id &&
+				setEnrollmentVerification(res);
+			console.log("Response", response);
 		};
 		checkEnrollment();
 	}, [auth, object]);
