@@ -22,7 +22,7 @@ const Single = ({ auth = {}, object = {} }) => {
 			setEnrollmentVerification(res);
 		};
 
-		console.log("Authenticated user coming from enrollment", auth);
+		console.log("Authenticated user coming from enrollment", res);
 
 		checkEnrollment();
 	}, [auth, object]);
