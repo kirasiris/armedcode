@@ -9,12 +9,11 @@ const Single = ({ auth = {}, object = {} }) => {
 
 	// Function to check if the user is enrolled in the current membership
 	useEffect(() => {
-		console.log("object", object);
 		const checkEnrollment = async () => {
-			if (!auth?.data?._id || !object?.data._id) return;
+			if (!auth?.data?._id || !object?._id) return;
 
 			const res = await fetchurl(
-				`/subscribers?user=${auth.data._id}&resourceId=${object.data._id}&onModel=Membership&isPaid=true&limit=1`,
+				`/subscribers?user=${auth.data._id}&resourceId=${object._id}&onModel=Membership&isPaid=true&limit=1`,
 				"GET",
 				"no-cache"
 			);
@@ -22,7 +21,7 @@ const Single = ({ auth = {}, object = {} }) => {
 			setEnrollmentVerification(res);
 
 			console.dir({
-				objectId: object?.data?._id,
+				objectId: object?._id,
 				autheticatedUserId: auth.data._id,
 				responseUserId: res?.data.user._id,
 				responseObject: res,
@@ -33,11 +32,11 @@ const Single = ({ auth = {}, object = {} }) => {
 
 	const handleFreeEnrollment = async () => {
 		await fetchurl(
-			`/extras/stripe/subscriptions/memberships/${object?.data?._id}/free`,
+			`/extras/stripe/subscriptions/memberships/${object?._id}/free`,
 			"PUT",
 			"no-cache",
 			{
-				resourceId: object?.data?._id,
+				resourceId: object?._id,
 				status: "published",
 				onModel: "Membership",
 				isPaid: true,
@@ -51,11 +50,11 @@ const Single = ({ auth = {}, object = {} }) => {
 
 	const handlePaidEnrollment = async () => {
 		await fetchurl(
-			`/extras/stripe/subscriptions/memberships/${object?.data?._id}/payment`,
+			`/extras/stripe/subscriptions/memberships/${object?._id}/payment`,
 			"POST",
 			"no-cache",
 			{
-				resourceId: object?.data?._id,
+				resourceId: object?._id,
 				status: "published",
 				onModel: "Membership",
 				isPaid: false,
@@ -70,7 +69,7 @@ const Single = ({ auth = {}, object = {} }) => {
 
 	const handleCancellation = async () => {
 		await fetchurl(
-			`/extras/stripe/subscriptions/memberships/${object?.data?._id}/cancel`,
+			`/extras/stripe/subscriptions/memberships/${object?._id}/cancel`,
 			"PUT",
 			"no-cache"
 		);
@@ -97,13 +96,13 @@ const Single = ({ auth = {}, object = {} }) => {
 							<p>Checking enrollment...</p>
 						) : (
 							// If free and not enrolled
-							(object?.data?.isFree && !enrollmentVerification?.success && (
+							(object?.isFree && !enrollmentVerification?.success && (
 								<button onClick={() => handleFreeEnrollment()}>
 									Enroll for Free
 								</button>
 							)) ||
 							// If not free and not enrolled
-							(!object?.data?.isFree &&
+							(!object?.isFree &&
 								!enrollmentVerification?.success &&
 								(auth.data.stripe.latestStripeCheckoutLink === null ||
 								auth?.data?.stripe.latestStripeCheckoutLink === undefined ? (
@@ -125,7 +124,7 @@ const Single = ({ auth = {}, object = {} }) => {
 									</div>
 								))) ||
 							// If free/not free and already enrolled
-							((object?.data?.isFree || !object?.data?.isFree) &&
+							((object?.isFree || !object?.isFree) &&
 								enrollmentVerification?.success && (
 									<p className="bg-dark text-bg-dark rounded text-center m-0 p-2">
 										Already enrolled
