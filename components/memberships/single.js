@@ -9,6 +9,7 @@ const Single = ({ auth = {}, object = {} }) => {
 
 	// Function to check if the user is enrolled in the current membership
 	useEffect(() => {
+		console.log("object", object);
 		const checkEnrollment = async () => {
 			if (!auth?.data?._id || !object?.data._id) return;
 
@@ -19,6 +20,7 @@ const Single = ({ auth = {}, object = {} }) => {
 			);
 
 			setEnrollmentVerification(res);
+
 			console.dir({
 				objectId: object?.data?._id,
 				autheticatedUserId: auth.data._id,
