@@ -18,7 +18,7 @@ const Single = ({ auth = {}, object = {} }) => {
 				"default"
 			);
 			if (res?.success) {
-				setAPITokenOnServer(res.data);
+				await setAPITokenOnServer(res.data);
 			}
 		};
 		const checkEnrollment = async () => {
