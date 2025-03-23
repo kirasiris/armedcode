@@ -40,8 +40,13 @@ export const setAuthTokenOnServer = async (token) => {
 	}
 };
 
-export const setAPITokenOnServer = async (token = {}) => {
-	console.log("Setting token in server", token);
+export const setAPITokenOnServer = async (data = {}) => {
+	const myCookies = await cookies();
+	myCookies.set("armed_code_sk", data.secret_token, {
+		secure: process.env.NEXT_PUBLIC_API_ENV === "production" ? true : false,
+		maxAge: data.expiresIn,
+		sameSite: process.env.NEXT_PUBLIC_API_ENV === "production" ? "none" : "lax",
+	});
 };
 
 export const setUserOnServer = async (object) => {
@@ -93,6 +98,7 @@ export const deleteAuthTokenOnServer = async () => {
 	const myCookies = await cookies();
 	await fetchurl(`/auth/logout`, "POST", "no-cache");
 	myCookies.delete("xAuthToken");
+	myCookies.delete("armed_code_sk");
 	myCookies.delete("userStripeChargesEnabled");
 	myCookies.delete("userId");
 	myCookies.delete("username");
@@ -113,13 +119,14 @@ export const fetchurl = async (
 ) => {
 	const myCookies = await cookies();
 	const token = myCookies.get("xAuthToken");
+	const api_token = myCookies.get("armed_code_sk");
 
 	let requestBody = null;
 	let customHeaders = {
 		Authorization: `Bearer ${token?.value}`,
 		"Content-Type": "application/json",
 		credentials: "include",
-		armed_code_sk: "",
+		armed_code_sk: `${api_token?.value}`,
 	};
 
 	if (

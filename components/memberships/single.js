@@ -1,7 +1,7 @@
 "use client";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
-import { fetchurl } from "@/helpers/fetchurl";
+import { fetchurl, setAPITokenOnServer } from "@/helpers/fetchurl";
 import ParseHtml from "@/layout/parseHtml";
 
 const Single = ({ auth = {}, object = {} }) => {
@@ -12,11 +12,14 @@ const Single = ({ auth = {}, object = {} }) => {
 		const checkForToken = async () => {
 			if (!auth?.data?._id || !object._id) return;
 
-			const token = await fetchurl(
+			const res = await fetchurl(
 				`/extras/stripe/tokens/${object._id}/generate`,
-				"GET"
+				"GET",
+				"default"
 			);
-			console.log("token from checkForToken() function", token);
+			if (res?.success) {
+				setAPITokenOnServer(res.data);
+			}
 		};
 		const checkEnrollment = async () => {
 			if (!auth?.data?._id || !object?._id) return;
