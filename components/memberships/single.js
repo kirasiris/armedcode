@@ -13,7 +13,7 @@ const Single = ({ auth = {}, object = {} }) => {
 			if (!auth?.data?._id || !object._id) return;
 
 			const token = await fetchurl(
-				`/stripe/token/${object._id}/generate`,
+				`/stripe/tokens/${object._id}/generate`,
 				"POST"
 			);
 			console.log("token from checkForToken() function", token);
