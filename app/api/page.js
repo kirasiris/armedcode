@@ -234,7 +234,7 @@ const ApiIndex = async ({ params, searchParams }) => {
   method: "GET" || "POST" || "PUT",
   headers: {
     'Authorization': 'Bearer ${token?.value || "12345abcdef67890"}',
-    'armed_code_sk': '${apitoken?.value}',
+    'armed_code_sk': '${apitoken?.value || "12345abcdef67890"}',
     'Content-Type': 'application/json'
   }
 })`}

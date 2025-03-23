@@ -294,7 +294,7 @@ const CreateForm = ({ token = "", apitoken = "" }) => {
   method: "POST",
   headers: {
     'Authorization': 'Bearer ${token || "12345abcdef67890"}',
-    'armed_code_sk': '${apitoken}',
+    'armed_code_sk': '${apitoken || "12345abcdef67890"}',
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
