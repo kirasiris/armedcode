@@ -49,6 +49,9 @@ export const setAPITokenOnServer = async (data = {}) => {
 		);
 		myCookies.set("armed_code_sk", data.secret_token, {
 			secure: process.env.NEXT_PUBLIC_API_ENV === "production" ? true : false,
+			maxAge: data.expiresIn,
+			sameSite:
+				process.env.NEXT_PUBLIC_API_ENV === "production" ? "none" : "lax",
 		});
 	} else {
 		console.log("setAPITokenOnServer function was not a success", token);
@@ -133,14 +136,14 @@ export const fetchurl = async (
 ) => {
 	const myCookies = await cookies();
 	const token = myCookies.get("xAuthToken");
-	const api_token = myCookies.get("armed_code_sk");
+	// const api_token = myCookies.get("armed_code_sk");
 
 	let requestBody = null;
 	let customHeaders = {
 		Authorization: `Bearer ${token?.value}`,
 		"Content-Type": "application/json",
 		credentials: "include",
-		armed_code_sk: `${api_token?.value}`,
+		// armed_code_sk: `${api_token?.value}`,
 	};
 
 	if (
