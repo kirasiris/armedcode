@@ -13,7 +13,7 @@ const Single = ({ auth = {}, object = {} }) => {
 			if (!auth?.data?._id || !object?._id) return;
 
 			const res = await fetchurl(
-				`/subscribers?user=${auth.data._id}&resourceId=${object._id}&onModel=Membership&isPaid=true`,
+				`/subscribers?user=${auth.data._id}&resourceId=${object._id}&onModel=Membership&isPaid=true&limit=1`,
 				"GET",
 				"no-cache"
 			);
