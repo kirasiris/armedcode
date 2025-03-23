@@ -143,12 +143,14 @@ export const fetchurl = async (
 	const token = myCookies.get("xAuthToken");
 	const api_token = myCookies.get("armed_code_sk");
 
+	console.log("API TOKEN IN FETCHURL", api_token);
+
 	let requestBody = null;
 	let customHeaders = {
 		Authorization: `Bearer ${token?.value}`,
 		"Content-Type": "application/json",
 		credentials: "include",
-		armed_code_sk: `${api_token?.value}`,
+		armed_code_sk: api_token?.value,
 	};
 
 	if (
