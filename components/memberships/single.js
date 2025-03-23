@@ -20,10 +20,8 @@ const Single = ({ auth = {}, object = {} }) => {
 				"no-cache"
 			);
 			setEnrollmentVerification(res);
+			console.log("Authenticated user coming from enrollment", res);
 		};
-
-		console.log("Authenticated user coming from enrollment", res);
-
 		checkEnrollment();
 	}, [auth, object]);
 
