@@ -17,11 +17,10 @@ const Single = ({ auth = {}, object = {} }) => {
 				"GET",
 				"no-cache"
 			);
-			setEnrollmentVerification(res);
-			console.dir({
-				authenticatedUserId: auth.data._id,
-				responseFromMembership: res.data[0].user._id,
-			});
+			const response =
+				auth.data._id === res.data[0].user._id &&
+				setEnrollmentVerification(res);
+			console.log("final response", response);
 		};
 		checkEnrollment();
 	}, [auth, object]);
