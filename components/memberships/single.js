@@ -87,46 +87,41 @@ const Single = ({ auth = {}, object = {} }) => {
 				<div className="card-body">
 					<ParseHtml text={object.text} parseAs="p" />
 					{auth?.data?.isOnline ? (
-						// If enrollment check is still loading
-						enrollmentVerification === null ? (
-							<p>Checking enrollment...</p>
-						) : (
-							// If free and not enrolled
-							(object?.isFree && !enrollmentVerification?.success && (
-								<button onClick={() => handleFreeEnrollment()}>
-									Enroll for Free
+						// If free and not enrolled
+						(object?.isFree && !enrollmentVerification?.success && (
+							<button onClick={() => handleFreeEnrollment()}>
+								Enroll for Free
+							</button>
+						)) ||
+						// If not free and not enrolled
+						(!object?.isFree &&
+							!enrollmentVerification?.success &&
+							(auth.data.stripe.latestStripeCheckoutLink === null ||
+							auth?.data?.stripe.latestStripeCheckoutLink === undefined ? (
+								<button onClick={() => handlePaidEnrollment()}>
+									Pay to Enroll
 								</button>
-							)) ||
-							// If not free and not enrolled
-							(!object?.isFree &&
-								!enrollmentVerification?.success &&
-								(auth.data.stripe.latestStripeCheckoutLink === null ||
-								auth?.data?.stripe.latestStripeCheckoutLink === undefined ? (
-									<button onClick={() => handlePaidEnrollment()}>
-										Pay to Enroll
+							) : (
+								<div className="btn-group">
+									<a
+										href={auth?.data?.stripe?.latestStripeCheckoutLink}
+										target="_blank"
+										className="btn btn-dark btn-sm w-100 mb-3"
+									>
+										There is a checkout session in your account!
+									</a>
+									<button onClick={() => handleCancellation()}>
+										Cancel payment and Enrollment to Membership
 									</button>
-								) : (
-									<div className="btn-group">
-										<a
-											href={auth?.data?.stripe?.latestStripeCheckoutLink}
-											target="_blank"
-											className="btn btn-dark btn-sm w-100 mb-3"
-										>
-											There is a checkout session in your account!
-										</a>
-										<button onClick={() => handleCancellation()}>
-											Cancel payment and Enrollment to Membership
-										</button>
-									</div>
-								))) ||
-							// If free/not free and already enrolled
-							((object?.isFree || !object?.isFree) &&
-								enrollmentVerification?.success && (
-									<p className="bg-dark text-bg-dark rounded text-center m-0 p-2">
-										Already enrolled
-									</p>
-								))
-						)
+								</div>
+							))) ||
+						// If free/not free and already enrolled
+						((object?.isFree || !object?.isFree) &&
+							enrollmentVerification?.success && (
+								<p className="bg-dark text-bg-dark rounded text-center m-0 p-2">
+									Already enrolled
+								</p>
+							))
 					) : (
 						<a
 							href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}/api`}
