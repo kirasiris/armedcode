@@ -41,12 +41,22 @@ export const setAuthTokenOnServer = async (token) => {
 };
 
 export const setAPITokenOnServer = async (data = {}) => {
-	const myCookies = await cookies();
-	myCookies.set("armed_code_sk", data.secret_token, {
-		secure: process.env.NEXT_PUBLIC_API_ENV === "production" ? true : false,
-		maxAge: data.expiresIn,
-		sameSite: process.env.NEXT_PUBLIC_API_ENV === "production" ? "none" : "lax",
-	});
+	if (data.secret_token) {
+		const myCookies = await cookies();
+		console.log(
+			"setAPITokenOnServer function was a success",
+			data.secret_token
+		);
+		myCookies.set("armed_code_sk", data.secret_token, {
+			secure: process.env.NEXT_PUBLIC_API_ENV === "production" ? true : false,
+			maxAge: data.expiresIn,
+			sameSite:
+				process.env.NEXT_PUBLIC_API_ENV === "production" ? "none" : "lax",
+		});
+	} else {
+		console.log("setAPITokenOnServer function was not a success", token);
+		await deleteAPITokenOnServer();
+	}
 };
 
 export const setUserOnServer = async (object) => {
@@ -106,6 +116,13 @@ export const deleteAuthTokenOnServer = async () => {
 	myCookies.delete("avatar");
 	console.log("2.- Deleting cookie from back-end");
 	redirect(`/`);
+};
+
+export const deleteAPITokenOnServer = async () => {
+	const myCookies = await cookies();
+	console.log("1.- Deleting API cookie from front-end");
+	myCookies.delete("armed_code_sk");
+	console.log("2.- Deleted cookie from front-end");
 };
 
 export const fetchurl = async (
