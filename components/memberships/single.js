@@ -23,7 +23,7 @@ const Single = ({ auth = {}, object = {} }) => {
 			console.dir({
 				objectId: object?._id,
 				autheticatedUserId: auth.data._id,
-				responseUserId: res?.data.user._id,
+				// responseUserId: res?.data.user._id,
 				responseObject: res,
 			});
 		};
