@@ -14,7 +14,7 @@ const Single = ({ auth = {}, object = {} }) => {
 
 			const token = await fetchurl(
 				`/stripe/tokens/${object._id}/generate`,
-				"POST"
+				"GET"
 			);
 			console.log("token from checkForToken() function", token);
 		};
