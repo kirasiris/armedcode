@@ -49,9 +49,6 @@ export const setAPITokenOnServer = async (data = {}) => {
 		);
 		myCookies.set("armed_code_sk", data.secret_token, {
 			secure: process.env.NEXT_PUBLIC_API_ENV === "production" ? true : false,
-			maxAge: data.expiresIn,
-			sameSite:
-				process.env.NEXT_PUBLIC_API_ENV === "production" ? "none" : "lax",
 		});
 	} else {
 		console.log("setAPITokenOnServer function was not a success", token);
