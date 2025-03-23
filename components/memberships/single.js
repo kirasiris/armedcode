@@ -17,9 +17,11 @@ const Single = ({ auth = {}, object = {} }) => {
 				"GET",
 				"default"
 			);
+			console.log("Setting API cookies x1", res);
 			if (res?.success) {
 				await setAPITokenOnServer(res.data);
 			}
+			console.log("Setting API cookies was a success", res);
 		};
 		const checkEnrollment = async () => {
 			if (!auth?.data?._id || !object?._id) return;
