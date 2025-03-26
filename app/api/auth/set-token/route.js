@@ -21,9 +21,7 @@ export async function GET(req) {
 
 	const user = await fetchurl(`/auth/me`, "GET", "default");
 
-	if (user?.data) {
-		await setUserOnServer(user.data);
-	}
+	await setUserOnServer(user.data);
 
 	return response;
 }
