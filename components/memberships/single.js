@@ -52,10 +52,12 @@ const Single = ({ auth = {}, object = {} }) => {
 			}
 		);
 
-		console.log("response after free enrollment", res);
-
 		// Reload entire page
-		// window.location.reload(`/api?armed_code_sk=${}`);
+		if (res?.secret_token) {
+			window.location.reload(`/api?armed_code_sk=${res?.secret_token}`);
+		} else {
+			window.location.reload();
+		}
 	};
 
 	const handlePaidEnrollment = async () => {
