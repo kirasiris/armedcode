@@ -39,7 +39,7 @@ const Single = ({ auth = {}, object = {} }) => {
 	}, [auth, object]);
 
 	const handleFreeEnrollment = async () => {
-		await fetchurl(
+		const res = await fetchurl(
 			`/extras/stripe/subscriptions/memberships/${object?._id}/free`,
 			"PUT",
 			"no-cache",
@@ -52,8 +52,10 @@ const Single = ({ auth = {}, object = {} }) => {
 			}
 		);
 
+		console.log("response after free enrollment", res);
+
 		// Reload entire page
-		window.location.reload();
+		// window.location.reload(`/api?armed_code_sk=${}`);
 	};
 
 	const handlePaidEnrollment = async () => {
