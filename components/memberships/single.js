@@ -3,8 +3,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import { fetchurl, setAPITokenOnServer } from "@/helpers/fetchurl";
 import ParseHtml from "@/layout/parseHtml";
+import { useRouter } from "next/navigation";
 
 const Single = ({ auth = {}, object = {} }) => {
+	const router = useRouter();
 	const [enrollmentVerification, setEnrollmentVerification] = useState(null);
 
 	// Function to check if the user is enrolled in the current membership
@@ -54,7 +56,7 @@ const Single = ({ auth = {}, object = {} }) => {
 
 		// Reload entire page
 		if (res?.secret_token) {
-			window.location.reload(`/api?armed_code_sk=${res?.secret_token}`);
+			router.push(`/api?armed_code_sk=${res.secret_token}`);
 		} else {
 			window.location.reload();
 		}
