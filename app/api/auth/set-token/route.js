@@ -13,17 +13,17 @@ export async function GET(req) {
 		return NextResponse.json({ error: "Token missing" }, { status: 400 });
 	}
 
+	// Redirect to a clean URL without token for security
+	let response = NextResponse.redirect(new URL("/api", req.url));
+
 	// Set token in secure cookie
-	if (token) {
-		await setAuthTokenOnServer(token);
+	response = await setAuthTokenOnServer(token);
 
-		const user = await fetchurl(`/auth/me`, "GET", "default");
+	const user = await fetchurl(`/auth/me`, "GET", "default");
 
-		if (user?.data) {
-			await setUserOnServer(user.data);
-		}
+	if (user?.data) {
+		await setUserOnServer(user.data);
 	}
 
-	// Redirect to a clean URL without token for security
-	return NextResponse.redirect(new URL("/api", req.url));
+	return response;
 }
