@@ -30,18 +30,10 @@ export async function GET(req) {
 	const response = NextResponse.redirect(new URL("/api", req.url));
 
 	// Set token in secure cookie
-	if (token?.value) {
-		await setAuthTokenOnServer(token.value);
-	} else {
-		await setAuthTokenOnServer(urlToken);
-	}
+	await setAuthTokenOnServer(token?.value || urlToken || undefined);
 
 	// Set secret token in secure cookie
-	if (secrettoken?.value) {
-		await setAPITokenOnServer(secrettoken.value);
-	} else {
-		await setAPITokenOnServer(urlSecretToken);
-	}
+	await setAPITokenOnServer(secrettoken?.value || urlSecretToken || undefined);
 
 	const user = await fetchurl(`/auth/me`, "GET", "default");
 
