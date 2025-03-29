@@ -4,7 +4,6 @@ import {
 	setAuthTokenOnServer,
 	setUserOnServer,
 } from "@/helpers/fetchurl";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
@@ -19,8 +18,15 @@ export async function GET(req) {
 	console.log("token in route handler", urlToken);
 	console.log("secret_token in route handler", secret_token);
 
-	if (!token?.value || !urlToken) {
-		return NextResponse.json({ error: "Token missing" }, { status: 400 });
+	if (!token?.value) {
+		return NextResponse.json(
+			{ error: "Cookie token missing" },
+			{ status: 400 }
+		);
+	}
+
+	if (!urlToken) {
+		return NextResponse.json({ error: "Url token missing" }, { status: 400 });
 	}
 
 	// Redirect to a clean URL without token for security
