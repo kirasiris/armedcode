@@ -1,6 +1,8 @@
 import {
 	fetchurl,
+	getAPITokenOnServer,
 	getAuthTokenOnServer,
+	setAPITokenOnServer,
 	setAuthTokenOnServer,
 	setUserOnServer,
 } from "@/helpers/fetchurl";
@@ -13,11 +15,9 @@ export async function GET(req) {
 
 	const urlToken = searchParams.get("xAuthToken");
 
-	const secret_token = searchParams.get("armed_code_sk");
+	const secrettoken = await getAPITokenOnServer();
 
-	console.log("cookie token in route handler", token);
-	console.log("url token in route handler", urlToken);
-	console.log("secret_token in route handler", secret_token);
+	const urlSecretToken = searchParams.get("armed_code_sk");
 
 	// Redirect to a clean URL without token for security
 	const response = NextResponse.redirect(new URL("/api", req.url));
@@ -27,6 +27,13 @@ export async function GET(req) {
 		await setAuthTokenOnServer(token.value);
 	} else {
 		await setAuthTokenOnServer(urlToken);
+	}
+
+	// Set secret token in secure cookie
+	if (secrettoken?.value) {
+		await setAPITokenOnServer(secrettoken?.value);
+	} else {
+		await setAPITokenOnServer(urlSecretToken);
 	}
 
 	const user = await fetchurl(`/auth/me`, "GET", "default");
