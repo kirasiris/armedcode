@@ -3,7 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import { fetchurl, setAPITokenOnServer } from "@/helpers/fetchurl";
 import ParseHtml from "@/layout/parseHtml";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 const Single = ({ auth = {}, object = {} }) => {
 	const router = useRouter();
@@ -56,7 +56,8 @@ const Single = ({ auth = {}, object = {} }) => {
 
 		// Reload entire page
 		if (res?.secret_token) {
-			router.push(`/api?armed_code_sk=${res.secret_token}`);
+			// router.push(`/api?armed_code_sk=${res.secret_token}`);
+			redirect(`/api/auth/set-token?armed_code_sk=${res?.secret_token}`);
 		} else {
 			window.location.reload();
 		}
