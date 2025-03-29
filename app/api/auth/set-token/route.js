@@ -12,7 +12,7 @@ export async function GET(req) {
 
 	const token = await getAuthTokenOnServer();
 
-	urlToken = searchParams.get("xAuthToken");
+	const urlToken = searchParams.get("xAuthToken");
 
 	const secret_token = searchParams.get("armed_code_sk");
 
