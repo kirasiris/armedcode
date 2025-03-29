@@ -15,7 +15,8 @@ export async function GET(req) {
 
 	const secret_token = searchParams.get("armed_code_sk");
 
-	console.log("token in route handler", urlToken);
+	console.log("cookie token in route handler", token);
+	console.log("url token in route handler", urlToken);
 	console.log("secret_token in route handler", secret_token);
 
 	if (!token?.value) {
