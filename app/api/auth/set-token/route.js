@@ -10,17 +10,16 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
 	const { searchParams } = new URL(req.url);
 
-	let token;
+	const token = await getAuthTokenOnServer();
 
-	token = await getAuthTokenOnServer();
-	token = searchParams.get("xAuthToken");
+	urlToken = searchParams.get("xAuthToken");
 
 	const secret_token = searchParams.get("armed_code_sk");
 
-	console.log("token in route handler", token);
+	console.log("token in route handler", urlToken);
 	console.log("secret_token in route handler", secret_token);
 
-	if (!token) {
+	if (!token?.value || !urlToken) {
 		return NextResponse.json({ error: "Token missing" }, { status: 400 });
 	}
 
@@ -28,7 +27,11 @@ export async function GET(req) {
 	const response = NextResponse.redirect(new URL("/api", req.url));
 
 	// Set token in secure cookie
-	await setAuthTokenOnServer(token);
+	if (token?.value) {
+		await setAuthTokenOnServer(token.value);
+	} else {
+		await setAuthTokenOnServer(urlToken);
+	}
 
 	const user = await fetchurl(`/auth/me`, "GET", "default");
 
