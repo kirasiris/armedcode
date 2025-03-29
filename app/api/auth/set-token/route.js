@@ -19,6 +19,13 @@ export async function GET(req) {
 
 	const urlSecretToken = searchParams.get("armed_code_sk");
 
+	console.dir({
+		"token from cookie": token?.value,
+		"token from url": urlToken,
+		"secret token from cookie": secrettoken?.value,
+		"secret token from url": urlSecretToken,
+	});
+
 	// Redirect to a clean URL without token for security
 	const response = NextResponse.redirect(new URL("/api", req.url));
 
@@ -31,7 +38,7 @@ export async function GET(req) {
 
 	// Set secret token in secure cookie
 	if (secrettoken?.value) {
-		await setAPITokenOnServer(secrettoken?.value);
+		await setAPITokenOnServer(secrettoken.value);
 	} else {
 		await setAPITokenOnServer(urlSecretToken);
 	}
