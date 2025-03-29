@@ -19,13 +19,6 @@ export async function GET(req) {
 	console.log("url token in route handler", urlToken);
 	console.log("secret_token in route handler", secret_token);
 
-	if (!token?.value) {
-		return NextResponse.json(
-			{ error: "Cookie token missing" },
-			{ status: 400 }
-		);
-	}
-
 	if (!urlToken) {
 		return NextResponse.json({ error: "Url token missing" }, { status: 400 });
 	}
