@@ -145,19 +145,21 @@ export const fetchurl = async (
 	const myCookies = await cookies();
 	const token = myCookies.get("xAuthToken");
 	const api_token = myCookies.get("armed_code_sk");
-	let secretToken;
 
-	if (api_token?.value) {
-		secretToken = api_token.value;
-		console.log("API TOKEN IN FETCHURL", api_token);
-	}
+	console.log("API TOKEN IN FETCHURL", api_token);
 
 	let requestBody = null;
-	let customHeaders = {
-		Authorization: `Bearer ${token?.value}`,
-		"Content-Type": "application/json",
-		credentials: "include",
-	};
+	// let customHeaders = {
+	// 	Authorization: `Bearer ${token?.value}`,
+	// 	"Content-Type": "application/json",
+	// 	credentials: "include",
+	// };
+
+	let myHeaders = new Headers();
+	myHeaders.append("Authorization", `Bearer ${token?.value}`);
+	myHeaders.append("Content-Type", "application/json");
+	myHeaders.append("credentials", "include");
+	myHeaders.append("armed_code_sk", api_token?.value);
 
 	if (
 		bodyData &&
@@ -172,9 +174,13 @@ export const fetchurl = async (
 
 	if (multipart) {
 		const data = new FormData();
-		customHeaders[
-			"Content-Type"
-		] = `multipart/form-data; boundary=${data._boundary}`;
+		// customHeaders[
+		// 	"Content-Type"
+		// ] = `multipart/form-data; boundary=${data._boundary}`;
+		myHeaders.set(
+			"Content-Type",
+			`multipart/form-data; boundary=${data._boundary}`
+		);
 	}
 
 	// If no signal is provided, create a new AbortController signal
@@ -190,7 +196,7 @@ export const fetchurl = async (
 			cache: cache,
 			body: method !== "GET" && method !== "HEAD" ? requestBody : null,
 			signal: signal,
-			headers: { ...customHeaders, armed_code_sk: secretToken },
+			headers: myHeaders,
 		}
 	)
 		.then(async (res) => {
