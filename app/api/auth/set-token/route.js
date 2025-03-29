@@ -1,13 +1,20 @@
 import {
 	fetchurl,
+	getAuthTokenOnServer,
 	setAuthTokenOnServer,
 	setUserOnServer,
 } from "@/helpers/fetchurl";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
 	const { searchParams } = new URL(req.url);
-	const token = searchParams.get("xAuthToken");
+
+	let token;
+
+	token = await getAuthTokenOnServer();
+	token = searchParams.get("xAuthToken");
+
 	const secret_token = searchParams.get("armed_code_sk");
 
 	console.log("token in route handler", token);
