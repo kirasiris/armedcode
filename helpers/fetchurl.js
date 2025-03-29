@@ -59,7 +59,10 @@ export const setAPITokenOnServer = async (data = {}) => {
 				process.env.NEXT_PUBLIC_API_ENV === "production" ? "none" : "lax",
 		});
 	} else {
-		console.log("setAPITokenOnServer function was not a success", token);
+		console.log(
+			"setAPITokenOnServer function was not a success",
+			data.secret_token
+		);
 		await deleteAPITokenOnServer();
 	}
 };
