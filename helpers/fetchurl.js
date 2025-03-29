@@ -159,7 +159,7 @@ export const fetchurl = async (
 	myHeaders.append("Authorization", `Bearer ${token?.value}`);
 	myHeaders.append("Content-Type", "application/json");
 	myHeaders.append("credentials", "include");
-	myHeaders.append("armed_code_sk", api_token?.value);
+	myHeaders.append("Set-Cookie", `armed_code_sk=${api_token?.value}`);
 
 	if (
 		bodyData &&
