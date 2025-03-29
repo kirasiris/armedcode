@@ -157,7 +157,6 @@ export const fetchurl = async (
 		Authorization: `Bearer ${token?.value}`,
 		"Content-Type": "application/json",
 		credentials: "include",
-		armed_code_sk: secretToken,
 	};
 
 	if (
@@ -191,7 +190,7 @@ export const fetchurl = async (
 			cache: cache,
 			body: method !== "GET" && method !== "HEAD" ? requestBody : null,
 			signal: signal,
-			headers: customHeaders,
+			headers: { ...customHeaders, armed_code_sk: secretToken },
 		}
 	)
 		.then(async (res) => {
