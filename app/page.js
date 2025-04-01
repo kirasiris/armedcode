@@ -4,13 +4,22 @@ import Head from "@/app/head";
 import ErrorPage from "@/layout/errorpage";
 import Services from "@/components/services";
 import ContactForm from "@/components/forms/pages/contact/contactform";
+import { redirect } from "next/navigation";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
 	return res;
 }
 
-const Home = async () => {
+const Home = async ({ params, searchParams }) => {
+	const awtdParams = await params;
+	const awtdSearchParams = await searchParams;
+
+	// Set cookies
+	if (awtdSearchParams?.xAuthToken) {
+		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
+	}
+
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
 	return settings?.data?.maintenance === false ? (
