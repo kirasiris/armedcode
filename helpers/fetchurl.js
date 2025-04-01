@@ -146,14 +146,7 @@ export const fetchurl = async (
 	const token = myCookies.get("xAuthToken");
 	const api_token = myCookies.get("armed_code_sk");
 
-	console.log("API TOKEN IN FETCHURL", api_token);
-
 	let requestBody = null;
-	// let customHeaders = {
-	// 	Authorization: `Bearer ${token?.value}`,
-	// 	"Content-Type": "application/json",
-	// 	credentials: "include",
-	// };
 
 	let myHeaders = new Headers();
 	myHeaders.append("Authorization", `Bearer ${token?.value}`);
@@ -174,9 +167,6 @@ export const fetchurl = async (
 
 	if (multipart) {
 		const data = new FormData();
-		// customHeaders[
-		// 	"Content-Type"
-		// ] = `multipart/form-data; boundary=${data._boundary}`;
 		myHeaders.set(
 			"Content-Type",
 			`multipart/form-data; boundary=${data._boundary}`

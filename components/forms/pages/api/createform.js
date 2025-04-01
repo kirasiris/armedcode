@@ -228,7 +228,6 @@ const CreateForm = ({ token = "", apitoken = "" }) => {
 								onChange={(e) => handleChange(index, e.target.value)}
 								type="text"
 								className="form-control text-bg-dark me-2"
-								required
 								placeholder="Enter file URL"
 							/>
 							<button
