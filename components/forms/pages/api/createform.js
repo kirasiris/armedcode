@@ -214,7 +214,6 @@ const CreateForm = ({ apitoken = "" }) => {
 						<option value="any-other-weapon">Any Other Weapon</option>
 						<option value="destructive-device">Destructive Device</option>
 						<option value="machine-gun">Machine Gun</option>
-						<option value="none">None (Non-NFA Item)</option>
 					</select>
 					<label htmlFor="files" className="form-label">
 						Files (File URLs)
