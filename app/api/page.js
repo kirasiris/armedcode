@@ -4,7 +4,6 @@ import {
 	deleteAuthTokenOnServer,
 	fetchurl,
 	getAPITokenOnServer,
-	getAuthTokenOnServer,
 } from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
@@ -42,8 +41,6 @@ const ApiIndex = async ({ params, searchParams }) => {
 	}
 
 	const auth = await getAuthenticatedUser();
-
-	const token = await getAuthTokenOnServer();
 
 	const apitoken = await getAPITokenOnServer();
 
@@ -166,7 +163,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 					<div className="card-body">
 						<p className="text-secondary">
 							To use our API, you&apos;ll need to authenticate first to receive
-							your AUTHENTICATION KEY. You will then be required tp purchase a
+							your AUTHENTICATION KEY. You will then be required to purchase a
 							membership plan that fits your needs. Each plan provides different
 							levels of API access.
 						</p>
@@ -233,7 +230,6 @@ const ApiIndex = async ({ params, searchParams }) => {
 											}/weapons', {
   method: "GET" || "POST" || "PUT",
   headers: {
-    'Authorization': 'Bearer ${token?.value || "12345abcdef67890"}',
     'armed_code_sk': '${apitoken?.value || "12345abcdef67890"}',
     'Content-Type': 'application/json'
   }
