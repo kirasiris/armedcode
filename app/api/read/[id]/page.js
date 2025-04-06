@@ -190,6 +190,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useCookies } from "next-client-cookies";
 import List from "@/components/api/list";
 import JsonResponses from "@/components/global/jsonresponses";
 import { fetchurl } from "@/helpers/fetchurl";
@@ -203,12 +204,13 @@ const ApiReadSingle = ({}) => {
 	const router = useRouter();
 	const params = useParams();
 	const searchParams = useSearchParams();
+
 	console.log("apitoken", apitoken);
 	console.log("params", params);
 	console.log("searchParams", searchParams);
 	console.log("router", router);
 	const [auth, setAuth] = useState({});
-	const [apitoken, setApiToken] = useState({});
+	const apitoken = cookies.get("armed_code_sk");
 	const [settings, setSettings] = useState({});
 	const [weapon, setWeapon] = useState({});
 	const [weapons, setWeapons] = useState([]);
@@ -332,6 +334,7 @@ const ApiReadSingle = ({}) => {
 	};
 
 	console.log("authenticated user", auth);
+	console.log("This is the api token", apitoken);
 	console.log("settings", settings);
 	console.log("weapon", weapon);
 	console.log("weapons", weapons);
