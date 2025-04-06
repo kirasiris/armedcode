@@ -95,7 +95,7 @@ const ApiReadSingle = ({}) => {
 			}
 		};
 		fetchWeapons(
-			`?page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
+			`?user=${auth?._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
 		);
 		return () => abortController.abort();
 	}, [searchParams]);
@@ -127,10 +127,6 @@ const ApiReadSingle = ({}) => {
 		return () => abortController.abort();
 	}, [router, searchParams]);
 
-	const loadWeapon = async (id) => {
-		router.push(`/api/read/${id}`, { scroll: false });
-	};
-
 	console.log("authenticated user", auth);
 	console.log("This is the api token", apitoken);
 	console.log("settings", settings);
@@ -161,6 +157,7 @@ const ApiReadSingle = ({}) => {
 											objects={weapons}
 											params={params}
 											searchParams={searchParams}
+											router={router}
 										/>
 									)}
 								</div>
@@ -233,10 +230,12 @@ const ApiReadSingle = ({}) => {
 									</p>
 									<div className="d-flex gap-2">
 										<JsonResponses
-											text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons', {
+											text={`fetch('${
+												process.env.NEXT_PUBLIC_API_URL
+											}/weapons', {
   method: "GET",
   headers: {
-    'armed_code_sk': "12345abcdef67890",
+    'armed_code_sk': ${apitoken || "12345abcdef67890"},
     'Content-Type': 'application/json'
   },
 })`}
@@ -255,10 +254,12 @@ const ApiReadSingle = ({}) => {
 									</p>
 									<div className="d-flex gap-2">
 										<JsonResponses
-											text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons/TO_UPDATE', {
+											text={`fetch('${
+												process.env.NEXT_PUBLIC_API_URL
+											}/weapons/TO_UPDATE', {
   method: "GET",
   headers: {
-	'armed_code_sk': "12345abcdef67890",
+	'armed_code_sk': ${apitoken || "12345abcdef67890"},
     'Content-Type': 'application/json'
   },
 })`}

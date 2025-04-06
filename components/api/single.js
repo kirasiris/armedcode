@@ -3,7 +3,10 @@ import React, { Suspense } from "react";
 import Link from "next/link";
 import ParseHtml from "@/layout/parseHtml";
 
-const Single = ({ object = {} }) => {
+const Single = ({ object = {}, router }) => {
+	const loadWeapon = async (id) => {
+		router.push(`/api/read/${id}`, { scroll: false });
+	};
 	return (
 		<Suspense>
 			<div className="card border border-1 my-border-color bg-black text-bg-dark mb-3">
@@ -14,17 +17,8 @@ const Single = ({ object = {} }) => {
 							{object.type} | {object.caliber} | SN: {object.serialNumber}
 						</small>
 					</div>
-					<p className="mb-0">
-						<Link
-							href={{
-								pathname: `/api/read/${object._id}`,
-								query: {},
-							}}
-						>
-							<span className="badge rounded-pill text-bg-light me-2">
-								View
-							</span>
-						</Link>
+					<p className="mb-0" onClick={() => loadWeapon(object._id)}>
+						<span className="badge rounded-pill text-bg-light me-2">View</span>
 					</p>
 				</div>
 				<div className="card-body">
