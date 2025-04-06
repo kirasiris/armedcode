@@ -192,7 +192,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import List from "@/components/api/list";
 import JsonResponses from "@/components/global/jsonresponses";
-import { fetchurl, getAPITokenOnServer } from "@/helpers/fetchurl";
+import { fetchurl } from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
 import ErrorPage from "@/layout/errorpage";
@@ -335,27 +335,6 @@ const ApiReadSingle = ({}) => {
 	console.log("settings", settings);
 	console.log("weapon", weapon);
 	console.log("weapons", weapons);
-
-	// const awtdParams = await params;
-	// const awtdSearchParams = await searchParams;
-
-	// const auth = await getAuthenticatedUser();
-
-	// const apitoken = await getAPITokenOnServer();
-
-	// const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
-
-	// const page = awtdSearchParams.page || 1;
-	// const limit = awtdSearchParams.limit || 5;
-	// const sort = awtdSearchParams.sort || "-createdAt";
-
-	// const getWeaponsData = getWeapons(
-	// 	`?user=${auth?.data?._id}&page=${page}&limit=${limit}&sort=${sort}&status=published&decrypt=true`
-	// );
-
-	// const getWeaponData = getWeapon(`/${awtdParams.id}`);
-
-	// const [weapons, weapon] = await Promise.all([getWeaponsData, getWeaponData]);
 
 	return settings?.maintenance === false ? (
 		<section className="bg-black text-bg-dark py-5">
