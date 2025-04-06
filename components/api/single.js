@@ -14,7 +14,7 @@ const Single = ({ object = {} }) => {
 						</small>
 					</div>
 					<p className="mb-0">
-						{/* <Link
+						<Link
 							href={{
 								pathname: `/api/read/${object._id}`,
 								query: {},
@@ -23,8 +23,7 @@ const Single = ({ object = {} }) => {
 							<span className="badge rounded-pill text-bg-light me-2">
 								View
 							</span>
-						</Link> */}
-						<span className="badge rounded-pill text-bg-light me-2">View</span>
+						</Link>
 					</p>
 				</div>
 				<div className="card-body">
