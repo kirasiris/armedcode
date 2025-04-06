@@ -322,7 +322,9 @@ const ApiReadSingle = ({}) => {
 			}
 		};
 		fetchWeapons(
-			`?user=${auth?._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
+			`?user=${
+				auth && auth?._id
+			}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
 		);
 		return () => abortController.abort();
 	}, []);
