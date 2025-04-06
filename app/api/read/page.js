@@ -88,7 +88,7 @@ const ApiReadSingle = () => {
 
 		fetchWeapons();
 		return () => abortController.abort();
-	}, [auth._id, loadingAuth, searchParams]);
+	}, [loadingAuth]);
 
 	// Fetch single weapon
 	useEffect(() => {
@@ -122,7 +122,7 @@ const ApiReadSingle = () => {
 
 		fetchWeapon();
 		return () => abortController.abort();
-	}, [router, searchParams, searchParams._id]);
+	}, [router, searchParams]);
 
 	const memoizedWeapons = useMemo(() => weapons, [weapons]);
 
