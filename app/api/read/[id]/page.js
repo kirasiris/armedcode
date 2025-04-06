@@ -25,7 +25,7 @@ async function getWeapons(params) {
 
 async function getWeapon(params) {
 	const res = await fetchurl(`/weapons${params}`, "GET", "no-cache");
-	// if (!res.success) notFound();
+	// if (!res.success) notFound(); // Not needed
 	return res;
 }
 
@@ -71,7 +71,7 @@ const ApiReadSingle = async ({ params, searchParams }) => {
 									<p>Your Weapons Collection</p>
 									<List objects={weapons} searchParams={awtdSearchParams} />
 								</div>
-								{weapon.data.status === "published" ||
+								{weapon.data?.status === "published" ||
 								awtdSearchParams.isAdmin === "true" ? (
 									<div className="bg-dark p-4 mb-3 rounded">
 										<p>Selected Weapon Details</p>
@@ -117,7 +117,9 @@ const ApiReadSingle = async ({ params, searchParams }) => {
 										</div>
 									</div>
 								) : (
-									<p>Secret token required</p>
+									<div className="alert alert-secondary">
+										Secret token required
+									</div>
 								)}
 							</div>
 							<div className="col-lg-6">
@@ -177,7 +179,7 @@ const ApiReadSingle = async ({ params, searchParams }) => {
 			</div>
 		</section>
 	) : (
-		<ErrorPage statusCodeMessage="No secret token found" />
+		<ErrorPage />
 	);
 };
 
