@@ -35,6 +35,8 @@ const ApiReadIndex = async ({ params, searchParams }) => {
 	const limit = 5;
 	const sort = "-createdAt";
 
+	console.log("authenticated user", auth);
+
 	const getWeaponsData = getWeapons(
 		`?user=${auth?.data?._id}&page=${page}&limit=${limit}&sort=${sort}&status=published&decrypt=true`
 	);
