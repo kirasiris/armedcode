@@ -8,7 +8,6 @@ import JsonResponses from "@/components/global/jsonresponses";
 import { fetchurl } from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
-import ErrorPage from "@/layout/errorpage";
 import ParseHtml from "@/layout/parseHtml";
 
 const ApiReadSingle = ({}) => {
@@ -99,7 +98,7 @@ const ApiReadSingle = ({}) => {
 				`?user=${auth?._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
 			);
 		return () => abortController.abort();
-	}, [auth?._id, loadingAuth, params]);
+	}, [auth?._id, loadingAuth]);
 
 	// Fetch single weapon
 	useEffect(() => {
@@ -127,9 +126,6 @@ const ApiReadSingle = ({}) => {
 		}
 		return () => abortController.abort();
 	}, [router, params]);
-
-	console.log("weapon", weapon);
-	console.log("weapons", weapons);
 
 	return (
 		<section className="bg-black text-bg-dark py-5">
