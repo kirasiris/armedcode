@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCookies } from "next-client-cookies";
 import { checkEmptyObject } from "befree-utilities";
@@ -9,6 +9,9 @@ import { fetchurl } from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
 import ParseHtml from "@/layout/parseHtml";
+import { toast } from "react-toastify";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const ApiReadSingle = () => {
 	const router = useRouter();
@@ -21,77 +24,107 @@ const ApiReadSingle = () => {
 	const [weapon, setWeapon] = useState({});
 	const [weapons, setWeapons] = useState([]);
 	const [loadingAuth, setLoadingAuth] = useState(true);
+	const [loading, setLoading] = useState(true);
 	const [loadingWeapons, setLoadingWeapons] = useState(true);
-	const [loading, setLoading] = useState(false);
 
+	// Fetch authenticated user
 	useEffect(() => {
 		const abortController = new AbortController();
 		const fetchAuthenticatedUser = async () => {
-			const res = await fetchurl(
-				`/auth/me`,
-				"GET",
-				"default",
-				{},
-				abortController.signal,
-				false,
-				false
-			);
-			if (res?.data) {
-				setAuth(res.data);
-				setLoadingAuth(false);
+			try {
+				const res = await fetchurl(
+					`/auth/me`,
+					"GET",
+					"default",
+					{},
+					abortController.signal,
+					false,
+					false
+				);
+				if (res?.data) {
+					setAuth(res.data);
+					setLoadingAuth(false);
+				} else {
+					throw new Error("Authentication failed");
+				}
+			} catch (err) {
+				toast.error("Failed to authenticate user");
 			}
 		};
 		fetchAuthenticatedUser();
 		return () => abortController.abort();
 	}, []);
 
+	// Fetch all weapons
 	useEffect(() => {
+		if (!auth?._id || loadingAuth) return;
+
 		const abortController = new AbortController();
 		const fetchWeapons = async () => {
-			const res = await fetchurl(
-				`/weapons?user=${auth?._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`,
-				"GET",
-				"default",
-				{},
-				abortController.signal,
-				false,
-				false
-			);
-			if (res?.data) {
-				if (checkEmptyObject(params)) setWeapon(res.data[0]);
-				setWeapons(res.data);
+			try {
+				const res = await fetchurl(
+					`/weapons?user=${auth._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`,
+					"GET",
+					"default",
+					{},
+					abortController.signal,
+					false,
+					false
+				);
+				if (res?.data) {
+					if (checkEmptyObject(params)) setWeapon(res.data[0]);
+					setWeapons(res.data);
+					toast.success("Weapons loaded successfully");
+				} else {
+					throw new Error("No weapon data returned");
+				}
+			} catch (err) {
+				toast.error("Failed to fetch weapons");
+			} finally {
+				setLoading(false);
 				setLoadingWeapons(false);
 			}
 		};
-		if (!loadingAuth) fetchWeapons();
-		return () => abortController.abort();
-	}, [auth?._id, loadingAuth]);
 
+		fetchWeapons();
+		return () => abortController.abort();
+	}, [auth._id, loadingAuth]);
+
+	// Fetch single weapon
 	useEffect(() => {
+		if (checkEmptyObject(params)) return;
+
 		const abortController = new AbortController();
-		const fetchWeapon = async (id) => {
-			const res = await fetchurl(
-				`/weapons/${id}`,
-				"GET",
-				"default",
-				{},
-				abortController.signal,
-				false,
-				false
-			);
-			if (res?.data) {
-				setWeapon(res.data);
+		const fetchWeapon = async () => {
+			setLoading(true);
+			try {
+				const res = await fetchurl(
+					`/weapons/${params.id}`,
+					"GET",
+					"default",
+					{},
+					abortController.signal,
+					false,
+					false
+				);
+				if (res?.data) {
+					setWeapon(res.data);
+					toast.success("Weapon loaded successfully");
+				} else {
+					router.push(`/api/read`, { scroll: false });
+				}
+			} catch (err) {
+				toast.error("Failed to fetch weapon");
+			} finally {
 				setLoading(false);
-			} else {
-				router.push(`/api/read`, { scroll: false });
 			}
 		};
-		if (!checkEmptyObject(params) && params.id !== weapon._id) {
-			setLoading(true);
-			fetchWeapon(params.id);
-		}
+
+		fetchWeapon();
 		return () => abortController.abort();
-	}, [params]);
+	}, [params.id]);
+
+	const memoizedWeapons = useMemo(() => weapons, [weapons]);
 
 	return (
 		<section className="bg-black text-bg-dark py-5">
@@ -111,24 +144,21 @@ const ApiReadSingle = () => {
 								<div className="bg-dark p-4 mb-3 rounded">
 									<p>Your Weapons Collection</p>
 									{loadingWeapons ? (
-										<p>Loading...</p>
+										<Skeleton count={5} height={30} className="mb-2" />
 									) : (
 										<List
-											objects={weapons}
+											objects={memoizedWeapons}
 											params={params}
 											searchParams={searchParams}
 											router={router}
 										/>
 									)}
 								</div>
-								<div className="bg-dark p-4 mb-3 rounded">
-									<p>Selected Weapon Details</p>
-									{loading ? (
-										<div className="placeholder-glow">
-											<span className="placeholder col-12"></span>
-											<span className="placeholder col-8"></span>
-										</div>
-									) : (
+								{loading ? (
+									<Skeleton count={8} height={20} className="mb-2" />
+								) : (
+									<div className="bg-dark p-4 mb-3 rounded">
+										<p>Selected Weapon Details</p>
 										<div className="card border border-1 my-border-color bg-black text-bg-dark mb-3">
 											<div className="card-header d-flex justify-content-between align-items-center">
 												<div>
@@ -169,8 +199,8 @@ const ApiReadSingle = () => {
 												/>
 											</div>
 										</div>
-									)}
-								</div>
+									</div>
+								)}
 							</div>
 							<div className="col-lg-6">
 								<p>API Reference</p>
