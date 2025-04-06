@@ -189,7 +189,12 @@
 // export default ApiReadSingle;
 "use client";
 import { useEffect, useState } from "react";
-import { notFound, useRouter } from "next/navigation";
+import {
+	notFound,
+	useParams,
+	useRouter,
+	useSearchParams,
+} from "next/navigation";
 import List from "@/components/api/list";
 import JsonResponses from "@/components/global/jsonresponses";
 import { fetchurl, getAPITokenOnServer } from "@/helpers/fetchurl";
@@ -221,8 +226,10 @@ import { checkEmptyObject } from "befree-utilities";
 // 	return res;
 // }
 
-const ApiReadSingle = ({ params, searchParams }) => {
+const ApiReadSingle = ({}) => {
 	const router = useRouter();
+	const params = useParams();
+	const searchParams = useSearchParams();
 	console.log("params", params);
 	console.log("searchParams", searchParams);
 	console.log("router", router);
