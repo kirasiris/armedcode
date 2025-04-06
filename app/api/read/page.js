@@ -242,7 +242,7 @@ const ApiReadSingle = () => {
 										<JsonResponses
 											text={`fetch('${
 												process.env.NEXT_PUBLIC_API_URL
-											}/weapons/TO_UPDATE', {
+											}/weapons/${searchParams._id}', {
   method: "GET",
   headers: {
     'armed_code_sk': ${apitoken || "12345abcdef67890"},
