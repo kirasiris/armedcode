@@ -295,9 +295,7 @@ const ApiReadSingle = ({}) => {
 			}
 		};
 		fetchWeapons(
-			`?user=${
-				auth && auth?._id
-			}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
+			`?page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
 		);
 		return () => abortController.abort();
 	}, []);
@@ -443,7 +441,7 @@ const ApiReadSingle = ({}) => {
 							</div>
 							<div className="col-lg-6">
 								<p>API Reference</p>
-								{/* <div className="bg-dark p-4 mb-3 rounded">
+								<div className="bg-dark p-4 mb-3 rounded">
 									<h6>
 										<span className="badge rounded-pill text-bg-light me-2">
 											GET
@@ -455,12 +453,10 @@ const ApiReadSingle = ({}) => {
 									</p>
 									<div className="d-flex gap-2">
 										<JsonResponses
-											text={`fetch('${
-												process.env.NEXT_PUBLIC_API_URL
-											}/weapons', {
+											text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons', {
   method: "GET",
   headers: {
-    'armed_code_sk': '${apitoken?.value || "12345abcdef67890"}',
+    'armed_code_sk': "12345abcdef67890",
     'Content-Type': 'application/json'
   },
 })`}
@@ -479,18 +475,16 @@ const ApiReadSingle = ({}) => {
 									</p>
 									<div className="d-flex gap-2">
 										<JsonResponses
-											text={`fetch('${
-												process.env.NEXT_PUBLIC_API_URL
-											}/weapons/${weapon.data?._id}', {
+											text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons/TO_UPDATE', {
   method: "GET",
   headers: {
-    'armed_code_sk': '${apitoken?.value || "12345abcdef67890"}',
+	'armed_code_sk': "12345abcdef67890",
     'Content-Type': 'application/json'
   },
 })`}
 										/>
 									</div>
-								</div> */}
+								</div>
 							</div>
 						</div>
 					</div>
