@@ -1,6 +1,6 @@
 import { CookiesProvider } from "next-client-cookies/server";
 
-const APILayout = async ({ children }) => {
+const APILayout = ({ children }) => {
 	return <CookiesProvider>{children}</CookiesProvider>;
 };
 
