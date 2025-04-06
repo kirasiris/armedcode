@@ -1,10 +1,23 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { fetchurl } from "@/helpers/fetchurl";
 import JsonResponses from "@/components/global/jsonresponses";
+import List from "@/components/api/list";
+import { checkEmptyObject } from "befree-utilities";
+import { useRouter } from "next/navigation";
 
-const CreateForm = ({ apitoken = "" }) => {
+const UpdateForm = ({
+	apitoken = "",
+	objects = [],
+	params = [],
+	searchParams = {},
+}) => {
+	console.dir({
+		params: params,
+		searchParams: searchParams,
+	});
+	const router = useRouter();
 	const [rawFormData, setRawFormData] = useState({
 		manufacturer: ``,
 		title: ``,
@@ -54,10 +67,10 @@ const CreateForm = ({ apitoken = "" }) => {
 		});
 	};
 
-	const createWeapon = async (e) => {
+	const upgradeWeapon = async (e) => {
 		e.preventDefault();
 		setBtnText(`Processing...`);
-		const res = await fetchurl(`/weapons`, "POST", "no-cache", rawFormData);
+		const res = await fetchurl(`/weapons`, "PUT", "no-cache", rawFormData);
 		if (res.status === "error") {
 			toast.error(res.message, "bottom");
 			setBtnText("Submit");
@@ -70,7 +83,7 @@ const CreateForm = ({ apitoken = "" }) => {
 		}
 		setWeaponData(res);
 		setBtnText("Submit");
-		toast.success("Weapon created", "bottom");
+		toast.success("Weapon updated", "bottom");
 		resetForm();
 	};
 
@@ -87,10 +100,49 @@ const CreateForm = ({ apitoken = "" }) => {
 		});
 	};
 
+	// Fetch single object
+	const [weapons, setWeapons] = useState(objects);
+	const [weapon, setWeapon] = useState({});
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const abortController = new AbortController();
+		const fetchWeapon = async (id) => {
+			const res = await fetchurl(
+				`/weapons/${id}`,
+				"GET",
+				"default",
+				{},
+				abortController.signal,
+				false,
+				false
+			);
+			if (res?.data) {
+				setWeapon(res.data);
+				setLoading(false);
+			} else {
+				router.push(`/weapons/read`, { scroll: false });
+			}
+			if (!checkEmptyObject(searchParams)) {
+				setLoading(true);
+				fetchWeapon(searchParams._id);
+			}
+		};
+		return () => abortController.abort();
+	}, [router, searchParams]);
+
+	const loadWeapon = async (id) => {
+		router.push(`/api/read/${id}`, { scroll: false });
+	};
+
 	return (
 		<div className="row">
 			<div className="col-lg-6">
-				<form onSubmit={createWeapon}>
+				<div className="bg-dark p-4 mb-3 rounded">
+					<p>Select a Weapon to Update</p>
+					<List objects={weapons} params={params} searchParams={searchParams} />
+				</div>
+				<form onSubmit={upgradeWeapon}>
 					<label htmlFor="manufacturer" className="form-label">
 						Manufacturer
 					</label>
@@ -278,16 +330,14 @@ const CreateForm = ({ apitoken = "" }) => {
 				<p>API Reference</p>
 				<div className="bg-dark p-4 mb-3 rounded">
 					<h6>
-						<span className="badge rounded-pill text-bg-light me-2">POST</span>
-						/v1/weapons
+						<span className="badge rounded-pill text-bg-light me-2">PUT</span>
+						/v1/weapons/:id
 					</h6>
-					<p className="text-secondary">
-						Creates a new weapon record in your collection.
-					</p>
+					<p className="text-secondary">Updates an existing weapon record.</p>
 					<div className="d-flex gap-2">
 						<JsonResponses
 							text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons', {
-  method: "POST",
+  method: "PUT",
   headers: {
     'armed_code_sk': '${apitoken || "12345abcdef67890"}',
     'Content-Type': 'application/json'
@@ -306,7 +356,7 @@ const CreateForm = ({ apitoken = "" }) => {
 						/>
 					</div>
 				</div>
-				<div className="bg-dark p-4 rounded">
+				{/* <div className="bg-dark p-4 rounded">
 					<h6>Response</h6>
 					<div className="d-flex gap-2">
 						<JsonResponses
@@ -331,10 +381,10 @@ const CreateForm = ({ apitoken = "" }) => {
 }`}
 						/>
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);
 };
 
-export default CreateForm;
+export default UpdateForm;
