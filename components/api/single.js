@@ -6,7 +6,7 @@ import ParseHtml from "@/layout/parseHtml";
 const Single = ({ object = {}, router }) => {
 	const loadWeapon = async (e, id) => {
 		e.preventDefault();
-		router.push(`/api/read/${id}`, { scroll: false });
+		router.push(`/api/read?_id=${id}`, { scroll: false });
 	};
 	return (
 		<Suspense>
