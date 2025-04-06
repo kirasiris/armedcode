@@ -30,6 +30,7 @@ async function getWeapon(params) {
 }
 
 const ApiReadSingle = async ({ params, searchParams }) => {
+	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 
 	const auth = await getAuthenticatedUser();
@@ -46,11 +47,9 @@ const ApiReadSingle = async ({ params, searchParams }) => {
 		`?user=${auth?.data?._id}&page=${page}&limit=${limit}&sort=${sort}&status=published&decrypt=true`
 	);
 
-	const getWeaponData = getWeapon(`/${awtdSearchParams.id}`);
+	const getWeaponData = getWeapon(`/${awtdParams.id}`);
 
 	const [weapons, weapon] = await Promise.all([getWeaponsData, getWeaponData]);
-
-	console.log("single weapon", weapon);
 
 	return settings?.data?.maintenance === false ? (
 		<section className="bg-black text-bg-dark py-5">

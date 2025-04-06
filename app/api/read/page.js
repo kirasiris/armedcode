@@ -41,8 +41,6 @@ const ApiReadIndex = async ({ params, searchParams }) => {
 
 	const [weapons] = await Promise.all([getWeaponsData]);
 
-	console.log(weapons);
-
 	return settings?.data?.maintenance === false ? (
 		<section className="bg-black text-bg-dark py-5">
 			<div className="container">
