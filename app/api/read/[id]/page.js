@@ -189,12 +189,7 @@
 // export default ApiReadSingle;
 "use client";
 import { useEffect, useState } from "react";
-import {
-	notFound,
-	useParams,
-	useRouter,
-	useSearchParams,
-} from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import List from "@/components/api/list";
 import JsonResponses from "@/components/global/jsonresponses";
 import { fetchurl, getAPITokenOnServer } from "@/helpers/fetchurl";
@@ -203,28 +198,6 @@ import TabMenu from "@/layout/api/tabmenu";
 import ErrorPage from "@/layout/errorpage";
 import ParseHtml from "@/layout/parseHtml";
 import { checkEmptyObject } from "befree-utilities";
-
-// async function getAuthenticatedUser() {
-// 	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
-// 	return res;
-// };
-
-// async function getSetting(params) {
-// 	const res = await fetchurl(`/settings/${params}`, "GET", "default");
-// 	return res;
-// }
-
-// async function getWeapons(params) {
-// 	const res = await fetchurl(`/weapons${params}`, "GET", "no-cache");
-// 	// if (!res.success) notFound();
-// 	return res;
-// }
-
-// async function getWeapon(params) {
-// 	const res = await fetchurl(`/weapons${params}`, "GET", "no-cache");
-// 	// if (!res.success) notFound(); // Not needed
-// 	return res;
-// }
 
 const ApiReadSingle = ({}) => {
 	const router = useRouter();
@@ -268,15 +241,16 @@ const ApiReadSingle = ({}) => {
 	}, []);
 
 	// Fetch API token
-	useEffect(() => {
-		const fetchAPIToken = async () => {
-			// const res = await getAPITokenOnServer();
-			// console.log("API Token within useEffect", res);
-			// //setApiToken(res);
-			console.log("xD");
-		};
-		fetchAPIToken();
-	}, []);
+	// useEffect(() => {
+	// 	const fetchAPIToken = async () => {
+	// 		// const res = await getAPITokenOnServer();
+	// 		// console.log("API Token within useEffect", res);
+	// 		// //setApiToken(res);
+	// 		// setLoadingApiToken(false)
+	// 		console.log("xD");
+	// 	};
+	// 	fetchAPIToken();
+	// }, []);
 
 	// Fetch settings
 	useEffect(() => {
