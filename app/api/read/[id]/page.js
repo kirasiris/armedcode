@@ -72,7 +72,7 @@ const ApiReadSingle = () => {
 					false
 				);
 				if (res?.data) {
-					if (checkEmptyObject(params)) setWeapon(res.data[0]);
+					// if (checkEmptyObject(params)) setWeapon(res.data[0]);
 					setWeapons(res.data);
 					toast.success("Weapons loaded successfully");
 				} else {
@@ -88,41 +88,41 @@ const ApiReadSingle = () => {
 
 		fetchWeapons();
 		return () => abortController.abort();
-	}, [loadingWeapons]);
+	}, [auth._id, loadingAuth]);
 
 	// Fetch single weapon
-	useEffect(() => {
-		if (checkEmptyObject(params)) return;
+	// useEffect(() => {
+	// 	if (checkEmptyObject(params)) return;
 
-		const abortController = new AbortController();
-		const fetchWeapon = async () => {
-			setLoading(true);
-			try {
-				const res = await fetchurl(
-					`/weapons/${params.id}`,
-					"GET",
-					"default",
-					{},
-					abortController.signal,
-					false,
-					false
-				);
-				if (res?.data) {
-					setWeapon(res.data);
-					toast.success("Weapon loaded successfully");
-				} else {
-					router.push(`/api/read`, { scroll: false });
-				}
-			} catch (err) {
-				toast.error("Failed to fetch weapon");
-			} finally {
-				setLoading(false);
-			}
-		};
+	// 	const abortController = new AbortController();
+	// 	const fetchWeapon = async () => {
+	// 		setLoading(true);
+	// 		try {
+	// 			const res = await fetchurl(
+	// 				`/weapons/${params.id}`,
+	// 				"GET",
+	// 				"default",
+	// 				{},
+	// 				abortController.signal,
+	// 				false,
+	// 				false
+	// 			);
+	// 			if (res?.data) {
+	// 				setWeapon(res.data);
+	// 				toast.success("Weapon loaded successfully");
+	// 			} else {
+	// 				router.push(`/api/read`, { scroll: false });
+	// 			}
+	// 		} catch (err) {
+	// 			toast.error("Failed to fetch weapon");
+	// 		} finally {
+	// 			setLoading(false);
+	// 		}
+	// 	};
 
-		fetchWeapon();
-		return () => abortController.abort();
-	}, [params.id]);
+	// 	fetchWeapon();
+	// 	return () => abortController.abort();
+	// }, [params.id]);
 
 	const memoizedWeapons = useMemo(() => weapons, [weapons]);
 
