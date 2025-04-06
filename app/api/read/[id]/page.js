@@ -269,14 +269,13 @@ const ApiReadSingle = ({}) => {
 
 	// Fetch API token
 	useEffect(() => {
-		const abortController = new AbortController();
 		const fetchAPIToken = async () => {
-			const res = await getAPITokenOnServer();
-			console.log("API Token within useEffect", res);
-			//setApiToken(res);
+			// const res = await getAPITokenOnServer();
+			// console.log("API Token within useEffect", res);
+			// //setApiToken(res);
+			console.log("xD");
 		};
 		fetchAPIToken();
-		return () => abortController.abort();
 	}, []);
 
 	// Fetch settings
