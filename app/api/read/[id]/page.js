@@ -131,7 +131,7 @@ const ApiReadSingle = ({}) => {
 	console.log("weapon", weapon);
 	console.log("weapons", weapons);
 
-	return settings?.maintenance === false ? (
+	return (
 		<section className="bg-black text-bg-dark py-5">
 			<div className="container">
 				<Header />
@@ -263,8 +263,6 @@ const ApiReadSingle = ({}) => {
 				</div>
 			</div>
 		</section>
-	) : (
-		<ErrorPage />
 	);
 };
 
