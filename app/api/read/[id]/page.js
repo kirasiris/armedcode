@@ -21,11 +21,9 @@ const ApiReadSingle = ({}) => {
 	console.log("searchParams", searchParams);
 	console.log("router", router);
 	const [auth, setAuth] = useState({});
-	const [settings, setSettings] = useState({});
 	const [weapon, setWeapon] = useState({});
 	const [weapons, setWeapons] = useState([]);
 	const [loadingAuth, setLoadingAuth] = useState(true);
-	const [loadingsettings, setLoadingSettings] = useState(true);
 	const [loading, setLoading] = useState(true);
 	const [loadingWeapons, setLoadingWeapons] = useState(true);
 
@@ -48,28 +46,6 @@ const ApiReadSingle = ({}) => {
 			}
 		};
 		fetchAuthenticatedUser();
-		return () => abortController.abort();
-	}, []);
-
-	// Fetch settings
-	useEffect(() => {
-		const abortController = new AbortController();
-		const fetchSettings = async () => {
-			const res = await fetchurl(
-				`/settings/${process.env.NEXT_PUBLIC_SETTINGS_ID}`,
-				"GET",
-				"default",
-				{},
-				abortController.signal,
-				false,
-				false
-			);
-			if (res?.data) {
-				setSettings(res.data);
-				setLoadingSettings(false);
-			}
-		};
-		fetchSettings();
 		return () => abortController.abort();
 	}, []);
 
@@ -98,7 +74,7 @@ const ApiReadSingle = ({}) => {
 				`?user=${auth?._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
 			);
 		return () => abortController.abort();
-	}, []);
+	}, [auth?._id, loadingAuth]);
 
 	// Fetch single weapon
 	useEffect(() => {
