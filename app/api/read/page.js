@@ -80,7 +80,7 @@ const ApiReadIndex = async ({ params, searchParams }) => {
 											}/weapons', {
   method: "GET",
   headers: {
-    'armed_code_sk': '${apitoken || "12345abcdef67890"}',
+    'armed_code_sk': '${apitoken?.value || "12345abcdef67890"}',
     'Content-Type': 'application/json'
   },
 })`}
