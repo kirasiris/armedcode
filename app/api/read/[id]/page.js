@@ -270,12 +270,12 @@ const ApiReadSingle = ({}) => {
 	// Fetch API token
 	useEffect(() => {
 		const abortController = new AbortController();
-		const fetchAuthenticatedUser = async () => {
+		const fetchAPIToken = async () => {
 			const res = await getAPITokenOnServer();
 			console.log("API Token within useEffect", res);
-			setApiToken(res);
+			//setApiToken(res);
 		};
-		fetchAuthenticatedUser();
+		fetchAPIToken();
 		return () => abortController.abort();
 	}, []);
 
