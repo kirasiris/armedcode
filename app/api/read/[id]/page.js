@@ -223,6 +223,9 @@ import { checkEmptyObject } from "befree-utilities";
 
 const ApiReadSingle = ({ params, searchParams }) => {
 	const router = useRouter();
+	console.log("params", params);
+	console.log("searchParams", searchParams);
+	console.log("router", router);
 	const [settings, setSettings] = useState({});
 	const [weapon, setWeapon] = useState({});
 	const [weapons, setWeapons] = useState([]);
@@ -293,14 +296,13 @@ const ApiReadSingle = ({ params, searchParams }) => {
 				setWeapon(res.data);
 				setLoading(false);
 			} else {
-				router.push(`/weapons/read`, { scroll: false });
-			}
-			if (!checkEmptyObject(searchParams)) {
-				setLoading(true);
-				fetchWeapon(searchParams._id);
+				router.push(`/api/read`, { scroll: false });
 			}
 		};
-		fetchWeapon();
+		if (!checkEmptyObject(searchParams)) {
+			setLoading(true);
+			fetchWeapon(searchParams._id);
+		}
 		return () => abortController.abort();
 	}, [router, searchParams]);
 
