@@ -298,7 +298,7 @@ const ApiReadSingle = ({}) => {
 			`?page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
 		);
 		return () => abortController.abort();
-	}, []);
+	}, [searchParams]);
 
 	// Fetch single weapon
 	useEffect(() => {
