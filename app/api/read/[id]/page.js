@@ -165,7 +165,7 @@ const ApiReadSingle = async ({ params, searchParams }) => {
 										<JsonResponses
 											text={`fetch('${
 												process.env.NEXT_PUBLIC_API_URL
-											}/weapons/:id', {
+											}/weapons/${object.data?._id}', {
   method: "GET",
   headers: {
     'armed_code_sk': '${apitoken?.value || "12345abcdef67890"}',
