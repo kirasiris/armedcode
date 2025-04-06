@@ -359,7 +359,15 @@ const ApiReadSingle = ({}) => {
 							<div className="col-lg-6">
 								<div className="bg-dark p-4 mb-3 rounded">
 									<p>Your Weapons Collection</p>
-									{/* <List objects={weapons} searchParams={awtdSearchParams} /> */}
+									{loadingWeapons ? (
+										<p>Loading...</p>
+									) : (
+										<List
+											objects={weapons}
+											params={params}
+											searchParams={searchParams}
+										/>
+									)}
 								</div>
 								{/* {weapon.data?.status === "published" ||
 								awtdSearchParams.isAdmin === "true" ? (
