@@ -72,7 +72,7 @@ const ApiReadSingle = () => {
 					false
 				);
 				if (res?.data) {
-					if (checkEmptyObject(params)) setWeapon(res.data[0]);
+					if (checkEmptyObject(searchParams)) setWeapon(res.data[0]);
 					setWeapons(res.data);
 					toast.success("Weapons loaded successfully");
 				} else {
@@ -88,7 +88,7 @@ const ApiReadSingle = () => {
 
 		fetchWeapons();
 		return () => abortController.abort();
-	}, [auth._id, loadingAuth]);
+	}, [auth._id, loadingAuth, searchParams]);
 
 	// Fetch single weapon
 	useEffect(() => {
@@ -122,7 +122,7 @@ const ApiReadSingle = () => {
 
 		fetchWeapon();
 		return () => abortController.abort();
-	}, [searchParams._id]);
+	}, [router, searchParams, searchParams._id]);
 
 	const memoizedWeapons = useMemo(() => weapons, [weapons]);
 
