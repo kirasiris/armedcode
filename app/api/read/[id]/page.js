@@ -204,6 +204,7 @@ const ApiReadSingle = ({}) => {
 	const router = useRouter();
 	const params = useParams();
 	const searchParams = useSearchParams();
+	const cookies = useCookies();
 
 	console.log("apitoken", apitoken);
 	console.log("params", params);
