@@ -79,29 +79,33 @@ const ApiReadSingle = async ({ params, searchParams }) => {
 												<div>
 													<small className="text-secondary">Manufacturer</small>
 													<p className="mb-1">
-														{weapon.manufacturer || "No manufacturer"}
+														{weapon.data?.manufacturer || "No manufacturer"}
 													</p>
 													<small className="text-secondary">Type</small>
-													<p className="mb-1">{weapon.type || "No type"}</p>
+													<p className="mb-1">
+														{weapon.data?.type || "No type"}
+													</p>
 													<small className="text-secondary">
 														Serial Number
 													</small>
 													<p className="mb-1">
-														{weapon.serialNumber || "No serial number"}
+														{weapon.data?.serialNumber || "No serial number"}
 													</p>
 												</div>
 												<div>
 													<small className="text-secondary">Model</small>
-													<p className="mb-0">{weapon.title || "No model"}</p>
+													<p className="mb-0">
+														{weapon.data?.title || "No model"}
+													</p>
 													<small className="text-secondary">Caliber</small>
 													<p className="mb-0">
-														{weapon.caliber || "No caliber"}
+														{weapon.data?.caliber || "No caliber"}
 													</p>
 													<small className="text-secondary">
 														NFA Classification
 													</small>
 													<p className="mb-0">
-														{weapon.nfaClassification ||
+														{weapon.data?.nfaClassification ||
 															"No NFA classification"}
 													</p>
 												</div>
@@ -109,7 +113,7 @@ const ApiReadSingle = async ({ params, searchParams }) => {
 											<div className="card-body">
 												<small className="text-secondary">Notes</small>
 												<ParseHtml
-													text={weapon?.text || "No text"}
+													text={weapon.data?.text || "No text"}
 													parseAs="p"
 												/>
 											</div>
