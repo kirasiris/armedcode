@@ -88,7 +88,7 @@ const ApiReadSingle = () => {
 
 		fetchWeapons();
 		return () => abortController.abort();
-	}, [loadingAuth]);
+	}, [auth._id, loadingAuth, searchParams]);
 
 	// Fetch single weapon
 	useEffect(() => {
