@@ -98,7 +98,7 @@ const ApiReadSingle = ({}) => {
 				`?user=${auth?._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
 			);
 		return () => abortController.abort();
-	}, [auth?._id, loadingAuth]);
+	}, []);
 
 	// Fetch single weapon
 	useEffect(() => {
