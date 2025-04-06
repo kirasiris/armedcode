@@ -342,7 +342,7 @@ const ApiReadSingle = ({}) => {
 
 	// const [weapons, weapon] = await Promise.all([getWeaponsData, getWeaponData]);
 
-	return settings?.data?.maintenance === false ? (
+	return settings?.maintenance === false ? (
 		<section className="bg-black text-bg-dark py-5">
 			<div className="container">
 				<Header />
