@@ -1,10 +1,11 @@
-// import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import List from "@/components/api/list";
 import JsonResponses from "@/components/global/jsonresponses";
 import { fetchurl, getAPITokenOnServer } from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
 import ErrorPage from "@/layout/errorpage";
+import ParseHtml from "@/layout/parseHtml";
 
 async function getAuthenticatedUser() {
 	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
@@ -22,7 +23,13 @@ async function getWeapons(params) {
 	return res;
 }
 
-const ApiReadIndex = async ({ params, searchParams }) => {
+async function getWeapon(params) {
+	const res = await fetchurl(`/weapons${params}`, "GET", "no-cache");
+	// if (!res.success) notFound();
+	return res;
+}
+
+const ApiReadSingle = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
 
 	const auth = await getAuthenticatedUser();
@@ -31,17 +38,19 @@ const ApiReadIndex = async ({ params, searchParams }) => {
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
-	const page = 1;
-	const limit = 5;
-	const sort = "-createdAt";
+	const page = awtdSearchParams.page || 1;
+	const limit = awtdSearchParams.limit || 5;
+	const sort = awtdSearchParams.sort || "-createdAt";
 
 	const getWeaponsData = getWeapons(
 		`?user=${auth?.data?._id}&page=${page}&limit=${limit}&sort=${sort}&status=published&decrypt=true`
 	);
 
-	const [weapons] = await Promise.all([getWeaponsData]);
+	const getWeaponData = getWeapon(`/${awtdSearchParams.id}`);
 
-	console.log(weapons);
+	const [weapons, weapon] = await Promise.all([getWeaponsData, getWeaponData]);
+
+	console.log("single weapon", weapon);
 
 	return settings?.data?.maintenance === false ? (
 		<section className="bg-black text-bg-dark py-5">
@@ -62,6 +71,54 @@ const ApiReadIndex = async ({ params, searchParams }) => {
 									<p>Your Weapons Collection</p>
 									<List objects={weapons} searchParams={awtdSearchParams} />
 								</div>
+								{weapon.data.status === "published" ||
+								awtdSearchParams.isAdmin === "true" ? (
+									<div className="bg-dark p-4 mb-3 rounded">
+										<p>Selected Weapon Details</p>
+										<div className="card border border-1 my-border-color bg-black text-bg-dark mb-3">
+											<div className="card-header d-flex justify-content-between align-items-center">
+												<div>
+													<small className="text-secondary">Manufacturer</small>
+													<p className="mb-1">
+														{weapon.manufacturer || "No manufacturer"}
+													</p>
+													<small className="text-secondary">Type</small>
+													<p className="mb-1">{weapon.type || "No type"}</p>
+													<small className="text-secondary">
+														Serial Number
+													</small>
+													<p className="mb-1">
+														{weapon.serialNumber || "No serial number"}
+													</p>
+												</div>
+												<div>
+													<small className="text-secondary">Model</small>
+													<p className="mb-0">{weapon.title || "No model"}</p>
+													<small className="text-secondary">Caliber</small>
+													<p className="mb-0">
+														{weapon.caliber || "No caliber"}
+													</p>
+													<small className="text-secondary">
+														NFA Classification
+													</small>
+													<p className="mb-0">
+														{weapon.nfaClassification ||
+															"No NFA classification"}
+													</p>
+												</div>
+											</div>
+											<div className="card-body">
+												<small className="text-secondary">Notes</small>
+												<ParseHtml
+													text={weapon?.text || "No text"}
+													parseAs="p"
+												/>
+											</div>
+										</div>
+									</div>
+								) : (
+									<p>Secret token required</p>
+								)}
 							</div>
 							<div className="col-lg-6">
 								<p>API Reference</p>
@@ -120,8 +177,8 @@ const ApiReadIndex = async ({ params, searchParams }) => {
 			</div>
 		</section>
 	) : (
-		<ErrorPage />
+		<ErrorPage statusCodeMessage="No secret token found" />
 	);
 };
 
-export default ApiReadIndex;
+export default ApiReadSingle;
