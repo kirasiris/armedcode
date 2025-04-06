@@ -10,24 +10,20 @@ import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
 import ParseHtml from "@/layout/parseHtml";
 
-const ApiReadSingle = ({}) => {
+const ApiReadSingle = () => {
 	const router = useRouter();
 	const params = useParams();
 	const searchParams = useSearchParams();
 	const cookies = useCookies();
 	const apitoken = cookies.get("armed_code_sk");
-	console.log("apitoken", apitoken);
-	console.log("params", params);
-	console.log("searchParams", searchParams);
-	console.log("router", router);
+
 	const [auth, setAuth] = useState({});
 	const [weapon, setWeapon] = useState({});
 	const [weapons, setWeapons] = useState([]);
 	const [loadingAuth, setLoadingAuth] = useState(true);
-	const [loading, setLoading] = useState(true);
 	const [loadingWeapons, setLoadingWeapons] = useState(true);
+	const [loading, setLoading] = useState(false);
 
-	// Fetch authenticated user
 	useEffect(() => {
 		const abortController = new AbortController();
 		const fetchAuthenticatedUser = async () => {
@@ -49,12 +45,11 @@ const ApiReadSingle = ({}) => {
 		return () => abortController.abort();
 	}, []);
 
-	// Fetch all weapons
 	useEffect(() => {
 		const abortController = new AbortController();
-		const fetchWeapons = async (params) => {
+		const fetchWeapons = async () => {
 			const res = await fetchurl(
-				`/weapons${params}`,
+				`/weapons?user=${auth?._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`,
 				"GET",
 				"default",
 				{},
@@ -63,20 +58,15 @@ const ApiReadSingle = ({}) => {
 				false
 			);
 			if (res?.data) {
-				checkEmptyObject(params) && setWeapon(res.data[0]); // Display the most recent weapon
-				setWeapons(res.data); // Then set the rest of them
-				setLoading(false);
+				if (checkEmptyObject(params)) setWeapon(res.data[0]);
+				setWeapons(res.data);
 				setLoadingWeapons(false);
 			}
 		};
-		!loadingAuth &&
-			fetchWeapons(
-				`?user=${auth?._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
-			);
+		if (!loadingAuth) fetchWeapons();
 		return () => abortController.abort();
 	}, [auth?._id, loadingAuth]);
 
-	// Fetch single weapon
 	useEffect(() => {
 		const abortController = new AbortController();
 		const fetchWeapon = async (id) => {
@@ -96,12 +86,12 @@ const ApiReadSingle = ({}) => {
 				router.push(`/api/read`, { scroll: false });
 			}
 		};
-		if (!checkEmptyObject(params)) {
+		if (!checkEmptyObject(params) && params.id !== weapon._id) {
 			setLoading(true);
 			fetchWeapon(params.id);
 		}
 		return () => abortController.abort();
-	}, [router, params]);
+	}, [params]);
 
 	return (
 		<section className="bg-black text-bg-dark py-5">
@@ -131,11 +121,14 @@ const ApiReadSingle = ({}) => {
 										/>
 									)}
 								</div>
-								{loading ? (
-									<p>Loading...</p>
-								) : (
-									<div className="bg-dark p-4 mb-3 rounded">
-										<p>Selected Weapon Details</p>
+								<div className="bg-dark p-4 mb-3 rounded">
+									<p>Selected Weapon Details</p>
+									{loading ? (
+										<div className="placeholder-glow">
+											<span className="placeholder col-12"></span>
+											<span className="placeholder col-8"></span>
+										</div>
+									) : (
 										<div className="card border border-1 my-border-color bg-black text-bg-dark mb-3">
 											<div className="card-header d-flex justify-content-between align-items-center">
 												<div>
@@ -176,8 +169,8 @@ const ApiReadSingle = ({}) => {
 												/>
 											</div>
 										</div>
-									</div>
-								)}
+									)}
+								</div>
 							</div>
 							<div className="col-lg-6">
 								<p>API Reference</p>
@@ -222,7 +215,7 @@ const ApiReadSingle = ({}) => {
 											}/weapons/TO_UPDATE', {
   method: "GET",
   headers: {
-	'armed_code_sk': ${apitoken || "12345abcdef67890"},
+    'armed_code_sk': ${apitoken || "12345abcdef67890"},
     'Content-Type': 'application/json'
   },
 })`}
