@@ -300,32 +300,32 @@ const ApiReadSingle = ({}) => {
 		return () => abortController.abort();
 	}, [searchParams]);
 
-	// Fetch single weapon
-	useEffect(() => {
-		const abortController = new AbortController();
-		const fetchWeapon = async (id) => {
-			const res = await fetchurl(
-				`/weapons/${id}`,
-				"GET",
-				"default",
-				{},
-				abortController.signal,
-				false,
-				false
-			);
-			if (res?.data) {
-				setWeapon(res.data);
-				setLoading(false);
-			} else {
-				router.push(`/api/read`, { scroll: false });
-			}
-		};
-		if (!checkEmptyObject(searchParams)) {
-			setLoading(true);
-			fetchWeapon(searchParams._id);
-		}
-		return () => abortController.abort();
-	}, [router, searchParams]);
+	// // Fetch single weapon
+	// useEffect(() => {
+	// 	const abortController = new AbortController();
+	// 	const fetchWeapon = async (id) => {
+	// 		const res = await fetchurl(
+	// 			`/weapons/${id}`,
+	// 			"GET",
+	// 			"default",
+	// 			{},
+	// 			abortController.signal,
+	// 			false,
+	// 			false
+	// 		);
+	// 		if (res?.data) {
+	// 			setWeapon(res.data);
+	// 			setLoading(false);
+	// 		} else {
+	// 			router.push(`/api/read`, { scroll: false });
+	// 		}
+	// 	};
+	// 	if (!checkEmptyObject(searchParams)) {
+	// 		setLoading(true);
+	// 		fetchWeapon(searchParams._id);
+	// 	}
+	// 	return () => abortController.abort();
+	// }, [router, searchParams]);
 
 	const loadWeapon = async (id) => {
 		router.push(`/api/read/${id}`, { scroll: false });
