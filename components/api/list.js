@@ -1,3 +1,4 @@
+"use client";
 import Single from "./single";
 import NothingFoundAlert from "@/layout/nothingfoundalert";
 

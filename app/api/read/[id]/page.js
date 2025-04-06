@@ -230,15 +230,41 @@ const ApiReadSingle = ({}) => {
 	const router = useRouter();
 	const params = useParams();
 	const searchParams = useSearchParams();
+	const apitoken = getAPITokenOnServer();
+	console.log("apitoken", apitoken);
 	console.log("params", params);
 	console.log("searchParams", searchParams);
 	console.log("router", router);
+	const [auth, setAuth] = useState({});
 	const [settings, setSettings] = useState({});
 	const [weapon, setWeapon] = useState({});
 	const [weapons, setWeapons] = useState([]);
+	const [loadingAuth, setLoadingAuth] = useState(true);
 	const [loadingsettings, setLoadingSettings] = useState(true);
 	const [loading, setLoading] = useState(true);
 	const [loadingWeapons, setLoadingWeapons] = useState(true);
+
+	// Fetch authenticated user
+	useEffect(() => {
+		const abortController = new AbortController();
+		const fetchAuthenticatedUser = async () => {
+			const res = await fetchurl(
+				`/auth/me`,
+				"GET",
+				"default",
+				{},
+				abortController.signal,
+				false,
+				false
+			);
+			if (res?.data) {
+				setAuth(res.data);
+				setLoadingAuth(false);
+			}
+		};
+		fetchAuthenticatedUser();
+		return () => abortController.abort();
+	}, []);
 
 	// Fetch settings
 	useEffect(() => {
@@ -254,7 +280,7 @@ const ApiReadSingle = ({}) => {
 				false
 			);
 			if (res?.data) {
-				setSettings(res.data); // Then set the rest of them
+				setSettings(res.data);
 				setLoadingSettings(false);
 			}
 		};
@@ -265,9 +291,9 @@ const ApiReadSingle = ({}) => {
 	// Fetch all weapons
 	useEffect(() => {
 		const abortController = new AbortController();
-		const fetchWeapons = async () => {
+		const fetchWeapons = async (params) => {
 			const res = await fetchurl(
-				`/weapons`,
+				`/weapons${params}`,
 				"GET",
 				"default",
 				{},
@@ -282,7 +308,9 @@ const ApiReadSingle = ({}) => {
 				setLoadingWeapons(false);
 			}
 		};
-		fetchWeapons();
+		fetchWeapons(
+			`?user=${auth?._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
+		);
 		return () => abortController.abort();
 	}, []);
 
@@ -317,6 +345,7 @@ const ApiReadSingle = ({}) => {
 		router.push(`/api/read/${id}`, { scroll: false });
 	};
 
+	console.log("authenticated user", auth);
 	console.log("settings", settings);
 	console.log("weapon", weapon);
 	console.log("weapons", weapons);

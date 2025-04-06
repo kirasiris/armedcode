@@ -1,6 +1,7 @@
-import ParseHtml from "@/layout/parseHtml";
-import Link from "next/link";
+"use client";
 import React, { Suspense } from "react";
+import Link from "next/link";
+import ParseHtml from "@/layout/parseHtml";
 
 const Single = ({ object = {} }) => {
 	return (
