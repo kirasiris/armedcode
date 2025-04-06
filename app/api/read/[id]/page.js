@@ -88,19 +88,18 @@ const ApiReadSingle = ({}) => {
 				false
 			);
 			if (res?.data) {
-				checkEmptyObject(searchParams) && setWeapon(res.data[0]); // Display the most recent weapon
+				checkEmptyObject(params) && setWeapon(res.data[0]); // Display the most recent weapon
 				setWeapons(res.data); // Then set the rest of them
 				setLoading(false);
 				setLoadingWeapons(false);
 			}
 		};
-		fetchWeapons(
-			`?user=${
-				auth && auth?._id
-			}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
-		);
+		!loadingAuth &&
+			fetchWeapons(
+				`?user=${auth?._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
+			);
 		return () => abortController.abort();
-	}, [searchParams]);
+	}, [auth?._id, loadingAuth, params]);
 
 	// Fetch single weapon
 	useEffect(() => {
