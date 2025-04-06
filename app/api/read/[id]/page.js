@@ -230,16 +230,17 @@ const ApiReadSingle = ({}) => {
 	const router = useRouter();
 	const params = useParams();
 	const searchParams = useSearchParams();
-	const apitoken = getAPITokenOnServer();
 	console.log("apitoken", apitoken);
 	console.log("params", params);
 	console.log("searchParams", searchParams);
 	console.log("router", router);
 	const [auth, setAuth] = useState({});
+	const [apitoken, setApiToken] = useState({});
 	const [settings, setSettings] = useState({});
 	const [weapon, setWeapon] = useState({});
 	const [weapons, setWeapons] = useState([]);
 	const [loadingAuth, setLoadingAuth] = useState(true);
+	const [loadingAPIToken, setLoadingApiToken] = useState(true);
 	const [loadingsettings, setLoadingSettings] = useState(true);
 	const [loading, setLoading] = useState(true);
 	const [loadingWeapons, setLoadingWeapons] = useState(true);
@@ -261,6 +262,18 @@ const ApiReadSingle = ({}) => {
 				setAuth(res.data);
 				setLoadingAuth(false);
 			}
+		};
+		fetchAuthenticatedUser();
+		return () => abortController.abort();
+	}, []);
+
+	// Fetch API token
+	useEffect(() => {
+		const abortController = new AbortController();
+		const fetchAuthenticatedUser = async () => {
+			const res = await getAPITokenOnServer();
+			console.log("API Token within useEffect", res);
+			setApiToken(res);
 		};
 		fetchAuthenticatedUser();
 		return () => abortController.abort();
