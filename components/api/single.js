@@ -4,7 +4,8 @@ import Link from "next/link";
 import ParseHtml from "@/layout/parseHtml";
 
 const Single = ({ object = {}, router }) => {
-	const loadWeapon = async (id) => {
+	const loadWeapon = async (e, id) => {
+		e.preventDefault();
 		router.push(`/api/read/${id}`, { scroll: false });
 	};
 	return (
@@ -17,7 +18,11 @@ const Single = ({ object = {}, router }) => {
 							{object.type} | {object.caliber} | SN: {object.serialNumber}
 						</small>
 					</div>
-					<p className="mb-0" onClick={() => loadWeapon(object._id)}>
+					<p
+						className="mb-0"
+						onClick={(e) => loadWeapon(e, object._id)}
+						style={{ cursor: "pointer" }}
+					>
 						<span className="badge rounded-pill text-bg-light me-2">View</span>
 					</p>
 				</div>

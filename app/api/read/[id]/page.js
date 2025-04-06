@@ -121,12 +121,12 @@ const ApiReadSingle = ({}) => {
 				router.push(`/api/read`, { scroll: false });
 			}
 		};
-		if (!checkEmptyObject(searchParams)) {
+		if (!checkEmptyObject(params)) {
 			setLoading(true);
-			fetchWeapon(searchParams._id);
+			fetchWeapon(params.id);
 		}
 		return () => abortController.abort();
-	}, [router, searchParams]);
+	}, [router, params]);
 
 	console.log("authenticated user", auth);
 	console.log("This is the api token", apitoken);
