@@ -16,13 +16,12 @@ const ApiReadSingle = ({}) => {
 	const params = useParams();
 	const searchParams = useSearchParams();
 	const cookies = useCookies();
-
+	const apitoken = cookies.get("armed_code_sk");
 	console.log("apitoken", apitoken);
 	console.log("params", params);
 	console.log("searchParams", searchParams);
 	console.log("router", router);
 	const [auth, setAuth] = useState({});
-	const apitoken = cookies.get("armed_code_sk");
 	const [settings, setSettings] = useState({});
 	const [weapon, setWeapon] = useState({});
 	const [weapons, setWeapons] = useState([]);
@@ -31,102 +30,102 @@ const ApiReadSingle = ({}) => {
 	const [loading, setLoading] = useState(true);
 	const [loadingWeapons, setLoadingWeapons] = useState(true);
 
-	// // Fetch authenticated user
-	// useEffect(() => {
-	// 	const abortController = new AbortController();
-	// 	const fetchAuthenticatedUser = async () => {
-	// 		const res = await fetchurl(
-	// 			`/auth/me`,
-	// 			"GET",
-	// 			"default",
-	// 			{},
-	// 			abortController.signal,
-	// 			false,
-	// 			false
-	// 		);
-	// 		if (res?.data) {
-	// 			setAuth(res.data);
-	// 			setLoadingAuth(false);
-	// 		}
-	// 	};
-	// 	fetchAuthenticatedUser();
-	// 	return () => abortController.abort();
-	// }, []);
+	// Fetch authenticated user
+	useEffect(() => {
+		const abortController = new AbortController();
+		const fetchAuthenticatedUser = async () => {
+			const res = await fetchurl(
+				`/auth/me`,
+				"GET",
+				"default",
+				{},
+				abortController.signal,
+				false,
+				false
+			);
+			if (res?.data) {
+				setAuth(res.data);
+				setLoadingAuth(false);
+			}
+		};
+		fetchAuthenticatedUser();
+		return () => abortController.abort();
+	}, []);
 
-	// // Fetch settings
-	// useEffect(() => {
-	// 	const abortController = new AbortController();
-	// 	const fetchSettings = async () => {
-	// 		const res = await fetchurl(
-	// 			`/settings/${process.env.NEXT_PUBLIC_SETTINGS_ID}`,
-	// 			"GET",
-	// 			"default",
-	// 			{},
-	// 			abortController.signal,
-	// 			false,
-	// 			false
-	// 		);
-	// 		if (res?.data) {
-	// 			setSettings(res.data);
-	// 			setLoadingSettings(false);
-	// 		}
-	// 	};
-	// 	fetchSettings();
-	// 	return () => abortController.abort();
-	// }, []);
+	// Fetch settings
+	useEffect(() => {
+		const abortController = new AbortController();
+		const fetchSettings = async () => {
+			const res = await fetchurl(
+				`/settings/${process.env.NEXT_PUBLIC_SETTINGS_ID}`,
+				"GET",
+				"default",
+				{},
+				abortController.signal,
+				false,
+				false
+			);
+			if (res?.data) {
+				setSettings(res.data);
+				setLoadingSettings(false);
+			}
+		};
+		fetchSettings();
+		return () => abortController.abort();
+	}, []);
 
-	// // Fetch all weapons
-	// useEffect(() => {
-	// 	const abortController = new AbortController();
-	// 	const fetchWeapons = async (params) => {
-	// 		const res = await fetchurl(
-	// 			`/weapons${params}`,
-	// 			"GET",
-	// 			"default",
-	// 			{},
-	// 			abortController.signal,
-	// 			false,
-	// 			false
-	// 		);
-	// 		if (res?.data) {
-	// 			checkEmptyObject(searchParams) && setWeapon(res.data[0]); // Display the most recent weapon
-	// 			setWeapons(res.data); // Then set the rest of them
-	// 			setLoading(false);
-	// 			setLoadingWeapons(false);
-	// 		}
-	// 	};
-	// 	fetchWeapons(
-	// 		`?page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
-	// 	);
-	// 	return () => abortController.abort();
-	// }, [searchParams]);
+	// Fetch all weapons
+	useEffect(() => {
+		const abortController = new AbortController();
+		const fetchWeapons = async (params) => {
+			const res = await fetchurl(
+				`/weapons${params}`,
+				"GET",
+				"default",
+				{},
+				abortController.signal,
+				false,
+				false
+			);
+			if (res?.data) {
+				checkEmptyObject(searchParams) && setWeapon(res.data[0]); // Display the most recent weapon
+				setWeapons(res.data); // Then set the rest of them
+				setLoading(false);
+				setLoadingWeapons(false);
+			}
+		};
+		fetchWeapons(
+			`?page=1&limit=5&sort=-createdAt&status=published&decrypt=true`
+		);
+		return () => abortController.abort();
+	}, [searchParams]);
 
-	// // Fetch single weapon
-	// useEffect(() => {
-	// 	const abortController = new AbortController();
-	// 	const fetchWeapon = async (id) => {
-	// 		const res = await fetchurl(
-	// 			`/weapons/${id}`,
-	// 			"GET",
-	// 			"default",
-	// 			{},
-	// 			abortController.signal,
-	// 			false,
-	// 			false
-	// 		);
-	// 		if (res?.data) {
-	// 			setWeapon(res.data);
-	// 			setLoading(false);
-	// 		} else {
-	// 			router.push(`/api/read`, { scroll: false });
-	// 		}
-	// 	};
-	// 	if (!checkEmptyObject(searchParams)) {
-	// 		setLoading(true);
-	// 		fetchWeapon(searchParams._id);
-	// 	}
-	// 	return () => abortController.abort();
-	// }, [router, searchParams]);
+	// Fetch single weapon
+	useEffect(() => {
+		const abortController = new AbortController();
+		const fetchWeapon = async (id) => {
+			const res = await fetchurl(
+				`/weapons/${id}`,
+				"GET",
+				"default",
+				{},
+				abortController.signal,
+				false,
+				false
+			);
+			if (res?.data) {
+				setWeapon(res.data);
+				setLoading(false);
+			} else {
+				router.push(`/api/read`, { scroll: false });
+			}
+		};
+		if (!checkEmptyObject(searchParams)) {
+			setLoading(true);
+			fetchWeapon(searchParams._id);
+		}
+		return () => abortController.abort();
+	}, [router, searchParams]);
 
 	const loadWeapon = async (id) => {
 		router.push(`/api/read/${id}`, { scroll: false });
@@ -153,7 +152,7 @@ const ApiReadSingle = ({}) => {
 					<div className="card-body">
 						<div className="row">
 							<div className="col-lg-6">
-								{/* <div className="bg-dark p-4 mb-3 rounded">
+								<div className="bg-dark p-4 mb-3 rounded">
 									<p>Your Weapons Collection</p>
 									{loadingWeapons ? (
 										<p>Loading...</p>
@@ -164,9 +163,9 @@ const ApiReadSingle = ({}) => {
 											searchParams={searchParams}
 										/>
 									)}
-								</div> */}
-								{/* {weapon.data?.status === "published" ||
-								awtdSearchParams.isAdmin === "true" ? (
+								</div>
+								{/* {weapon.status === "published" ||
+								searchParams.isAdmin === "true" ? (
 									<div className="bg-dark p-4 mb-3 rounded">
 										<p>Selected Weapon Details</p>
 										<div className="card border border-1 my-border-color bg-black text-bg-dark mb-3">
