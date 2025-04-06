@@ -128,9 +128,6 @@ const ApiReadSingle = ({}) => {
 		return () => abortController.abort();
 	}, [router, params]);
 
-	console.log("authenticated user", auth);
-	console.log("This is the api token", apitoken);
-	console.log("settings", settings);
 	console.log("weapon", weapon);
 	console.log("weapons", weapons);
 
@@ -162,8 +159,9 @@ const ApiReadSingle = ({}) => {
 										/>
 									)}
 								</div>
-								{/* {weapon.status === "published" ||
-								searchParams.isAdmin === "true" ? (
+								{loading ? (
+									<p>Loading...</p>
+								) : (
 									<div className="bg-dark p-4 mb-3 rounded">
 										<p>Selected Weapon Details</p>
 										<div className="card border border-1 my-border-color bg-black text-bg-dark mb-3">
@@ -171,33 +169,29 @@ const ApiReadSingle = ({}) => {
 												<div>
 													<small className="text-secondary">Manufacturer</small>
 													<p className="mb-1">
-														{weapon.data?.manufacturer || "No manufacturer"}
+														{weapon?.manufacturer || "No manufacturer"}
 													</p>
 													<small className="text-secondary">Type</small>
-													<p className="mb-1">
-														{weapon.data?.type || "No type"}
-													</p>
+													<p className="mb-1">{weapon?.type || "No type"}</p>
 													<small className="text-secondary">
 														Serial Number
 													</small>
 													<p className="mb-1">
-														{weapon.data?.serialNumber || "No serial number"}
+														{weapon?.serialNumber || "No serial number"}
 													</p>
 												</div>
 												<div>
 													<small className="text-secondary">Model</small>
-													<p className="mb-0">
-														{weapon.data?.title || "No model"}
-													</p>
+													<p className="mb-0">{weapon?.title || "No model"}</p>
 													<small className="text-secondary">Caliber</small>
 													<p className="mb-0">
-														{weapon.data?.caliber || "No caliber"}
+														{weapon?.caliber || "No caliber"}
 													</p>
 													<small className="text-secondary">
 														NFA Classification
 													</small>
 													<p className="mb-0">
-														{weapon.data?.nfaClassification ||
+														{weapon?.nfaClassification ||
 															"No NFA classification"}
 													</p>
 												</div>
@@ -205,17 +199,13 @@ const ApiReadSingle = ({}) => {
 											<div className="card-body">
 												<small className="text-secondary">Notes</small>
 												<ParseHtml
-													text={weapon.data?.text || "No text"}
+													text={weapon?.text || "No text"}
 													parseAs="p"
 												/>
 											</div>
 										</div>
 									</div>
-								) : (
-									<div className="alert alert-secondary">
-										Secret token required
-									</div>
-								)} */}
+								)}
 							</div>
 							<div className="col-lg-6">
 								<p>API Reference</p>
