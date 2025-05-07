@@ -3,12 +3,12 @@ import List from "@/components/review/list";
 import ErrorPage from "@/layout/errorpage";
 
 async function getSetting(params) {
-	const res = await fetchurl(`/settings/${params}`, "GET", "default");
+	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
 	return res;
 }
 
 async function getReviews(params) {
-	const res = await fetchurl(`/comments${params}`, "GET", "no-cache");
+	const res = await fetchurl(`/global/comments${params}`, "GET", "no-cache");
 	return res;
 }
 

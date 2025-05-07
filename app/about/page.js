@@ -8,12 +8,12 @@ import ErrorPage from "@/layout/errorpage";
 import Loading from "@/app/about/loading";
 
 async function getSetting(params) {
-	const res = await fetchurl(`/settings/${params}`, "GET", "default");
+	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
 	return res;
 }
 
 async function getPage(params) {
-	const res = await fetchurl(`/pages${params}`, "GET", "no-cache");
+	const res = await fetchurl(`/global/pages${params}`, "GET", "no-cache");
 	if (!res.success) notFound();
 	return res;
 }

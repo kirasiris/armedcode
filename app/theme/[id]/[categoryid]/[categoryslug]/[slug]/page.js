@@ -12,12 +12,12 @@ import NotVisiblePage from "@/layout/notvisiblepage";
 import Head from "@/app/head";
 
 async function getSetting(params) {
-	const res = await fetchurl(`/settings/${params}`, "GET", "default");
+	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
 	return res;
 }
 
 async function getTheme(params) {
-	const res = await fetchurl(`/themes${params}`, "GET", "no-cache");
+	const res = await fetchurl(`/global/themes${params}`, "GET", "no-cache");
 	if (!res.success) notFound();
 	return res;
 }

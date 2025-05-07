@@ -7,7 +7,7 @@ import Footer from "@/layout/footer";
 import { fetchurl } from "@/helpers/fetchurl";
 
 async function getSetting(params) {
-	const res = await fetchurl(`/settings/${params}`, "GET", "default");
+	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
 	return res;
 }
 

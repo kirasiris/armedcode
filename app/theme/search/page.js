@@ -3,23 +3,23 @@ import List from "@/components/theme/list";
 import ErrorPage from "@/layout/errorpage";
 
 async function getSetting(params) {
-	const res = await fetchurl(`/settings/${params}`, "GET", "default");
+	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
 	return res;
 }
 
 async function getFeaturedTheme(params) {
-	const res = await fetchurl(`/themes${params}`, "GET", "no-cache");
+	const res = await fetchurl(`/global/themes${params}`, "GET", "no-cache");
 	return res;
 }
 
 async function getThemes(params) {
-	const res = await fetchurl(`/themes${params}`, "GET", "no-cache");
+	const res = await fetchurl(`/global/themes${params}`, "GET", "no-cache");
 
 	return res;
 }
 
 async function getCategories(params) {
-	const res = await fetchurl(`/categories${params}`, "GET", "no-cache");
+	const res = await fetchurl(`/global/categories${params}`, "GET", "no-cache");
 	return res;
 }
 

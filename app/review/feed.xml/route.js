@@ -3,7 +3,7 @@ import { fetchurl } from "@/helpers/fetchurl";
 
 export async function GET() {
 	const allThemes = await fetchurl(
-		`/comments?limit=10&postType=review&status=published`,
+		`/global/comments?limit=10&postType=review&status=published`,
 		"GET",
 		"no-cache"
 	);

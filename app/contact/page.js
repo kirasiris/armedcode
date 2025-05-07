@@ -5,7 +5,7 @@ import ContactForm from "@/components/forms/pages/contact/contactform";
 import Loading from "@/app/contact/loading";
 
 async function getSetting(params) {
-	const res = await fetchurl(`/settings/${params}`, "GET", "default");
+	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
 	return res;
 }
 

@@ -2,7 +2,7 @@ import { fetchurl } from "@/helpers/fetchurl";
 
 const Sitemap = async () => {
 	const allReviews = await fetchurl(
-		`/comments?limit=10&postType=review&status=published`,
+		`/global/comments?limit=10&postType=review&status=published`,
 		"GET",
 		"no-cache"
 	);
