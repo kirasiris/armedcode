@@ -1,10 +1,10 @@
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import { fetchurl } from "@/helpers/fetchurl";
 import Head from "@/app/head";
 import ErrorPage from "@/layout/errorpage";
 import Services from "@/components/services";
 import ContactForm from "@/components/forms/pages/contact/contactform";
-import { redirect } from "next/navigation";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
@@ -113,7 +113,7 @@ const Home = async ({ params, searchParams }) => {
 									Fill out the form below and we&apos;ll get back to you
 									shortly.
 								</p>
-								<ContactForm />
+								<ContactForm postType="service" />
 							</div>
 						</div>
 						<div className="col-lg-6 mb-3">

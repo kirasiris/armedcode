@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { fetchurl } from "@/helpers/fetchurl";
 
-const ContactForm = () => {
+const ContactForm = ({ postType = "contact" }) => {
 	const router = useRouter();
 
 	const [rawFormData, setRawFormData] = useState({
@@ -19,9 +19,9 @@ const ContactForm = () => {
 	const createContact = async (e) => {
 		e.preventDefault();
 		setBtnText(`Processing...`);
-		const res = await fetchurl(`/emails`, "POST", "no-cache", {
+		const res = await fetchurl(`/global/emails`, "POST", "no-cache", {
 			...rawFormData,
-			website: process.env.NEXT_PUBLIC_NO_REPLY_EMAIL, // Needed for DB mass email functionality
+			postType: postType,
 		});
 		if (res.status === "error") {
 			toast.error(res.message, "bottom");
@@ -87,7 +87,8 @@ const ContactForm = () => {
 				placeholder="john@doe.com"
 			/>
 			<label htmlFor="subject" className="form-label">
-				Service Interested In
+				{postType === "contact" && "Subject"}
+				{postType === "service" && "Service Interested In"}
 			</label>
 			<select
 				id="subject"
@@ -103,8 +104,20 @@ const ContactForm = () => {
 				required
 			>
 				<option value="none">Choose an option</option>
-				<option value="nfa-transfer">NFA Transfers</option>
-				<option value="software-development">Software Development</option>
+				{postType === "contact" && (
+					<>
+						<option value="suggestion">Suggestion</option>
+						<option value="bug">Bug</option>
+						<option value="review">Review</option>
+						<option value="greetings">Greetings</option>
+					</>
+				)}
+				{postType === "service" && (
+					<>
+						<option value="nfa-transfer">NFA Transfers</option>
+						<option value="software-development">Software Development</option>
+					</>
+				)}
 			</select>
 			<label htmlFor="text" className="form-label">
 				Message

@@ -29,7 +29,7 @@ const ContactIndex = async () => {
 									Fill out the form below and we&apos;ll get back to you
 									shortly.
 								</p>
-								<ContactForm />
+								<ContactForm postType="contact" />
 							</div>
 						</div>
 						<div className="col-lg-6 mb-3">
