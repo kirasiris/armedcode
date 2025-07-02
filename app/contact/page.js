@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { fetchurl } from "@/helpers/fetchurl";
 import ErrorPage from "@/layout/errorpage";
-import ContactForm from "@/components/forms/pages/contact/contactform";
+import ContactEmailForm from "@/forms/contact/contactemailform";
 import Loading from "@/app/contact/loading";
 
 async function getSetting(params) {
@@ -29,7 +29,7 @@ const ContactIndex = async () => {
 									Fill out the form below and we&apos;ll get back to you
 									shortly.
 								</p>
-								<ContactForm postType="contact" />
+								<ContactEmailForm />
 							</div>
 						</div>
 						<div className="col-lg-6 mb-3">

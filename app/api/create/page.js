@@ -1,4 +1,4 @@
-import CreateForm from "@/components/forms/pages/api/createform";
+import CreateForm from "@/forms/api/createform";
 import { fetchurl, getAPITokenOnServer } from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";

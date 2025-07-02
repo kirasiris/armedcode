@@ -4,25 +4,31 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { fetchurl } from "@/helpers/fetchurl";
 
-const ContactForm = ({ postType = "contact" }) => {
+const ContactEmailForm = ({}) => {
 	const router = useRouter();
 
-	const [rawFormData, setRawFormData] = useState({
-		name: ``,
-		email: ``,
-		subject: ``,
-		text: ``,
-	});
 	const [btnText, setBtnText] = useState("Submit");
-	const { name, email, subject, text } = rawFormData;
 
-	const createContact = async (e) => {
+	const createContactEmail = async (e) => {
 		e.preventDefault();
 		setBtnText(`Processing...`);
-		const res = await fetchurl(`/global/emails`, "POST", "no-cache", {
-			...rawFormData,
-			postType: postType,
-		});
+
+		const form = e.target;
+		const formData = new FormData(form);
+
+		const rawFormData = {
+			name: formData.get("name"),
+			email: formData.get("email"),
+			subject: formData.get("subject"),
+			text: formData.get("text"),
+		};
+
+		const res = await fetchurl(
+			`/global/contactemails`,
+			"POST",
+			"no-cache",
+			rawFormData
+		);
 		if (res.status === "error") {
 			toast.error(res.message, "bottom");
 			setBtnText("Submit");
@@ -40,33 +46,22 @@ const ContactForm = ({ postType = "contact" }) => {
 	};
 
 	const resetForm = () => {
-		setRawFormData({
-			name: ``,
-			email: ``,
-			subject: ``,
-			text: ``,
-		});
+		e.target.closest("form").reset();
 	};
 
 	return (
-		<form onSubmit={createContact}>
+		<form onSubmit={createContactEmail}>
 			<label htmlFor="name" className="form-label">
 				Name
 			</label>
 			<input
 				id="name"
 				name="name"
-				value={name}
-				onChange={(e) => {
-					setRawFormData({
-						...rawFormData,
-						name: e.target.value,
-					});
-				}}
 				type="text"
 				className="form-control text-bg-dark mb-3"
 				required
 				placeholder="John Doe"
+				defaultValue=""
 			/>
 			<label htmlFor="email" className="form-label">
 				Email
@@ -74,50 +69,27 @@ const ContactForm = ({ postType = "contact" }) => {
 			<input
 				id="email"
 				name="email"
-				value={email}
-				onChange={(e) => {
-					setRawFormData({
-						...rawFormData,
-						email: e.target.value,
-					});
-				}}
 				type="email"
 				className="form-control text-bg-dark mb-3"
 				required
 				placeholder="john@doe.com"
+				defaultValue=""
 			/>
 			<label htmlFor="subject" className="form-label">
-				{postType === "contact" && "Subject"}
-				{postType === "service" && "Service Interested In"}
+				Subject
 			</label>
 			<select
 				id="subject"
 				name="subject"
-				value={subject}
-				onChange={(e) => {
-					setRawFormData({
-						...rawFormData,
-						subject: e.target.value,
-					});
-				}}
 				className="form-control text-bg-dark mb-3"
 				required
+				defaultValue=""
 			>
 				<option value="none">Choose an option</option>
-				{postType === "contact" && (
-					<>
-						<option value="suggestion">Suggestion</option>
-						<option value="bug">Bug</option>
-						<option value="review">Review</option>
-						<option value="greetings">Greetings</option>
-					</>
-				)}
-				{postType === "service" && (
-					<>
-						<option value="nfa-transfer">NFA Transfers</option>
-						<option value="software-development">Software Development</option>
-					</>
-				)}
+				<option value="suggestion">Suggestion</option>
+				<option value="bug">Bug</option>
+				<option value="review">Review</option>
+				<option value="greetings">Greetings</option>
 			</select>
 			<label htmlFor="text" className="form-label">
 				Message
@@ -125,17 +97,11 @@ const ContactForm = ({ postType = "contact" }) => {
 			<textarea
 				id="text"
 				name="text"
-				value={text}
-				onChange={(e) => {
-					setRawFormData({
-						...rawFormData,
-						text: e.target.value,
-					});
-				}}
 				className="form-control text-bg-dark mb-3"
 				required
 				placeholder={`Here goes the message`}
 				rows="3"
+				defaultValue=""
 			/>
 			<button type="submit" className="btn btn-light btn-sm float-start">
 				{btnText}
@@ -151,4 +117,4 @@ const ContactForm = ({ postType = "contact" }) => {
 	);
 };
 
-export default ContactForm;
+export default ContactEmailForm;

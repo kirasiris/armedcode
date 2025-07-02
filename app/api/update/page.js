@@ -1,4 +1,4 @@
-import UpdateForm from "@/components/forms/pages/api/updateform";
+import UpdateForm from "@/forms/api/updateform";
 import { fetchurl, getAPITokenOnServer } from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
