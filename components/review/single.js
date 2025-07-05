@@ -1,9 +1,7 @@
 "use client";
-
-import ParseHtml from "@/layout/parseHtml";
 import { calculateTimeSincePublished } from "befree-utilities";
-import Image from "next/image";
 import { Suspense } from "react";
+import ParseHtml from "@/layout/parseHtml";
 
 const Loading = () => {
 	return <>Loading reviews...</>;

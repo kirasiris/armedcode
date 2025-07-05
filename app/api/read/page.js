@@ -3,15 +3,15 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCookies } from "next-client-cookies";
 import { checkEmptyObject } from "befree-utilities";
+import { toast } from "react-toastify";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import List from "@/components/api/list";
 import JsonResponses from "@/components/global/jsonresponses";
 import { fetchurl } from "@/helpers/fetchurl";
 import Header from "@/layout/api/header";
 import TabMenu from "@/layout/api/tabmenu";
 import ParseHtml from "@/layout/parseHtml";
-import { toast } from "react-toastify";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 const ApiReadSingle = () => {
 	const router = useRouter();
@@ -63,7 +63,7 @@ const ApiReadSingle = () => {
 		const fetchWeapons = async () => {
 			try {
 				const res = await fetchurl(
-					`/weapons?user=${auth._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`,
+					`/protected/weapons?user=${auth._id}&page=1&limit=5&sort=-createdAt&status=published&decrypt=true`,
 					"GET",
 					"default",
 					{},
@@ -99,7 +99,7 @@ const ApiReadSingle = () => {
 			setLoading(true);
 			try {
 				const res = await fetchurl(
-					`/weapons/${searchParams._id}`,
+					`/protected/weapons/${searchParams._id}`,
 					"GET",
 					"default",
 					{},
@@ -218,7 +218,7 @@ const ApiReadSingle = () => {
 										<JsonResponses
 											text={`fetch('${
 												process.env.NEXT_PUBLIC_API_URL
-											}/weapons', {
+											}/protected/weapons', {
   method: "GET",
   headers: {
     'armed_code_sk': ${apitoken || "12345abcdef67890"},
@@ -233,7 +233,7 @@ const ApiReadSingle = () => {
 										<span className="badge rounded-pill text-bg-light me-2">
 											GET
 										</span>
-										/v1/weapons/:id
+										/v1/protected/weapons/:id
 									</h6>
 									<p className="text-secondary">
 										Retrieves a specific weapon by ID.
@@ -242,7 +242,7 @@ const ApiReadSingle = () => {
 										<JsonResponses
 											text={`fetch('${
 												process.env.NEXT_PUBLIC_API_URL
-											}/weapons/${searchParams._id}', {
+											}/protected/weapons/${searchParams._id}', {
   method: "GET",
   headers: {
     'armed_code_sk': ${apitoken || "12345abcdef67890"},

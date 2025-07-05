@@ -286,7 +286,9 @@ const CreateForm = ({ apitoken = "" }) => {
 					</p>
 					<div className="d-flex gap-2">
 						<JsonResponses
-							text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons', {
+							text={`fetch('${
+								process.env.NEXT_PUBLIC_API_URL
+							}/protected/weapons', {
   method: "POST",
   headers: {
     'armed_code_sk': '${apitoken || "12345abcdef67890"}',

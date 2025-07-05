@@ -1,11 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { checkEmptyObject } from "befree-utilities";
+import { useRouter } from "next/navigation";
 import { fetchurl } from "@/helpers/fetchurl";
 import JsonResponses from "@/components/global/jsonresponses";
 import List from "@/components/api/list";
-import { checkEmptyObject } from "befree-utilities";
-import { useRouter } from "next/navigation";
 
 const UpdateForm = ({
 	apitoken = "",
@@ -336,7 +336,9 @@ const UpdateForm = ({
 					<p className="text-secondary">Updates an existing weapon record.</p>
 					<div className="d-flex gap-2">
 						<JsonResponses
-							text={`fetch('${process.env.NEXT_PUBLIC_API_URL}/weapons', {
+							text={`fetch('${
+								process.env.NEXT_PUBLIC_API_URL
+							}/protected/weapons', {
   method: "PUT",
   headers: {
     'armed_code_sk': '${apitoken || "12345abcdef67890"}',

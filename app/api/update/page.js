@@ -15,7 +15,7 @@ async function getSetting(params) {
 }
 
 async function getWeapons(params) {
-	const res = await fetchurl(`/weapons${params}`, "GET", "no-cache");
+	const res = await fetchurl(`/protected/weapons${params}`, "GET", "no-cache");
 	// if (!res.success) notFound();
 	return res;
 }

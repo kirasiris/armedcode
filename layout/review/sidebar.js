@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Link from "next/link";
 import Globalsidebar from "../sidebar";
 import { fetchurl } from "@/helpers/fetchurl";
-import Link from "next/link";
 
 const Sidebar = ({ returtopageurl = "/" }) => {
 	const router = useRouter();
@@ -28,7 +28,7 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 		try {
 			for (let i = 0; i < selectedFiles.length; i++) {
 				const response = await axios.put(
-					`${process.env.NEXT_PUBLIC_API_URL}/uploads/uploadObject`,
+					`${process.env.NEXT_PUBLIC_FILE_UPLOADER_URL}/uploads/uploadobject`,
 					{
 						userId: process.env.NEXT_PUBLIC_ADMIN_ACCOUNT_ID,
 						username: "kirasiris",

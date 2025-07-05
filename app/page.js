@@ -52,10 +52,10 @@ const Home = async ({ params, searchParams }) => {
 						Streamlining your NFA transfers and building powerful software
 						solutions for your business needs.
 					</p>
-					<div className="text-center">
+					{/* <div className="text-center">
 						<a className="btn btn-light me-1">Get Started</a>
 						<a className="btn btn-secondary ms-1">Learn More</a>
-					</div>
+					</div> */}
 				</div>
 			</header>
 			{/* OUR SERVICES */}
@@ -81,10 +81,11 @@ const Home = async ({ params, searchParams }) => {
 						</div>
 						<div className="col-lg-6">
 							<Image
-								src={
-									settings.data.showcase_image ||
-									"https://www.ijwhite.com/wp-content/uploads/2017/05/placeholder-800x400.jpeg"
-								}
+								// src={
+								// 	settings.data.showcase_image ||
+								// 	"https://www.ijwhite.com/wp-content/uploads/2017/05/placeholder-800x400.jpeg"
+								// }
+								src={`https://photos.fife.usercontent.google.com/pw/AP1GczOPHYJS34EloMEmkrXnGgkyT7B8klD3AMB6U5_scK-L_iA8JEHmR2jdtQ=w3437-h1938-s-no-gm?authuser=1`}
 								width="800"
 								height="400"
 								alt="Business office"

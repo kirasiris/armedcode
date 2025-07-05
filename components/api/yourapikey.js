@@ -1,5 +1,4 @@
 "use client";
-
 import { toast } from "react-toastify";
 
 const YourApiKey = ({ token = {} }) => {

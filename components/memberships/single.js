@@ -1,9 +1,9 @@
 "use client";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
 import { fetchurl, setAPITokenOnServer } from "@/helpers/fetchurl";
 import ParseHtml from "@/layout/parseHtml";
-import { redirect, useRouter } from "next/navigation";
 
 const Single = ({ auth = {}, object = {} }) => {
 	const router = useRouter();
@@ -27,7 +27,7 @@ const Single = ({ auth = {}, object = {} }) => {
 			if (!auth?.data?._id || !object?._id) return;
 
 			const res = await fetchurl(
-				`/subscribers?user=${auth.data._id}&resourceId=${object._id}&onModel=Membership&isPaid=true&limit=1`,
+				`/global/subscribers?user=${auth.data._id}&resourceId=${object._id}&onModel=Membership&isPaid=true&limit=1`,
 				"GET",
 				"no-cache"
 			);

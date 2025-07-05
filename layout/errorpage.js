@@ -38,16 +38,9 @@ const ErrorPage = ({ statusCode, statusCodeMessage = "" }) => {
 										pathname: `/`,
 										query: {},
 									}}
-									passHref
-									legacyBehavior
+									className="btn btn-secondary btn-sm"
 								>
-									<a
-										style={{ marginTop: "10px" }}
-										className="btn btn-secondary btn-sm"
-									>
-										<span className="glyphicon glyphicon-home"></span>Take Me
-										Home
-									</a>
+									Take Me Home
 								</Link>
 							</div>
 						</div>

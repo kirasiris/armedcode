@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -19,56 +18,51 @@ const TabMenu = () => {
 					pathname: `/api`,
 					query: {},
 				}}
-				passHref
-				legacyBehavior
+				className={`my-nav-links text-bg-dark me-1 nav-link ${isActive(
+					`/api`
+				)}`}
 			>
-				<a
-					className={`my-nav-links text-bg-dark me-1 nav-link ${isActive(
-						`/api`
-					)}`}
-				>
-					Overview
-				</a>
+				Overview
 			</Link>
 			<Link
 				href={{
 					pathname: `/api/create`,
 					query: {},
 				}}
-				passHref
-				legacyBehavior
+				className={`my-nav-links text-bg-dark me-1 nav-link ${isActive(
+					`/api/create`
+				)}`}
 			>
-				<a
-					className={`my-nav-links text-bg-dark me-1 nav-link ${isActive(
-						`/api/create`
-					)}`}
-				>
-					Create
-				</a>
+				Create
 			</Link>
 			<Link
 				href={{
 					pathname: `/api/read`,
 					query: {},
 				}}
-				passHref
-				legacyBehavior
+				className={`my-nav-links text-bg-dark me-1 nav-link ${isActive(
+					`/api/read`
+				)}`}
 			>
-				<a
-					className={`my-nav-links text-bg-dark me-1 nav-link ${isActive(
-						`/api/read`
-					)}`}
-				>
-					Read
-				</a>
+				Read
 			</Link>
 			<Link
 				href={{
 					pathname: `/api/update`,
 					query: {},
 				}}
+				className={`my-nav-links text-bg-dark me-1 nav-link ${isActive(
+					`/api/update`
+				)}`}
+			>
+				Update
+			</Link>
+			{/* <Link
+				href={{
+					pathname: `/api/update`,
+					query: {},
+				}}
 				passHref
-				legacyBehavior
 			>
 				<a
 					className={`my-nav-links text-bg-dark me-1 nav-link ${isActive(
@@ -77,7 +71,7 @@ const TabMenu = () => {
 				>
 					Update
 				</a>
-			</Link>
+			</Link> */}
 		</div>
 	);
 };

@@ -2,14 +2,11 @@
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import Link from "next/link";
-import Image from "next/image";
 
 const Footer = ({
-	auth = {},
 	classList = "",
 	styleList = {},
 	canonical = process.env.NEXT_PUBLIC_WEBSITE_URL,
-	menus = [],
 }) => {
 	return (
 		<footer
@@ -55,12 +52,9 @@ const Footer = ({
 								pathname: `${canonical}/privacy-policy`,
 								query: {},
 							}}
-							passHref
-							legacyBehavior
+							className="text-secondary text-decoration-underline"
 						>
-							<a className="text-secondary text-decoration-underline">
-								Privacy Policy
-							</a>
+							Privacy Policy
 						</Link>
 					</li>
 					<li>
@@ -69,12 +63,9 @@ const Footer = ({
 								pathname: `${canonical}/terms-of-service`,
 								query: {},
 							}}
-							passHref
-							legacyBehavior
+							className="text-secondary text-decoration-underline"
 						>
-							<a className="text-secondary text-decoration-underline">
-								Terms of Service
-							</a>
+							Terms of Service
 						</Link>
 					</li>
 				</ul>

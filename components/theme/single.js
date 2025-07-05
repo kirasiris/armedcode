@@ -1,3 +1,4 @@
+"use client";
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +13,6 @@ const Single = ({ object = {} }) => {
 						pathname: `/theme/${object?._id}/${object?.category?._id}/${object?.category?.slug}/${object?.slug}`,
 					}}
 					passHref
-					legacyBehavior
 				>
 					<Image
 						src={
