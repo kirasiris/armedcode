@@ -80,6 +80,17 @@ const Menu = ({
 						<li className="nav-item">
 							<Link
 								href={{
+									pathname: `${canonical}/blog`,
+									query: {},
+								}}
+								className={`nav-link ${isActive(`${canonical}/blog`)}`}
+							>
+								Blog
+							</Link>
+						</li>
+						<li className="nav-item">
+							<Link
+								href={{
 									pathname: `${canonical}/theme`,
 									query: {},
 								}}

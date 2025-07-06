@@ -12,7 +12,7 @@ const Sidebar = ({ object = {} }) => {
 						object?.data?.files?.avatar?.location?.secure_location ||
 						`https://source.unsplash.com/random/1200x900`
 					}
-					alt={`${object?.data?.avatar?.location?.fileName}'s featured image`}
+					alt={`${object?.data?.title}'s featured image`}
 					width={1200}
 					height={900}
 					priority
