@@ -70,7 +70,12 @@ const UpdateForm = ({
 	const upgradeWeapon = async (e) => {
 		e.preventDefault();
 		setBtnText(`Processing...`);
-		const res = await fetchurl(`/weapons`, "PUT", "no-cache", rawFormData);
+		const res = await fetchurl(
+			`/protected/weapons`,
+			"PUT",
+			"no-cache",
+			rawFormData
+		);
 		if (res.status === "error") {
 			toast.error(res.message, "bottom");
 			setBtnText("Submit");

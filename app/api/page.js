@@ -227,7 +227,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 										<JsonResponses
 											text={`fetch('${
 												process.env.NEXT_PUBLIC_API_URL
-											}/weapons', {
+											}/protected/weapons', {
   method: "GET" || "POST" || "PUT",
   headers: {
     'armed_code_sk': '${apitoken?.value || "12345abcdef67890"}',

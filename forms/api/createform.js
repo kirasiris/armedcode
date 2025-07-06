@@ -57,7 +57,12 @@ const CreateForm = ({ apitoken = "" }) => {
 	const createWeapon = async (e) => {
 		e.preventDefault();
 		setBtnText(`Processing...`);
-		const res = await fetchurl(`/weapons`, "POST", "no-cache", rawFormData);
+		const res = await fetchurl(
+			`/protected/weapons`,
+			"POST",
+			"no-cache",
+			rawFormData
+		);
 		if (res.status === "error") {
 			toast.error(res.message, "bottom");
 			setBtnText("Submit");
