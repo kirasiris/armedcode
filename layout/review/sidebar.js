@@ -81,7 +81,7 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 	const createReview = async (e) => {
 		e.preventDefault();
 		setBtnText("Processing...");
-		const res = await fetchurl(`/comments`, "POST", "no-cache", {
+		const res = await fetchurl(`/global/comments`, "POST", "no-cache", {
 			...reviewData,
 			user: undefined,
 			onModel: undefined,
