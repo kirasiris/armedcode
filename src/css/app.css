@@ -126,3 +126,8 @@ TABS
 	margin: 5vh auto 5vh;
 	text-align: center;
 }
+
+.review-images:hover {
+	transform: scale(1.05);
+	transition: transform 0.3s ease;
+}
