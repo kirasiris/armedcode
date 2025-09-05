@@ -5,7 +5,13 @@ import NothingFoundAlert from "@/layout/nothingfoundalert";
 import Globalcontent from "@/layout/content";
 import Sidebar from "@/layout/review/sidebar";
 
-const List = ({ objects = [], searchParams = {}, returtopageurl = "/" }) => {
+const List = ({
+	auth = {},
+	token = null,
+	objects = [],
+	searchParams = {},
+	returtopageurl = "/",
+}) => {
 	return (
 		<section className="bg-black py-5 text-bg-dark">
 			<div className="container">
@@ -29,7 +35,12 @@ const List = ({ objects = [], searchParams = {}, returtopageurl = "/" }) => {
 							<NothingFoundAlert />
 						)}
 					</Globalcontent>
-					<Sidebar objects={objects} returtopageurl={returtopageurl} />
+					<Sidebar
+						auth={auth}
+						token={token}
+						objects={objects}
+						returtopageurl={returtopageurl}
+					/>
 				</div>
 			</div>
 		</section>

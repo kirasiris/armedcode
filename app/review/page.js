@@ -1,6 +1,11 @@
-import { fetchurl } from "@/helpers/fetchurl";
+import { fetchurl, getAPITokenOnServer } from "@/helpers/fetchurl";
 import List from "@/components/review/list";
 import ErrorPage from "@/layout/errorpage";
+
+async function getAuthenticatedUser() {
+	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
+	return res;
+}
 
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
@@ -14,6 +19,9 @@ async function getReviews(params) {
 
 const ReviewIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
+
+	const auth = await getAuthenticatedUser();
+	const token = await getAPITokenOnServer();
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
@@ -34,6 +42,8 @@ const ReviewIndex = async ({ params, searchParams }) => {
 
 	return settings?.data?.maintenance === false ? (
 		<List
+			auth={auth}
+			token={token}
 			objects={reviews}
 			searchParams={awtdSearchParams}
 			returtopageurl="/review"

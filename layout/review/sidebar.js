@@ -2,16 +2,16 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import axios from "axios";
 import Link from "next/link";
 import Globalsidebar from "../sidebar";
 import { fetchurl } from "@/helpers/fetchurl";
+import UseDropzone from "@/components/global/usedropzone";
 
-const Sidebar = ({ returtopageurl = "/" }) => {
+const Sidebar = ({ auth = {}, token = null, returtopageurl = "/" }) => {
 	const router = useRouter();
 
 	const [reviewData, setReviewData] = useState({
-		rating: 0,
+		rating: 1,
 		title: ``,
 		text: ``,
 		name: ``,
@@ -21,62 +21,9 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 		uploadedFileData: [], // Store data from secondary API
 	});
 	const [btnText, setBtnText] = useState("Submit");
-	const { rating, title, text, name, email, website } = reviewData;
 
-	// Function to handle file upload to secondary API
-	const handleFileUpload = async (selectedFiles) => {
-		try {
-			for (let i = 0; i < selectedFiles.length; i++) {
-				const response = await axios.put(
-					`${process.env.NEXT_PUBLIC_FILE_UPLOADER_URL}/uploads/uploadobject`,
-					{
-						userId: process.env.NEXT_PUBLIC_ADMIN_ACCOUNT_ID,
-						username: "kirasiris",
-						userEmail: "from.reviews@armedcodellc.com",
-						onModel: undefined,
-						file: selectedFiles[i],
-					},
-					{
-						headers: {
-							"Content-Type": "multipart/form-data",
-						},
-					}
-				);
-
-				console.log("response from files uploaded", response);
-				if (response.success) {
-					setReviewData((prevState) => ({
-						...prevState,
-						uploadedFileData: response.data, // Store the retrieved data
-					}));
-				} else {
-					toast.error("File upload failed");
-				}
-			}
-		} catch (error) {
-			console.error("Error uploading files:", error);
-			toast.error("Error uploading files");
-		}
-	};
-
-	// Handle file input change
-	const handleFileChange = (e) => {
-		const selectedFiles = e.target.files;
-		const invalidFiles = Array.from(selectedFiles).filter((file) =>
-			/\s/.test(file.name)
-		);
-
-		if (invalidFiles.length > 0) {
-			toast.error(
-				"File names cannot contain spaces. Please rename your files."
-			);
-			e.target.value = ""; // Reset input to prevent invalid files from being uploaded
-			return;
-		}
-
-		setReviewData({ ...reviewData, files: selectedFiles });
-		handleFileUpload(selectedFiles); // Upload files immediately
-	};
+	const { rating, title, text, name, email, website, files, uploadedFileData } =
+		reviewData;
 
 	const createReview = async (e) => {
 		e.preventDefault();
@@ -103,12 +50,14 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 
 	const resetForm = () => {
 		setReviewData({
-			rating: 0,
+			rating: 1,
 			title: ``,
 			text: ``,
 			name: ``,
 			email: ``,
 			website: ``,
+			files: [],
+			uploadedFileData: [], // Store data from secondary API
 		});
 	};
 
@@ -424,17 +373,45 @@ const Sidebar = ({ returtopageurl = "/" }) => {
 							className="form-control text-bg-dark mb-3"
 							placeholder="Website"
 						/>
-						{/* <label htmlFor="files" className="form-label">
+						<label htmlFor="files" className="form-label">
 							Add Photos or Videos (Optional)
 						</label>
-						<input
-							id={`files`}
-							name={`files`}
-							type="file"
-							className="form-control text-bg-dark mb-3"
-							multiple
-							onChange={handleFileChange}
-						/> */}
+						<UseDropzone
+							auth={auth}
+							token={token}
+							id="review-dropzone"
+							name="review-dropzone"
+							multipleFiles={true}
+							onModel="Comment"
+							objectData={reviewData}
+							setObjectData={setReviewData}
+						/>
+						{console.log("reviewData", reviewData)}
+						{/* {mediaPreviewUrls.length > 0 && (
+							<div className="mb-3">
+								<div className="row g-3 mb-3">
+									{mediaPreviewUrls.map((url, index) => (
+										<div key={index} className="col-12 col-md-6">
+											<div
+												className="position-relative border rounded overflow-hidden bg-secondary"
+												style={{ aspectRatio: "16/9" }}
+											>
+												<img
+													src={
+														uploadedFiles[index]?.location?.secure_location ||
+														mediaPreviewUrls[index] ||
+														"/placeholder.svg"
+													}
+													alt={`Preview ${index + 1}`}
+													className="w-100 h-100"
+													style={{ objectFit: "cover" }}
+												/>
+											</div>
+										</div>
+									))}
+								</div>
+							</div>
+						)} */}
 						<button type="submit" className="btn btn-light btn-sm float-start">
 							{btnText}
 						</button>
