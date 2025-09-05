@@ -3,7 +3,6 @@ import axios from "axios";
 import { useState } from "react";
 import Dropzone from "react-dropzone";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import UseProgress from "@/components/global/useprogress";
 
 const UseDropzone = ({
@@ -16,7 +15,8 @@ const UseDropzone = ({
 	objectData = {},
 	setObjectData,
 }) => {
-	const router = useRouter();
+	console.log("auth in dropzone", auth);
+	console.log("token in dropzone", token);
 	const [uploadPercentage, setUploadPercentage] = useState(0);
 
 	return (auth?.userId !== "" &&
