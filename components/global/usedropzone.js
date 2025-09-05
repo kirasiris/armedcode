@@ -15,8 +15,6 @@ const UseDropzone = ({
 	objectData = {},
 	setObjectData,
 }) => {
-	console.log("auth in dropzone", auth);
-	console.log("token in dropzone", token);
 	const [uploadPercentage, setUploadPercentage] = useState(0);
 
 	return (auth?.userId !== "" &&
@@ -34,7 +32,7 @@ const UseDropzone = ({
 				// accept={}
 				onDrop={async (acceptedFiles) => {
 					for (let i = 0; i < acceptedFiles.length; i++) {
-						await axios.put(
+						const res = await axios.put(
 							`${process.env.NEXT_PUBLIC_FILE_UPLOADER_URL}/uploads/uploadobject`,
 							{
 								userId: auth?.userId,
@@ -45,7 +43,7 @@ const UseDropzone = ({
 							},
 							{
 								headers: {
-									// Authorization: `Bearer ${token?.value}`,
+									Authorization: `Bearer ${token?.value}`,
 									"Content-Type": "multipart/form-data",
 								},
 								onUploadProgress: (ProgressEvent) => {
@@ -59,7 +57,7 @@ const UseDropzone = ({
 								},
 							}
 						);
-						setObjectData({ ...objectData, files: acceptedFiles[i] });
+						setObjectData({ ...objectData, files: res?.data?.data });
 					}
 					setUploadPercentage(0);
 				}}
