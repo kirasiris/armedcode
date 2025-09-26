@@ -42,7 +42,7 @@ const ContactIndex = async () => {
 									<li>
 										<p className="fw-bold mb-0">Phone</p>
 										<p className="text-secondary mb-0">682-375-9607</p>
-										<p className="text-secondary">Monday-Friday, 9am-6pm</p>
+										<p className="text-secondary">Tuesday-Thursday, 9am-6pm</p>
 									</li>
 									<li>
 										<p className="fw-bold mb-0">Email</p>
@@ -58,15 +58,15 @@ const ContactIndex = async () => {
 									<h4>Business Hours</h4>
 									<ul className="list-unstyled">
 										<li className="d-flex justify-content-between">
-											<span>Friday</span>
-											<span>6:00 PM - 10:00 PM</span>
+											<span>Tuesday</span>
+											<span>9:00 AM - 10:00 PM</span>
 										</li>
 										<li className="d-flex justify-content-between">
-											<span>Saturday</span>
-											<span>9:00 AM - 6:00 PM</span>
+											<span>Wednesday</span>
+											<span>9:00 AM - 10:00 PM</span>
 										</li>
 										<li className="d-flex justify-content-between">
-											<span>Sunday</span>
+											<span>Thursday</span>
 											<span>9:00 AM - 6:00 PM</span>
 										</li>
 									</ul>
