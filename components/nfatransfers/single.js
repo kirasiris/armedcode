@@ -12,13 +12,9 @@ const Single = ({ object = {} }) => {
 					className={`card border border-1 my-border-color bg-black text-bg-dark mb-3`}
 				>
 					<div className="card-header">
-						<div className="small">
-							{formatDateWithoutTime(object?.createdAt)}
-						</div>
-						<Link
-							href={`/blog/${object?._id}/${object?.category?._id}/${object?.category?.slug}/${object?.slug}`}
-						>
-							{object?.title || "Untitled"}
+						<Link href={`/nfatransfers/${object?._id}`}>
+							{object?.manufacturer || "Untitled"}&nbsp;|&nbsp;{object?.title}
+							&nbsp;|&nbsp;{object?.caliber}
 						</Link>
 					</div>
 				</div>

@@ -7,13 +7,12 @@ async function getSetting(params) {
 	return res;
 }
 
-async function getFeaturedTheme(params) {
-	const res = await fetchurl(`/global/themes${params}`, "GET", "no-cache");
-	return res;
-}
-
 async function getThemes(params) {
-	const res = await fetchurl(`/global/themes${params}`, "GET", "no-cache");
+	const res = await fetchurl(
+		`/global/themes${params}&postType=theme&status=published`,
+		"GET",
+		"no-cache"
+	);
 	return res;
 }
 
@@ -33,12 +32,10 @@ const ThemeIndex = async ({ params, searchParams }) => {
 	const sort = awtdSearchParams.sort || "-createdAt";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
 
-	const getFeaturedThemesData = getFeaturedTheme(
-		`?featured=true&postType=theme&status=published${decrypt}`
-	);
+	const getFeaturedThemesData = getThemes(`?featured=true${decrypt}`);
 
 	const getThemesData = getThemes(
-		`?page=${page}&limit=${limit}&sort=${sort}&postType=theme&status=published${decrypt}`
+		`?page=${page}&limit=${limit}&sort=${sort}${decrypt}`
 	);
 
 	const getCategoriesData = getCategories(`?categoryType=theme`);

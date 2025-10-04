@@ -1,8 +1,8 @@
 "use client";
-import { calculateTimeSincePublished } from "befree-utilities";
 import { Suspense, useEffect, useState } from "react";
-import ParseHtml from "@/layout/parseHtml";
 import Image from "next/image";
+import { calculateTimeSincePublished } from "befree-utilities";
+import ParseHtml from "@/layout/parseHtml";
 
 const Loading = () => {
 	return <>Loading reviews...</>;
@@ -71,7 +71,7 @@ const Single = ({ object = {} }) => {
 						</p>
 					</div>
 					<div className="card-body">
-						<ParseHtml text={object?.text} parseAs="p" classList="mb-0" />
+						<ParseHtml text={object?.text} classList="mb-0" parseAs="p" />
 						{object?.files?.length > 0 && (
 							<div className="row g-2 mt-3">
 								{object.files.map((file, index) => (

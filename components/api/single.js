@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import ParseHtml from "@/layout/parseHtml";
 
 const Single = ({ object = {}, router }) => {

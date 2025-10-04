@@ -3,18 +3,21 @@ import Single from "./single";
 import NumericPagination from "@/layout/numericpagination";
 import NothingFoundAlert from "@/layout/nothingfoundalert";
 import Globalcontent from "@/layout/content";
+import Sidebar from "@/layout/store/sidebar";
 
-const List = ({ objects = [], searchParams = {} }) => {
+const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
 	return (
 		<div className="bg-black py-5 text-bg-dark">
 			<div className="container">
 				<div className="row">
-					<Globalcontent classList="col-lg-12">
+					<Globalcontent classList="col-lg-8">
 						{objects?.data?.length > 0 ? (
 							<>
-								{objects.data?.map((blog) => (
-									<Single key={blog._id} object={blog} />
-								))}
+								<div className="row">
+									{objects.data?.map((blog) => (
+										<Single key={blog._id} object={blog} />
+									))}
+								</div>
 								<NumericPagination
 									totalPages={
 										objects?.pagination?.totalpages ||
@@ -25,9 +28,12 @@ const List = ({ objects = [], searchParams = {} }) => {
 								/>
 							</>
 						) : (
-							<NothingFoundAlert />
+							<NothingFoundAlert
+								text={`Nothing found with ${searchedKeyword}`}
+							/>
 						)}
 					</Globalcontent>
+					<Sidebar />
 				</div>
 			</div>
 		</div>

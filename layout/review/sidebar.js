@@ -386,7 +386,7 @@ const Sidebar = ({ auth = {}, token = null, returtopageurl = "/" }) => {
 							objectData={reviewData}
 							setObjectData={setReviewData}
 						/>
-						{console.log("reviewData", reviewData)}
+
 						{/* {mediaPreviewUrls.length > 0 && (
 							<div className="mb-3">
 								<div className="row g-3 mb-3">

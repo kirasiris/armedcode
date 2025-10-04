@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { ToastContainer } from "react-toastify";
 import Link from "next/link";
 
@@ -46,6 +45,39 @@ const Footer = ({
 					© 2025 {process.env.NEXT_PUBLIC_WEBSITE_NAME}. All rights reserved.
 				</p>
 				<ul className="list-unstyled d-flex">
+					{/* <li className="me-3">
+						<Link
+							href={{
+								pathname: `${canonical}/job`,
+								query: {},
+							}}
+							className="text-secondary text-decoration-underline"
+						>
+							Jobs
+						</Link>
+					</li>
+					<li className="me-3">
+						<Link
+							href={{
+								pathname: `${canonical}/store`,
+								query: {},
+							}}
+							className="text-secondary text-decoration-underline"
+						>
+							Store
+						</Link>
+					</li>
+					<li className="me-3">
+						<Link
+							href={{
+								pathname: `${canonical}/realstate`,
+								query: {},
+							}}
+							className="text-secondary text-decoration-underline"
+						>
+							Real State
+						</Link>
+					</li> */}
 					<li className="me-3">
 						<Link
 							href={{

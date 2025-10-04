@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 
 const NotVisiblePage = () => {
 	return <div className="alert alert-dark m-0">This page is not visible</div>;

@@ -1,5 +1,5 @@
 import { fetchurl } from "@/helpers/fetchurl";
-import List from "@/components/blog/list";
+import List from "@/components/nfatransfers/list";
 import ErrorPage from "@/layout/errorpage";
 
 async function getSetting(params) {
@@ -7,16 +7,16 @@ async function getSetting(params) {
 	return res;
 }
 
-async function getBlogs(params) {
+async function getAcquisitionsDisposals(params) {
 	const res = await fetchurl(
-		`/global/blogs${params}&postType=blog&status=published&category=${process.env.NEXT_PUBLIC_ARMED_CODE_LLC_CATEGORY_ID}`,
+		`/global/weaponacquisitionsdisposals${params}&status=disposed`,
 		"GET",
 		"no-cache"
 	);
 	return res;
 }
 
-const BlogIndex = async ({ params, searchParams }) => {
+const NFATransfersIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
@@ -26,17 +26,17 @@ const BlogIndex = async ({ params, searchParams }) => {
 	const sort = awtdSearchParams.sort || "-createdAt";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
 
-	const getBlogsData = getBlogs(
+	const getNFATransfersData = getAcquisitionsDisposals(
 		`?page=${page}&limit=${limit}&sort=${sort}${decrypt}`
 	);
 
-	const [blogs] = await Promise.all([getBlogsData]);
+	const [acquisitionsdisposals] = await Promise.all([getNFATransfersData]);
 
 	return settings?.data?.maintenance === false ? (
-		<List objects={blogs} searchParams={awtdSearchParams} />
+		<List objects={acquisitionsdisposals} searchParams={awtdSearchParams} />
 	) : (
 		<ErrorPage />
 	);
 };
 
-export default BlogIndex;
+export default NFATransfersIndex;
