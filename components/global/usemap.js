@@ -13,10 +13,10 @@ const UseMap = ({ object = {} }) => {
 					<select id="map-style-selector" className="form-control text-bg-dark">
 						<option value="satellite-streets-v12">Satellite Streets</option>
 						<option value="light-v11">Light</option>
-						<option value="dark-v11">Dark</option>
-						<option value="streets-v12" defaultChecked>
-							Streets
+						<option value="dark-v11" defaultChecked>
+							Dark
 						</option>
+						<option value="streets-v12">Streets</option>
 						<option value="outdoors-v12">Outdoors</option>
 					</select>
 					<label htmlFor="map-style-selector">Map Style</label>
@@ -64,7 +64,7 @@ const UseMap = ({ object = {} }) => {
 						map.scrollZoom.disable();
 						// Fullscreen
 						map.addControl(new mapboxgl.FullscreenControl());
-						// Add zoom and rotation controls to the map.
+						// Add zoom and rotation controls to the map
 						map.addControl(new mapboxgl.NavigationControl());
 						// Layer switch
 						const layerSelector = document.getElementById("map-style-selector");
@@ -72,18 +72,15 @@ const UseMap = ({ object = {} }) => {
 							const selectedStyle = layerSelector.value;
 							map.setStyle("mapbox://styles/mapbox/" + selectedStyle);
 						});
-
 						// Marker
-						new mapboxgl.Marker({
-							color: "#ff0000",
-							draggable: false,
-						})
+						new mapboxgl.Marker({ color: "#ff0000", draggable: false })
 							.setLngLat(object.location.coordinates)
 							.setPopup(
 								new mapboxgl.Popup().setHTML(
 									`${object.location.formattedAddress}`
 								)
-							) // add popup
+							)
+							// add popup
 							.addTo(map);
 					}
 				}}
@@ -92,5 +89,4 @@ const UseMap = ({ object = {} }) => {
 		</>
 	);
 };
-
 export default UseMap;

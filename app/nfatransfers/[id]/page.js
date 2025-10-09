@@ -132,7 +132,7 @@ const NFATransferRead = async ({ params, searchParams }) => {
 									name="fromWhomReceived"
 									defaultValue={acquisitionsdisposal?.data?.fromWhomReceived}
 									type="text"
-									className="form-control text-bg-dark mb-3"
+									className="form-control text-bg-dark"
 									required
 									placeholder="Shootsmart"
 									disabled
@@ -174,7 +174,7 @@ const NFATransferRead = async ({ params, searchParams }) => {
 									name="address"
 									defaultValue={acquisitionsdisposal?.data?.address}
 									type="text"
-									className="form-control text-bg-dark mb-3"
+									className="form-control text-bg-dark"
 									required
 									placeholder=""
 									disabled
