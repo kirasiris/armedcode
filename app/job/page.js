@@ -33,7 +33,7 @@ const JobIndex = async ({ params, searchParams }) => {
 	const [jobs] = await Promise.all([getJobsData]);
 
 	return settings?.data?.maintenance === false ? (
-		<List objects={jobs} searchParams={awtdSearchParams} />
+		<List objects={jobs} searchedKeyword="" searchParams={awtdSearchParams} />
 	) : (
 		<ErrorPage />
 	);

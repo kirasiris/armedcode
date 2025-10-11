@@ -4,7 +4,7 @@ import NumericPagination from "@/layout/numericpagination";
 import NothingFoundAlert from "@/layout/nothingfoundalert";
 import Globalcontent from "@/layout/content";
 
-const List = ({ objects = [], searchParams = {} }) => {
+const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
 	return (
 		<div className="bg-black py-5 text-bg-dark">
 			<div className="container">
@@ -27,7 +27,9 @@ const List = ({ objects = [], searchParams = {} }) => {
 								/>
 							</>
 						) : (
-							<NothingFoundAlert />
+							<NothingFoundAlert
+								text={`Nothing found with ${searchedKeyword}`}
+							/>
 						)}
 					</Globalcontent>
 				</div>

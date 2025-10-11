@@ -1,6 +1,7 @@
 import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/store/list";
 import ErrorPage from "@/layout/errorpage";
+import Header from "@/layout/header";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
@@ -33,7 +34,17 @@ const StoreIndex = async ({ params, searchParams }) => {
 	const [products] = await Promise.all([getProductsData]);
 
 	return settings?.data?.maintenance === false ? (
-		<List objects={products} searchParams={awtdSearchParams} />
+		<>
+			<Header
+				title="Premium tactical gear for professionals"
+				description="Discover our curated selection of firearms, accessories, and tactical equipment. Built for reliability, designed for performance."
+			/>
+			<List
+				objects={products}
+				searchedKeyword=""
+				searchParams={awtdSearchParams}
+			/>
+		</>
 	) : (
 		<ErrorPage />
 	);

@@ -10,7 +10,7 @@ const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
 		<div className="bg-black py-5 text-bg-dark">
 			<div className="container">
 				<div className="row">
-					<Globalcontent classList="col-lg-8">
+					<Globalcontent classList="col-lg-12">
 						{objects?.data?.length > 0 ? (
 							<>
 								<div className="row">
@@ -33,7 +33,7 @@ const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
 							/>
 						)}
 					</Globalcontent>
-					<Sidebar />
+					{/* <Sidebar /> */}
 				</div>
 			</div>
 		</div>

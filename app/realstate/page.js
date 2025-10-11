@@ -39,7 +39,11 @@ const RealStateIndex = async ({ params, searchParams }) => {
 				title="Find Your Dream Property"
 				description="Discover exceptional homes, land, and investment opportunities across the country. Your perfect property is waiting."
 			/>
-			<List objects={realstates} searchParams={awtdSearchParams} />
+			<List
+				objects={realstates}
+				searchedKeyword=""
+				searchParams={awtdSearchParams}
+			/>
 		</>
 	) : (
 		<ErrorPage />

@@ -33,7 +33,7 @@ const BlogIndex = async ({ params, searchParams }) => {
 	const [blogs] = await Promise.all([getBlogsData]);
 
 	return settings?.data?.maintenance === false ? (
-		<List objects={blogs} searchParams={awtdSearchParams} />
+		<List objects={blogs} searchedKeyword="" searchParams={awtdSearchParams} />
 	) : (
 		<ErrorPage />
 	);

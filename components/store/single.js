@@ -20,49 +20,50 @@ const Single = ({ object = {} }) => {
 				<div
 					className={`card border border-1 my-border-color bg-black text-bg-dark mb-3`}
 				>
-					<div className="card-header">
+					<Link
+						href={{
+							pathname: `/store/${object?._id}/${object?.slug}`,
+							query: {},
+						}}
+					>
+						<Image
+							className="card-img-top"
+							src={
+								object?.files?.avatar?.location?.secure_location ||
+								`https://source.unsplash.com/random/483x363`
+							}
+							alt=""
+							width={484}
+							height={484}
+							priority
+						/>
+					</Link>
+					<div className="card-body">
+						<p className="text-secondary text-capitalize mb-0">
+							{object?.category}
+						</p>
 						<Link
-							href={`/store/${object?._id}/${object?.slug}`}
-							className="text-white"
+							href={{
+								pathname: `/store/${object?._id}/${object?.slug}`,
+								query: {},
+							}}
+							className="fw-bold text-white mb-3"
 						>
 							{object?.title || "Untitled"}
 						</Link>
-					</div>
-					<div>
-						<Image
-							className="card-img-top"
-							src={object?.files?.avatar?.location?.secure_location}
-							alt=""
-							width="400"
-							height="200"
-						/>
-						<button
-							type="button"
-							className="btn btn-danger btn-sm"
-							style={{
-								position: "absolute",
-								right: "10px",
-								top: "50px",
-							}}
-							onClick={addToWishlist}
-						>
-							<i aria-hidden className="fa-regular fa-heart" />
-							<i aria-hidden className="fa-solid fa-heart" />
-						</button>
-					</div>
-					<div className="card-body">
-						<p>{object?.category}</p>
-					</div>
-					<div className="card-footer d-flex justify-content-between">
-						<button type="button" className="btn btn-sm" onClick={addToCart}>
-							<i aria-hidden className="fa-solid fa-cart-shopping text-white" />
-							<i
-								aria-hidden
-								className="fa-solid fa-cart-shopping text-danger"
-							/>
-						</button>
-						<button className="btn btn-success btn-sm">
-							Price:{object?.price.inHumanFormat}
+						<p className="text-secondary">{object?.excerpt || "No excerpt"}</p>
+						<p>
+							<span className="fw-bold display-6">
+								${object?.price.inHumanFormat}
+							</span>
+							&nbsp;
+							<span className="text-secondary text-decoration-line-through">
+								${object?.cost?.inHumanFormat}
+							</span>
+						</p>
+						<button className="btn btn-secondary btn-sm w-100">
+							<i aria-hidden className="fa-solid fa-cart-shopping me-2" />
+							Add to cart
 						</button>
 					</div>
 				</div>

@@ -11,14 +11,19 @@ const Single = ({ object = {} }) => {
 				<div
 					className={`card border border-1 my-border-color bg-black text-bg-dark mb-3`}
 				>
-					<Link href={`/realstate/${object?._id}/${object?.slug}`}>
+					<Link
+						href={{
+							pathname: `/realstate/${object?._id}/${object?.slug}`,
+							query: {},
+						}}
+					>
 						<Image
 							className="card-img-top"
 							src={
 								object?.files?.avatar?.location?.secure_location ||
 								`https://source.unsplash.com/random/483x363`
 							}
-							alt={``}
+							alt=""
 							width={483}
 							height={363}
 							priority
@@ -26,7 +31,10 @@ const Single = ({ object = {} }) => {
 					</Link>
 					<div className="card-body">
 						<Link
-							href={`/realstate/${object?._id}/${object?.slug}`}
+							href={{
+								pathname: `/realstate/${object?._id}/${object?.slug}`,
+								query: {},
+							}}
 							className="text-white"
 						>
 							{object?.title || "Untitled"}
