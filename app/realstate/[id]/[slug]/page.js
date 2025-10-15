@@ -8,6 +8,7 @@ import Globalcontent from "@/layout/content";
 import Head from "@/app/head";
 import UseMap from "@/components/global/usemap";
 import Globalsidebar from "@/layout/sidebar";
+import Gallery from "@/components/realstates/gallery";
 
 async function getRealState(params) {
 	const res = await fetchurl(`/global/realstates${params}`, "GET", "no-cache");
@@ -61,6 +62,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 					{realstate.data.status === "published" ||
 					awtdSearchParams.isAdmin === "true" ? (
 						<div className="row">
+							<Gallery objects={realstate?.data?.files?.extras} />
 							<Globalcontent classList={`col-lg-8`}>
 								<article>
 									<h1>{realstate?.data?.title}</h1>
@@ -129,8 +131,12 @@ const RealStateRead = async ({ params, searchParams }) => {
 												}}
 											>
 												{realstate?.data?.amenities.map((ameniti, index) => (
-													<li key={index} style={{ width: "12rem" }}>
-														{ameniti}
+													<li
+														key={index}
+														className="text-capitalize"
+														style={{ width: "13rem" }}
+													>
+														{ameniti.split("-").join(" ")}
 													</li>
 												))}
 											</ul>
@@ -162,11 +168,11 @@ const RealStateRead = async ({ params, searchParams }) => {
 							<Globalsidebar>
 								<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
 									<div className="card-body">
-										<h3 className="mb-4">Contact Agent</h3>
+										<h3 className="mb-4">Contact&nbsp;Agent</h3>
 										<div className="d-flex align-items-baseline">
 											<i aria-hidden className="fa-solid fa-user me-2" />
 											<p>
-												{realstate?.data?.user.username}
+												{realstate?.data?.user.name}
 												<br />
 												<span className="text-secondary">
 													Real&nbsp;Estate&nbsp;Agent
@@ -174,28 +180,23 @@ const RealStateRead = async ({ params, searchParams }) => {
 											</p>
 										</div>
 										<hr />
-										<button
-											type="button"
-											className="btn btn-dark btn-sm w-100 mb-3"
-										>
-											<i aria-hidden className="fa-solid fa-phone me-2" />
-											Call Agent
-										</button>
-										<button
-											type="button"
+										<a
+											href={`mailto:${realstate?.data?.user?.email}?subject=${realstate?.data?.title}`}
 											className="btn btn-secondary btn-sm w-100"
+											target="_blank"
+											rel="noreferrer noopener"
 										>
 											<i aria-hidden className="fa-solid fa-envelope me-2" />
-											Send Message
-										</button>
+											Send&nbsp;Message
+										</a>
 									</div>
 								</div>
 								<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
 									<div className="card-body">
-										<h3 className="mb-4">Property Information</h3>
+										<h3 className="mb-4">Property&nbsp;Information</h3>
 										<ul className="list-unstyled">
 											<li className="d-flex justify-content-between border-bottom my-border-color py-2">
-												<span className="text-secondary">Property ID</span>
+												<span className="text-secondary">P.&nbsp;ID</span>
 												<span>{realstate?.data?._id}</span>
 											</li>
 											<li className="d-flex justify-content-between border-bottom my-border-color py-2">
@@ -217,8 +218,14 @@ const RealStateRead = async ({ params, searchParams }) => {
 												</span>
 											</li>
 											<li className="d-flex justify-content-between border-bottom my-border-color py-2">
-												<span className="text-secondary">Views</span>
-												<span>0</span>
+												<span className="text-secondary">
+													R.&nbsp;S.&nbsp;Agent
+												</span>
+												<span>{realstate?.data?.user?.name}</span>
+											</li>
+											<li className="d-flex justify-content-between border-bottom my-border-color py-2">
+												<span className="text-secondary">Managed&nbsp;by</span>
+												<span>{realstate?.data?.resourceId?.title}</span>
 											</li>
 										</ul>
 									</div>
