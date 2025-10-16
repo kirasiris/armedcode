@@ -46,10 +46,21 @@ const Single = ({ object = {} }) => {
 							</span>
 						</div>
 						<p>
-							<span className="fw-bold display-6">
-								${object?.rates?.monthlyPrice}
-							</span>
-							/<span className="text-secondary">month</span>
+							{object?.businessType === "sale" && (
+								<>
+									<span className="fw-bold display-6">
+										{object?.price?.inHumanFormat}
+									</span>
+								</>
+							)}
+							{object?.businessType === "rent" && (
+								<>
+									<span className="fw-bold display-6">
+										{object?.rates?.monthlyPrice?.inHumanFormat}
+									</span>
+									/<span className="text-secondary">month</span>
+								</>
+							)}
 						</p>
 						<div className="row">
 							<div className="col text-center">

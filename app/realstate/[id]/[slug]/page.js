@@ -73,10 +73,19 @@ const RealStateRead = async ({ params, searchParams }) => {
 										</span>
 									</p>
 									<p>
-										<span className="fw-bold display-6">
-											${realstate?.data?.rates?.monthlyPrice}
-										</span>
-										/<span className="text-secondary">month</span>
+										{realstate?.data?.businessType === "sale" && (
+											<span className="fw-bold display-6">
+												{realstate?.data?.price?.inHumanFormat}
+											</span>
+										)}
+										{realstate?.data?.businessType === "rent" && (
+											<>
+												<span className="fw-bold display-6">
+													${realstate?.data?.rates?.monthlyPrice?.inHumanFormat}
+												</span>
+												/<span className="text-secondary">month</span>
+											</>
+										)}
 									</p>
 									<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
 										<div className="card-body">
