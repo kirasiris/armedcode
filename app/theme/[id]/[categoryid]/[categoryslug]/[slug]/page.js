@@ -67,9 +67,7 @@ const ThemeRead = async ({ params, searchParams }) => {
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
-	const getThemesData = getTheme(`/${awtdParams.id}`);
-
-	const [theme] = await Promise.all([getThemesData]);
+	const theme = await getTheme(`/${awtdParams.id}`);
 
 	const readMeResponse = await getReadMe(theme.data.github_readme);
 

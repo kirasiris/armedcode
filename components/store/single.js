@@ -54,11 +54,11 @@ const Single = ({ object = {} }) => {
 						<p className="text-secondary">{object?.excerpt || "No excerpt"}</p>
 						<p>
 							<span className="fw-bold display-6">
-								${object?.price.inHumanFormat}
+								{object?.price.inHumanFormat}
 							</span>
 							&nbsp;
 							<span className="text-secondary text-decoration-line-through">
-								${object?.cost?.inHumanFormat}
+								{object?.cost?.inHumanFormat}
 							</span>
 						</p>
 						<button className="btn btn-secondary btn-sm w-100">

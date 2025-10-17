@@ -18,9 +18,7 @@ const StoreRead = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 
-	const getProductsData = getProduct(`/${awtdParams.id}`);
-
-	const [product] = await Promise.all([getProductsData]);
+	const product = await getProduct(`/${awtdParams.id}`);
 
 	// Draft It
 

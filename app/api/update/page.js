@@ -34,11 +34,9 @@ const ApiUpdate = async ({ params, searchParams }) => {
 	const limit = 5;
 	const sort = "-createdAt";
 
-	const getWeaponsData = getWeapons(
+	const weapons = await getWeapons(
 		`?user=${auth?.data?._id}&page=${page}&limit=${limit}&sort=${sort}&status=published&decrypt=true`
 	);
-
-	const [weapons] = await Promise.all([getWeaponsData]);
 
 	return settings?.data?.maintenance === false ? (
 		<section className="bg-black text-bg-dark py-5">

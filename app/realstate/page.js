@@ -2,7 +2,6 @@ import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/realstates/list";
 import ErrorPage from "@/layout/errorpage";
 import Header from "@/layout/header";
-import Globalcontent from "@/layout/content";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");

@@ -21,9 +21,9 @@ const NFATransferRead = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 
-	const getNFATransfersData = getAcquisitionsDisposals(`/${awtdParams.id}`);
-
-	const [acquisitionsdisposal] = await Promise.all([getNFATransfersData]);
+	const acquisitionsdisposal = await getAcquisitionsDisposals(
+		`/${awtdParams.id}`
+	);
 
 	// Draft It
 

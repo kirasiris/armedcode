@@ -17,9 +17,7 @@ const BlogRead = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 
-	const getBlogsData = getBlog(`/${awtdParams.id}`);
-
-	const [blog] = await Promise.all([getBlogsData]);
+	const blog = await getBlog(`/${awtdParams.id}`);
 
 	// Draft It
 

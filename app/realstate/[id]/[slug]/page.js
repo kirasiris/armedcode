@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { formatDateWithoutTime } from "befree-utilities";
 import Loading from "@/app/realstate/loading";
 import ParseHtml from "@/layout/parseHtml";
@@ -20,9 +21,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 
-	const getRealStatesData = getRealState(`/${awtdParams.id}`);
-
-	const [realstate] = await Promise.all([getRealStatesData]);
+	const realstate = await getRealState(`/${awtdParams.id}`);
 
 	// Draft It
 
@@ -81,7 +80,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 										{realstate?.data?.businessType === "rent" && (
 											<>
 												<span className="fw-bold display-6">
-													${realstate?.data?.rates?.monthlyPrice?.inHumanFormat}
+													{realstate?.data?.rates?.monthlyPrice?.inHumanFormat}
 												</span>
 												/<span className="text-secondary">month</span>
 											</>
@@ -234,7 +233,14 @@ const RealStateRead = async ({ params, searchParams }) => {
 											</li>
 											<li className="d-flex justify-content-between border-bottom my-border-color py-2">
 												<span className="text-secondary">Managed&nbsp;by</span>
-												<span>{realstate?.data?.resourceId?.title}</span>
+												<Link
+													href={{
+														pathname: `/company/${realstate?.data?.resourceId?._id}/${realstate?.data?.resourceId?.slug}`,
+														query: {},
+													}}
+												>
+													<span>{realstate?.data?.resourceId?.title}</span>
+												</Link>
 											</li>
 										</ul>
 									</div>

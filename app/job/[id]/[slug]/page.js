@@ -18,9 +18,7 @@ const JobRead = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 
-	const getJobsData = getJob(`/${awtdParams.id}`);
-
-	const [job] = await Promise.all([getJobsData]);
+	const job = await getJob(`/${awtdParams.id}`);
 
 	// Draft It
 
