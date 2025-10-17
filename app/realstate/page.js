@@ -2,6 +2,7 @@ import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/realstates/list";
 import ErrorPage from "@/layout/errorpage";
 import Header from "@/layout/header";
+import Globalcontent from "@/layout/content";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
@@ -39,6 +40,39 @@ const RealStateIndex = async ({ params, searchParams }) => {
 				title="Find Your Dream Property"
 				description="Discover exceptional homes, land, and investment opportunities across the country. Your perfect property is waiting."
 			/>
+			<section className="bg-black py-5 text-bg-dark">
+				<div className="container">
+					<div className="row">
+						<div className="col text-center border my-border-color py-5">
+							<i aria-hidden className="fa-solid fa-house fa-2x" />
+							<p className="mb-0">500+</p>
+							<p className="text-secondary">Properties Listed</p>
+						</div>
+						<div className="col text-center border my-border-color py-5">
+							<i aria-hidden className="fa-solid fa-user fa-2x" />
+							<p className="mb-0">1,200+</p>
+							<p className="text-secondary">Happy Clients</p>
+						</div>
+						<div className="col text-center border my-border-color py-5">
+							<i aria-hidden className="fa-solid fa-location-dot fa-2x" />
+							<p className="mb-0">50+</p>
+							<p className="text-secondary">Cities Covered</p>
+						</div>
+						<div className="col text-center border my-border-color py-5">
+							<i aria-hidden className="fa-solid fa-arrow-trend-up fa-2x" />
+							<p className="mb-0">98%</p>
+							<p className="text-secondary">Success Rate</p>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section className="bg-dark py-5 text-bg-dark">
+				<div className="container">
+					<div className="row">
+						<div className="col-lg-12">HERE GOES THE FORM</div>
+					</div>
+				</div>
+			</section>
 			<List
 				objects={realstates}
 				searchedKeyword=""

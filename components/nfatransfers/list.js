@@ -6,7 +6,7 @@ import Globalcontent from "@/layout/content";
 
 const List = ({ objects = [], searchParams = {} }) => {
 	return (
-		<div className="bg-black py-5 text-bg-dark">
+		<section className="bg-black py-5 text-bg-dark">
 			<div className="container">
 				<div className="row">
 					<Globalcontent classList="col-lg-12">
@@ -30,7 +30,7 @@ const List = ({ objects = [], searchParams = {} }) => {
 					</Globalcontent>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 };
 
