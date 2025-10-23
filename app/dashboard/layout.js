@@ -1,3 +1,4 @@
+import { CookiesProvider } from "next-client-cookies/server";
 import { redirect } from "next/navigation";
 // import "@/src/css/admin.css";
 // import AdminMenu from "@/layout/dashboard/sidebar";
@@ -18,11 +19,13 @@ export default async function AdminLayout({ children }) {
 		);
 
 	return (
-		<div className="container-fluid my-4">
-			<div className="row">
-				{/* <AdminMenu /> */}
-				<div className="col-lg-11">{children}</div>
+		<CookiesProvider>
+			<div className="container-fluid my-4">
+				<div className="row">
+					{/* <AdminMenu /> */}
+					<div className="col-lg-11">{children}</div>
+				</div>
 			</div>
-		</div>
+		</CookiesProvider>
 	);
 }
