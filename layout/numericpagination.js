@@ -120,6 +120,8 @@ const NumericPagination = ({
 	const selectLimit = () => {
 		return (
 			<select
+				id="pagination"
+				name="pagination"
 				onChange={(e) => handlePageLimit(e.target.value)}
 				className="form-select form-select-sm d-none d-md-block d-lg-block d-xl-block d-xxl-block p-2 text-bg-dark"
 			>

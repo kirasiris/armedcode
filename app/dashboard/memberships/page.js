@@ -90,6 +90,8 @@ const DashboardMembershipsIndex = async ({ params, searchParams }) => {
 				draftLink="/dashboard/memberships/draft"
 				scheduledLink="/dashboard/memberships/scheduled"
 				trashedLink="/dashboard/memberships/trashed"
+				categoriesLink=""
+				categoryType=""
 			/>
 			<div className="card rounded-0">
 				<List

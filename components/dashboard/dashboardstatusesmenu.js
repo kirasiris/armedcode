@@ -8,7 +8,6 @@ const DashboardStatusesMenu = ({
 	draftLink = "",
 	scheduledLink = "",
 	trashedLink = "",
-	filledLink = "",
 	categoriesLink = "",
 	categoryType = "",
 }) => {
@@ -81,17 +80,6 @@ const DashboardStatusesMenu = ({
 						Trashed
 					</Link>
 				)}
-			{filledLink !== "" && filledLink !== undefined && filledLink !== null && (
-				<Link
-					href={{
-						pathname: filledLink,
-						query: { page: 1, limit: 10, sort: `-createdAt` },
-					}}
-					className={`btn ${isActive(filledLink)} btn-sm`}
-				>
-					Filled Out
-				</Link>
-			)}
 			{categoriesLink !== "" &&
 				categoriesLink !== undefined &&
 				categoriesLink !== null &&

@@ -1,5 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { fetchurl, getUserOnServer } from "@/helpers/fetchurl";
+import DashboardStatusesMenu from "@/components/dashboard/dashboardstatusesmenu";
 import List from "@/components/dashboard/companies/list";
 
 async function getCompanies(params) {
@@ -92,25 +93,36 @@ const DashboardCompaniesIndex = async ({ params, searchParams }) => {
 	};
 
 	return (
-		<div className="card rounded-0">
-			<List
-				stripeChargesEnabled={auth?.userStripeChargesEnabled}
+		<>
+			<DashboardStatusesMenu
 				allLink="/dashboard/companies"
-				pageText="Companies"
-				addLink="/dashboard/companies/create"
-				searchOn="/dashboard/companies"
-				searchedKeyword=""
-				objects={companies}
-				searchParams={awtdSearchParams}
-				handleDraft={draftIt}
-				handlePublish={publishIt}
-				handleTrash={trashIt}
-				handleSchedule={scheduleIt}
-				handleDelete={handleDelete}
-				handleTrashAllFunction={handleTrashAll}
-				handleDeleteAllFunction={handleDeleteAll}
+				publishedLink="/dashboard/companies/published"
+				draftLink="/dashboard/companies/draft"
+				scheduledLink="/dashboard/companies/scheduled"
+				trashedLink="/dashboard/companies/trashed"
+				categoriesLink=""
+				categoryType=""
 			/>
-		</div>
+			<div className="card rounded-0">
+				<List
+					stripeChargesEnabled={auth?.userStripeChargesEnabled}
+					allLink="/dashboard/companies"
+					pageText="Companies"
+					addLink="/dashboard/companies/create"
+					searchOn="/dashboard/companies"
+					searchedKeyword=""
+					objects={companies}
+					searchParams={awtdSearchParams}
+					handleDraft={draftIt}
+					handlePublish={publishIt}
+					handleTrash={trashIt}
+					handleSchedule={scheduleIt}
+					handleDelete={handleDelete}
+					handleTrashAllFunction={handleTrashAll}
+					handleDeleteAllFunction={handleDeleteAll}
+				/>
+			</div>
+		</>
 	);
 };
 
