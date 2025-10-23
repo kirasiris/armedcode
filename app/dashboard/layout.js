@@ -1,7 +1,6 @@
 import { CookiesProvider } from "next-client-cookies/server";
 import { redirect } from "next/navigation";
-// import "@/src/css/admin.css";
-// import AdminMenu from "@/layout/dashboard/sidebar";
+import "@/src/css/admin.css";
 import { fetchurl } from "@/helpers/fetchurl";
 import DashboardMenu from "@/components/dashboard/dashboardmenu";
 
