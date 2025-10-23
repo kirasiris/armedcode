@@ -190,7 +190,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 										<hr />
 										<a
 											href={`mailto:${realstate?.data?.user?.email}?subject=${realstate?.data?.title}`}
-											className="btn btn-secondary btn-sm w-100"
+											className="btn btn-light btn-sm w-100"
 											target="_blank"
 											rel="noreferrer noopener"
 										>

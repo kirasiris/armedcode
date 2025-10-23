@@ -1,13 +1,14 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import Loading from "@/app/realstate/loading";
-import ParseHtml from "@/layout/parseHtml";
 import { fetchurl } from "@/helpers/fetchurl";
 import Globalcontent from "@/layout/content";
 import Head from "@/app/head";
 import JobSingle from "@/components/job/single";
 import RealStateSingle from "@/components/realstates/single";
 import ProductSingle from "@/components/store/single";
+import CompanyHeader from "@/components/company/header";
 
 async function getCompany(params) {
 	const res = await fetchurl(`/global/companies${params}`, "GET", "no-cache");
@@ -78,48 +79,75 @@ const CompanyRead = async ({ params, searchParams }) => {
 				locales=""
 				posType="blog"
 			/>
-			<div className="bg-black py-5 text-bg-dark">
+			<CompanyHeader object={company?.data} />
+			<section className="bg-black py-5 text-bg-dark">
 				<div className="container">
 					{company.data.status === "published" ||
 					awtdSearchParams.isAdmin === "true" ? (
 						<div className="row">
 							<Globalcontent classList={`col-lg-12`}>
-								<article>
-									<h1>{company?.data?.title}</h1>
-									<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
-										<div className="card-body">
-											<ParseHtml
-												text={company?.data?.text}
-												classList="text-secondary"
-											/>
-										</div>
-									</div>
+								<Link
+									href={{
+										pathname: `/job`,
+										query: {
+											resourceId: company?.data?._id,
+											page: 1,
+											limit: 10,
+											sort: "-createdAt",
+										},
+									}}
+								>
 									<h2>Jobs</h2>
-									<div className="row">
-										{jobs?.data?.map((job) => (
-											<JobSingle key={job._id} object={job} />
-										))}
-									</div>
+								</Link>
+								<div className="row">
+									{jobs?.data?.map((job) => (
+										<JobSingle key={job._id} object={job} />
+									))}
+								</div>
+								<Link
+									href={{
+										pathname: `/realstate`,
+										query: {
+											resourceId: company?.data?._id,
+											page: 1,
+											limit: 10,
+											sort: "-createdAt",
+										},
+									}}
+								>
 									<h2>Real Estates</h2>
-									<div className="row">
-										{realstates?.data?.map((property) => (
-											<RealStateSingle key={property._id} object={property} />
-										))}
-									</div>
+								</Link>
+								<div className="row">
+									{realstates?.data?.map((property) => (
+										<RealStateSingle key={property._id} object={property} />
+									))}
+								</div>
+								<Link
+									href={{
+										pathname: `/store`,
+										query: {
+											resourceId: company?.data?._id,
+											page: 1,
+											limit: 10,
+											sort: "-createdAt",
+										},
+									}}
+								>
 									<h2>Products</h2>
-									<div className="row">
-										{products?.data?.map((product) => (
-											<ProductSingle key={product._id} object={product} />
-										))}
-									</div>
-								</article>
+								</Link>
+
+								<div className="row">
+									{products?.data?.map((product) => (
+										<ProductSingle key={product._id} object={product} />
+									))}
+								</div>
 							</Globalcontent>
 						</div>
 					) : (
 						<p>Not visible</p>
 					)}
 				</div>
-			</div>
+			</section>
 		</Suspense>
 	);
 };

@@ -39,9 +39,14 @@ const Single = ({ object = {} }) => {
 						/>
 					</Link>
 					<div className="card-body">
-						<p className="text-secondary text-capitalize mb-0">
-							{object?.category}
-						</p>
+						<div className="d-flex justify-content-between">
+							<small className="text-secondary text-uppercase">
+								{object?.category}
+							</small>
+							<small className="text-light text-decoration-underline text-uppercase">
+								{object?.inStock ? "In Stock" : "Out of Stock"}
+							</small>
+						</div>
 						<Link
 							href={{
 								pathname: `/store/${object?._id}/${object?.slug}`,
@@ -61,7 +66,7 @@ const Single = ({ object = {} }) => {
 								{object?.cost?.inHumanFormat}
 							</span>
 						</p>
-						<button className="btn btn-secondary btn-sm w-100">
+						<button className="btn btn-light btn-sm w-100">
 							<i aria-hidden className="fa-solid fa-cart-shopping me-2" />
 							Add to cart
 						</button>

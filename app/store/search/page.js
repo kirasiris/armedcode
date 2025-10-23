@@ -18,18 +18,34 @@ async function getProducts(params) {
 	return res;
 }
 
-const StoreIndex = async ({ params, searchParams }) => {
+const StoreSearchIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
+	const keyword = awtdSearchParams.keyword;
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
 	const page = awtdSearchParams.page || 1;
 	const limit = awtdSearchParams.limit || 10;
 	const sort = awtdSearchParams.sort || "-createdAt";
+	const keywordQuery =
+		keyword !== "" && keyword !== undefined ? `&keyword=${keyword}` : "";
+	const categoryQuery =
+		awtdSearchParams.category !== `` && awtdSearchParams.category !== undefined
+			? `&category=${awtdSearchParams.category}`
+			: "";
+	const typeQuery =
+		awtdSearchParams.type !== `` && awtdSearchParams.type !== undefined
+			? `&type=${awtdSearchParams.type}`
+			: "";
+	const subCategoryQuery =
+		awtdSearchParams.sub_category !== `` &&
+		awtdSearchParams.sub_category !== undefined
+			? `&sub_category=${awtdSearchParams.sub_category}`
+			: "";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
 
 	const getProductsData = getProducts(
-		`?page=${page}&limit=${limit}&sort=${sort}${decrypt}`
+		`?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${categoryQuery}${typeQuery}${subCategoryQuery}${decrypt}`
 	);
 
 	const [products] = await Promise.all([getProductsData]);
@@ -51,7 +67,7 @@ const StoreIndex = async ({ params, searchParams }) => {
 			</section>
 			<List
 				objects={products}
-				searchedKeyword=""
+				searchedKeyword={keyword}
 				searchParams={awtdSearchParams}
 			/>
 		</>
@@ -60,4 +76,4 @@ const StoreIndex = async ({ params, searchParams }) => {
 	);
 };
 
-export default StoreIndex;
+export default StoreSearchIndex;

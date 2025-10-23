@@ -52,7 +52,7 @@ const BlogRead = async ({ params, searchParams }) => {
 				locales=""
 				posType="blog"
 			/>
-			<div className="bg-black py-5 text-bg-dark">
+			<section className="bg-black py-5 text-bg-dark">
 				<div className="container">
 					{blog.data.status === "published" ||
 					awtdSearchParams.isAdmin === "true" ? (
@@ -85,7 +85,7 @@ const BlogRead = async ({ params, searchParams }) => {
 						<p>Not visible</p>
 					)}
 				</div>
-			</div>
+			</section>
 		</Suspense>
 	);
 };

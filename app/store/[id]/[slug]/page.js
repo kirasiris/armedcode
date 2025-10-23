@@ -32,8 +32,6 @@ const StoreRead = async ({ params, searchParams }) => {
 
 	// Handle Delete All
 
-	console.log("Products data", product?.data);
-
 	return (
 		<Suspense fallback={<Loading />}>
 			<Head
@@ -74,9 +72,14 @@ const StoreRead = async ({ params, searchParams }) => {
 								/>
 							</Globalcontent>
 							<Globalcontent classList={`col-lg-6`}>
-								<p className="text-secondary text-uppercase mb-0">
-									{product?.data?.category}
-								</p>
+								<div className="d-flex justify-content-between">
+									<small className="text-secondary text-uppercase">
+										{product?.data?.category}
+									</small>
+									<small className="text-light text-decoration-underline text-uppercase">
+										{product?.data?.inStock ? "In Stock" : "Out of Stock"}
+									</small>
+								</div>
 								<h1>{product?.data?.title}</h1>
 								<p className="text-secondary">{product?.data?.excerpt}</p>
 								<p>
@@ -95,7 +98,7 @@ const StoreRead = async ({ params, searchParams }) => {
 										SKU: {product?.data?.sku}
 									</span>
 								</p>
-								<button className="btn btn-secondary btn-sm w-100 mb-4">
+								<button className="btn btn-light btn-sm w-100 mb-4">
 									<i aria-hidden className="fa-solid fa-cart-shopping me-2" />
 									ADD TO CART
 								</button>

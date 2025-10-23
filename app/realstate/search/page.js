@@ -18,18 +18,39 @@ async function getRealStates(params) {
 	return res;
 }
 
-const RealStateIndex = async ({ params, searchParams }) => {
+const RealStateSearchIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
+	const keyword = awtdSearchParams.keyword;
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
 	const page = awtdSearchParams.page || 1;
 	const limit = awtdSearchParams.limit || 10;
 	const sort = awtdSearchParams.sort || "-createdAt";
+	const keywordQuery =
+		keyword !== "" && keyword !== undefined ? `&keyword=${keyword}` : "";
+	const businessTypeQuery =
+		awtdSearchParams.businessType !== `` &&
+		awtdSearchParams.businessType !== undefined
+			? `&businessType=${awtdSearchParams.businessType}`
+			: "";
+	const typeQuery =
+		awtdSearchParams.type !== `` && awtdSearchParams.type !== undefined
+			? `&type=${awtdSearchParams.type}`
+			: "";
+	const bedroomsQuery =
+		awtdSearchParams.bedrooms !== `` && awtdSearchParams.bedrooms !== undefined
+			? `&bedrooms=${awtdSearchParams.bedrooms}`
+			: "";
+	const bathroomsQuery =
+		awtdSearchParams.bathrooms !== `` &&
+		awtdSearchParams.bathrooms !== undefined
+			? `&bathrooms=${awtdSearchParams.bathrooms}`
+			: "";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
 
 	const getRealStatesData = getRealStates(
-		`?page=${page}&limit=${limit}&sort=${sort}${decrypt}`
+		`?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${businessTypeQuery}${typeQuery}${bedroomsQuery}${bathroomsQuery}${decrypt}`
 	);
 
 	const [realstates] = await Promise.all([getRealStatesData]);
@@ -77,7 +98,7 @@ const RealStateIndex = async ({ params, searchParams }) => {
 			</section>
 			<List
 				objects={realstates}
-				searchedKeyword=""
+				searchedKeyword={keyword}
 				searchParams={awtdSearchParams}
 			/>
 		</>
@@ -86,4 +107,4 @@ const RealStateIndex = async ({ params, searchParams }) => {
 	);
 };
 
-export default RealStateIndex;
+export default RealStateSearchIndex;

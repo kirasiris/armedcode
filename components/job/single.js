@@ -26,7 +26,7 @@ const Single = ({ object = {} }) => {
 					<div className="card-body">
 						<Link
 							href={`/job/${object?._id}/${object?.slug}`}
-							className="btn btn-sm btn-secondary w-100"
+							className="btn btn-sm btn-light w-100"
 						>
 							Read&nbsp;more
 						</Link>
