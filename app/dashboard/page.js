@@ -1,6 +1,11 @@
 import { redirect } from "next/navigation";
 import Header from "@/layout/header";
 
+async function getAuthenticatedUser() {
+	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
+	return res;
+}
+
 const DashboardIndex = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
@@ -9,6 +14,9 @@ const DashboardIndex = async ({ params, searchParams }) => {
 	if (awtdSearchParams?.xAuthToken) {
 		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
+
+	const auth = await getAuthenticatedUser();
+
 	return (
 		<>
 			<Header
