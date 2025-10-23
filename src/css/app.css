@@ -82,6 +82,15 @@ p > img {
 }
 
 /*****************************
+ADMIN STATUSES MENU
+*****************************/
+.admin-statuses-menu {
+	padding: 0.5rem 1rem;
+	background-color: #f8f8f8;
+	border: 1px solid #0000002d;
+}
+
+/*****************************
 SCHEDULE
 *****************************/
 
