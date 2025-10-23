@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import AdminCardHeaderMenu from "@/components/noadmin/admincardheadermenu";
+import DashboardCardHeaderMenu from "@/components/dashboard/dashboardcardheadermenu";
 import Single from "./single";
 import NumericPagination from "@/layout/numericpagination";
 import NothingFoundAlert from "@/layout/nothingfoundalert";
@@ -136,7 +136,7 @@ const List = ({
 
 	return (
 		<>
-			<AdminCardHeaderMenu
+			<DashboardCardHeaderMenu
 				allLink={allLink}
 				pageText={pageText}
 				currentResults={objects?.count}
