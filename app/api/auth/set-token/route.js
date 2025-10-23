@@ -26,7 +26,8 @@ export async function GET(req) {
 	});
 
 	// Redirect to a clean URL without token for security
-	const response = NextResponse.redirect(new URL("/api", req.url));
+	// const response = NextResponse.redirect(new URL("/api", req.url));
+	const response = NextResponse.redirect(new URL("/", req.url));
 
 	// Set cookies only if a valid token is found
 	if (tokenFromUrl || tokenFromCookie?.value) {
