@@ -1,6 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { fetchurl, getUserOnServer } from "@/helpers/setTokenOnServer";
-import AdminStatusesMenu from "@/components/noadmin/adminstatusesmenu";
+import DashboardStatusesMenu from "@/components/dashboard/dashboardstatusesmenu";
 import List from "@/components/dashboard/memberships/list";
 
 async function getMembershipsPublished(params) {
@@ -84,7 +84,7 @@ const DashboardMembershipsIndex = async ({ params, searchParams }) => {
 
 	return (
 		<>
-			<AdminStatusesMenu
+			<DashboardStatusesMenu
 				allLink="/dashboard/memberships"
 				publishedLink="/dashboard/memberships/published"
 				draftLink="/dashboard/memberships/draft"
