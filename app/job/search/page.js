@@ -1,6 +1,8 @@
 import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/job/list";
 import ErrorPage from "@/layout/errorpage";
+import Header from "@/layout/header";
+import SearchBar from "@/layout/job/searchbar";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
@@ -26,35 +28,45 @@ const JobSearchIndex = async ({ params, searchParams }) => {
 	const sort = awtdSearchParams.sort || "-createdAt";
 	const keywordQuery =
 		keyword !== "" && keyword !== undefined ? `&keyword=${keyword}` : "";
-	const experience_levelQuery = awtdSearchParams.experience_level
-		? `&experience_level=${awtdSearchParams.experience_level}`
-		: "";
-	const job_typeQuery =
-		awtdSearchParams.job_type !== ""
+	const experienceLevelQuery =
+		awtdSearchParams.experience_level !== `` &&
+		awtdSearchParams.experience_level !== undefined
+			? `&experience_level=${awtdSearchParams.experience_level}`
+			: "";
+	const jobTypeQuery =
+		awtdSearchParams.job_type !== `` && awtdSearchParams.job_type !== undefined
 			? `&job_type=${awtdSearchParams.job_type}`
 			: "";
-	const provides_trainingQuery =
-		awtdSearchParams.provides_training === "true"
-			? `&provides_training=true`
-			: "&provides_training=false";
-	const security_clearanceQuery =
-		awtdSearchParams.security_clearance === "true"
-			? `&security_clearance=true`
-			: "&security_clearance=false";
+	const remoteQuery =
+		awtdSearchParams.remote !== `` && awtdSearchParams.remote !== undefined
+			? `&remote=${awtdSearchParams.remote}`
+			: "";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
 
 	const getJobsData = getJobs(
-		`?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${experience_levelQuery}${job_typeQuery}&starting_at=${awtdSearchParams.starting_at}${provides_trainingQuery}${security_clearanceQuery}${decrypt}`
+		`?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${experienceLevelQuery}${jobTypeQuery}${remoteQuery}${decrypt}`
 	);
 
 	const [jobs] = await Promise.all([getJobsData]);
 
 	return settings?.data?.maintenance === false ? (
-		<List
-			objects={jobs}
-			searchedKeyword={keyword}
-			searchParams={awtdSearchParams}
-		/>
+		<>
+			<Header title="" description="" />
+			<section className="bg-dark py-5 text-bg-dark">
+				<div className="container">
+					<div className="row">
+						<div className="col-lg-12">
+							<SearchBar />
+						</div>
+					</div>
+				</div>
+			</section>
+			<List
+				objects={jobs}
+				searchedKeyword={keyword}
+				searchParams={awtdSearchParams}
+			/>
+		</>
 	) : (
 		<ErrorPage />
 	);

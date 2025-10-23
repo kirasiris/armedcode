@@ -1,6 +1,8 @@
 import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/job/list";
 import ErrorPage from "@/layout/errorpage";
+import Header from "@/layout/header";
+import SearchBar from "@/layout/job/searchbar";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
@@ -33,7 +35,19 @@ const JobIndex = async ({ params, searchParams }) => {
 	const [jobs] = await Promise.all([getJobsData]);
 
 	return settings?.data?.maintenance === false ? (
-		<List objects={jobs} searchedKeyword="" searchParams={awtdSearchParams} />
+		<>
+			<Header title="" description="" />
+			<section className="bg-dark py-5 text-bg-dark">
+				<div className="container">
+					<div className="row">
+						<div className="col-lg-12">
+							<SearchBar />
+						</div>
+					</div>
+				</div>
+			</section>
+			<List objects={jobs} searchedKeyword="" searchParams={awtdSearchParams} />
+		</>
 	) : (
 		<ErrorPage />
 	);

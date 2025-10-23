@@ -104,7 +104,7 @@ const ThemeRead = async ({ params, searchParams }) => {
 				posType="theme"
 			/>
 			<section className="bg-black py-5 text-bg-dark">
-				<div className="container">
+				<div className="container-fluid">
 					{theme.data.status === "published" ||
 					awtdSearchParams.isAdmin === "true" ? (
 						<div className="row">

@@ -1,6 +1,14 @@
+import { redirect } from "next/navigation";
 import Header from "@/layout/header";
 
 const DashboardIndex = async ({ params, searchParams }) => {
+	const awtdParams = await params;
+	const awtdSearchParams = await searchParams;
+
+	// Set cookies
+	if (awtdSearchParams?.xAuthToken) {
+		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
+	}
 	return (
 		<>
 			<Header

@@ -3,7 +3,6 @@ import Single from "./single";
 import NumericPagination from "@/layout/numericpagination";
 import NothingFoundAlert from "@/layout/nothingfoundalert";
 import Globalcontent from "@/layout/content";
-import Sidebar from "@/layout/store/sidebar";
 
 const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
 	return (
@@ -33,7 +32,6 @@ const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
 							/>
 						)}
 					</Globalcontent>
-					{/* <Sidebar /> */}
 				</div>
 			</div>
 		</section>

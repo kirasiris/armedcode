@@ -5,7 +5,6 @@ import ParseHtml from "@/layout/parseHtml";
 import { fetchurl } from "@/helpers/fetchurl";
 import Globalcontent from "@/layout/content";
 import Head from "@/app/head";
-import Sidebar from "@/layout/job/sidebar";
 import UseMap from "@/components/global/usemap";
 
 async function getJob(params) {
@@ -56,7 +55,7 @@ const JobRead = async ({ params, searchParams }) => {
 			<div className="bg-black py-5 text-bg-dark">
 				<div className="container">
 					<div className="row">
-						<Globalcontent>
+						<Globalcontent classList="col-lg-12">
 							{job.data.status === "published" ||
 							awtdSearchParams.isAdmin === "true" ? (
 								<article>
@@ -69,7 +68,6 @@ const JobRead = async ({ params, searchParams }) => {
 								<p>Not visible</p>
 							)}
 						</Globalcontent>
-						<Sidebar />
 					</div>
 				</div>
 			</div>

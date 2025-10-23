@@ -3,19 +3,20 @@ import Single from "./single";
 import NumericPagination from "@/layout/numericpagination";
 import NothingFoundAlert from "@/layout/nothingfoundalert";
 import Globalcontent from "@/layout/content";
-import Sidebar from "@/layout/job/sidebar";
 
 const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
 	return (
 		<section className="bg-black py-5 text-bg-dark">
 			<div className="container">
 				<div className="row">
-					<Globalcontent>
+					<Globalcontent classList="col-lg-12">
 						{objects?.data?.length > 0 ? (
 							<>
-								{objects.data?.map((job) => (
-									<Single key={job._id} object={job} />
-								))}
+								<div className="row">
+									{objects.data?.map((job) => (
+										<Single key={job._id} object={job} />
+									))}
+								</div>
 								<NumericPagination
 									totalPages={
 										objects?.pagination?.totalpages ||
@@ -31,7 +32,6 @@ const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
 							/>
 						)}
 					</Globalcontent>
-					<Sidebar />
 				</div>
 			</div>
 		</section>

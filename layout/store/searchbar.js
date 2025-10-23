@@ -9,8 +9,6 @@ const SearchBar = ({ objects = [] }) => {
 		category: "",
 		type: "",
 		sub_category: "",
-		bedrooms: "",
-		bathrooms: "",
 		sort: "-createdAt",
 	});
 
@@ -87,6 +85,9 @@ const SearchBar = ({ objects = [] }) => {
 						<option value="supressor">Supressor</option>
 						<option value="short-barrel-rifle">SBR</option>
 						<option value="short-barrel-shotgun">SBS</option>
+						<option value="any-other-weapon">Any Other Weapon</option>
+						<option value="destructive-device">Destructive Device</option>
+						<option value="machine-gun">Machine Gun</option>
 					</select>
 				</div>
 			)}

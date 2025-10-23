@@ -9,32 +9,69 @@ const NumericPagination = ({
 	siblings,
 	isAdmin = true,
 }) => {
-	const keyword = searchParams.keyword;
 	const page = searchParams.page || 1;
 	const limit = searchParams.limit || 10;
 	const sort = searchParams.sort || "-createdAt";
+	const keyword = searchParams.keyword;
 	const decrypt = searchParams.decrypt || "";
-	const random = searchParams.random || "";
-	const email = searchParams.email || "";
-	const posttype = searchParams.postType || "";
+	// Job query
+	const experienceLevel = searchParams.experience_level;
+	const jobType = searchParams.job_type;
+	const remote = searchParams.remote;
+	// Real state query
+	const businessType = searchParams.businessType;
+	const type = searchParams.type;
+	const bedrooms = searchParams.bedrooms;
+	const bathrooms = searchParams.bathrooms;
+	// Store query
+	const category = searchParams.category;
+	const sub_category = searchParams.sub_category;
 
 	// Initialize router
 	const router = useRouter();
 
-	// If query postType is found
-	const postTypeQuery =
-		posttype !== "" && posttype !== undefined ? `&postType=${posttype}` : "";
 	// If query keyword is found
 	const keywordQuery =
 		keyword !== "" && keyword !== undefined ? `&keyword=${keyword}` : "";
+	// If query experienceLevel is found
+	const experienceLevelQuery =
+		experienceLevel !== "" && experienceLevel !== undefined
+			? `&experience_level=${experienceLevel}`
+			: "";
+	// If query jobType is found
+	const jobTypeQuery =
+		jobType !== "" && jobType !== undefined ? `&job_type=${jobType}` : "";
+	// If query remote is found
+	const remoteQuery =
+		remote !== "" && remote !== undefined ? `&remote=${remote}` : "";
+	// If businessType is found
+	const businessTypeQuery =
+		businessType !== "" && businessType !== undefined
+			? `&businessType=${businessType}`
+			: "";
+	// If type is found
+	const typeQuery = type !== "" && type !== undefined ? `&type=${type}` : "";
+	// If bedrooms is found
+	const bedroomsQuery =
+		bedrooms !== "" && bedrooms !== undefined ? `&bedrooms=${bedrooms}` : "";
+	// If bathrooms is found
+	const bathroomsQuery =
+		bathrooms !== "" && bathrooms !== undefined
+			? `&bathrooms=${bathrooms}`
+			: "";
+	// If category is found
+	const categoryQuery =
+		category !== `` && category !== undefined ? `&category=${category}` : "";
+	// sub_category is found
+	const subCategoryQuery =
+		sub_category !== `` && sub_category !== undefined
+			? `&sub_category=${sub_category}`
+			: "";
 	// If query decrypt is found
 	const decryptQuery = decrypt === "true" ? "&decrypt=true" : "";
-	// If query random is found
-	const randomQuery = random === "true" ? "&random=true" : "";
-	// If query email is found
-	const emailQuery = email ? `&email=${email}` : "";
+
 	// Add them all together
-	const newParams = `&sort=${sort}${postTypeQuery}${keywordQuery}${randomQuery}${decryptQuery}${emailQuery}`;
+	const newParams = `&sort=${sort}${keywordQuery}${experienceLevelQuery}${jobTypeQuery}${remoteQuery}${businessTypeQuery}${typeQuery}${bedroomsQuery}${bathroomsQuery}${categoryQuery}${subCategoryQuery}${decryptQuery}`;
 	let pageNo;
 	if (page <= Number(totalPages)) {
 		pageNo = page;

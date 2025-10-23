@@ -7,6 +7,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 
 const Menu = ({
+	auth = {},
 	title = "",
 	logo = "https://www.fullstackpython.com/img/logos/bootstrap.png",
 	canonical = "/",
@@ -49,6 +50,44 @@ const Menu = ({
 								Home
 							</Link>
 						</li>
+						{auth?.data?.isOnline ? (
+							<>
+								<li className="nav-item">
+									<Link
+										href={{
+											pathname: `${canonical}/dashboard`,
+											query: {},
+										}}
+										className={`nav-link ${isActive(`${canonical}/dashboard`)}`}
+									>
+										Dashboard
+									</Link>
+								</li>
+							</>
+						) : (
+							<>
+								<li className="nav-item">
+									<a
+										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}/dashboard`}
+										className="nav-link"
+										target="_blank"
+										rel="noreferrer noopener"
+									>
+										Login
+									</a>
+								</li>
+								<li className="nav-item">
+									<a
+										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/register`}
+										className="nav-link"
+										target="_blank"
+										rel="noreferrer noopener"
+									>
+										Register
+									</a>
+								</li>
+							</>
+						)}
 						{/* <li className="nav-item">
 							<Link
 								href={{
