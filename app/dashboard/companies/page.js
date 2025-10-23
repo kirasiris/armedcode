@@ -1,5 +1,5 @@
 import { revalidatePath } from "next/cache";
-import { fetchurl, getUserOnServer } from "@/helpers/setTokenOnServer";
+import { fetchurl, getUserOnServer } from "@/helpers/fetchurl";
 import List from "@/components/dashboard/companies/list";
 
 async function getCompanies(params) {

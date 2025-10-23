@@ -1,5 +1,5 @@
 import { revalidatePath } from "next/cache";
-import { fetchurl, getUserOnServer } from "@/helpers/setTokenOnServer";
+import { fetchurl, getUserOnServer } from "@/helpers/fetchurl";
 import DashboardStatusesMenu from "@/components/dashboard/dashboardstatusesmenu";
 import List from "@/components/dashboard/memberships/list";
 
