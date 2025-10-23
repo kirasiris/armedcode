@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import Header from "@/layout/header";
+import { fetchurl } from "@/helpers/fetchurl";
 
 async function getAuthenticatedUser() {
 	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
