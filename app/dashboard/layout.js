@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 // import "@/src/css/admin.css";
 // import AdminMenu from "@/layout/dashboard/sidebar";
 import { fetchurl } from "@/helpers/fetchurl";
+import DashboardMenu from "@/components/dashboard/dashboardmenu";
 
 async function getAuthenticatedUser() {
 	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
@@ -22,7 +23,7 @@ export default async function AdminLayout({ children }) {
 		<CookiesProvider>
 			<div className="container-fluid my-4">
 				<div className="row">
-					{/* <AdminMenu /> */}
+					<DashboardMenu />
 					<div className="col-lg-11">{children}</div>
 				</div>
 			</div>
