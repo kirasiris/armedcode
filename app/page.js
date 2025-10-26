@@ -17,7 +17,7 @@ const Home = async ({ params, searchParams }) => {
 
 	// Set cookies
 	if (awtdSearchParams?.xAuthToken) {
-		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
+		redirect(`/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
