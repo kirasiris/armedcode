@@ -30,7 +30,6 @@ const ThemeCategoryIndex = async ({ params, searchParams }) => {
 	const page = awtdSearchParams.page || 1;
 	const limit = awtdSearchParams.limit || 10;
 	const sort = awtdSearchParams.sort || "-createdAt";
-	const postType = awtdSearchParams.postType || "theme";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
 
 	const getFeaturedThemesData = getThemes(`?featured=true${decrypt}`);
