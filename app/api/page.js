@@ -145,8 +145,6 @@ const ApiIndex = async ({ params, searchParams }) => {
 								pathname: `/api/create`,
 								query: {},
 							}}
-							passHref
-							legacyBehavior
 						>
 							<a className="btn btn-light btn-sm">Explore the API</a>
 						</Link>
