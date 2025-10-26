@@ -37,7 +37,7 @@ const ApiIndex = async ({ params, searchParams }) => {
 
 	// Set cookies
 	if (awtdSearchParams?.xAuthToken) {
-		redirect(`/api/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
+		redirect(`/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
 	const auth = await getAuthenticatedUser();
