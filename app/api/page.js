@@ -145,8 +145,9 @@ const ApiIndex = async ({ params, searchParams }) => {
 								pathname: `/api/create`,
 								query: {},
 							}}
+							className="btn btn-light btn-sm"
 						>
-							<a className="btn btn-light btn-sm">Explore the API</a>
+							Explore the API
 						</Link>
 					</div>
 				</div>
