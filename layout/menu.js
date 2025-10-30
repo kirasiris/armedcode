@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
+import { deleteAuthTokenOnServer } from "@/helpers/fetchurl";
 
 const Menu = ({
 	auth = {},
@@ -144,6 +145,17 @@ const Menu = ({
 									>
 										Cart
 									</Link>
+								</li>
+								<li className="nav-item">
+									<button
+										type="button"
+										className="btn btn-link"
+										onClick={async () => {
+											await deleteAuthTokenOnServer();
+										}}
+									>
+										Log Out
+									</button>
 								</li>
 							</>
 						) : (
