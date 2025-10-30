@@ -12,10 +12,10 @@ export default async function AdminLayout({ children }) {
 	const auth = await getAuthenticatedUser();
 
 	// Redirect if user is not logged in
-	// (auth?.error?.statusCode === 401 || !auth?.data?.isOnline) &&
-	// 	redirect(
-	// 		`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}`
-	// 	);
+	(auth?.error?.statusCode === 401 || !auth?.data?.isOnline) &&
+		redirect(
+			`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}`
+		);
 
 	return (
 		<div className="container-fluid my-4">

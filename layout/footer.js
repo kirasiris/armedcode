@@ -45,7 +45,7 @@ const Footer = ({
 					© 2025 {process.env.NEXT_PUBLIC_WEBSITE_NAME}. All rights reserved.
 				</p>
 				<ul className="list-unstyled d-flex">
-					{/* <li className="me-3">
+					<li className="me-3">
 						<Link
 							href={{
 								pathname: `${canonical}/job`,
@@ -75,9 +75,9 @@ const Footer = ({
 							}}
 							className="text-secondary text-decoration-underline"
 						>
-							Real State
+							Real Estate
 						</Link>
-					</li> */}
+					</li>
 					<li className="me-3">
 						<Link
 							href={{

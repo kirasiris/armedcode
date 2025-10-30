@@ -57,21 +57,6 @@ const TabMenu = () => {
 			>
 				Update
 			</Link>
-			{/* <Link
-				href={{
-					pathname: `/api/update`,
-					query: {},
-				}}
-				passHref
-			>
-				<a
-					className={`my-nav-links text-bg-dark me-1 nav-link ${isActive(
-						`/api/update`
-					)}`}
-				>
-					Update
-				</a>
-			</Link> */}
 		</div>
 	);
 };

@@ -44,74 +44,22 @@ const Menu = ({
 					<Nav as="ul" className="me-auto">
 						<li className="nav-item">
 							<Link
-								href={canonical}
+								href={{
+									pathname: canonical,
+									query: {},
+								}}
 								className={`nav-link ${isActive(canonical)}`}
 							>
 								Home
 							</Link>
 						</li>
-						{auth?.data?.isOnline ? (
-							<>
-								<li className="nav-item">
-									<Link
-										href={{
-											pathname: `${canonical}/dashboard`,
-											query: {},
-										}}
-										className={`nav-link ${isActive(`${canonical}/dashboard`)}`}
-									>
-										Dashboard
-									</Link>
-								</li>
-							</>
-						) : (
-							<>
-								<li className="nav-item">
-									<a
-										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}/dashboard`}
-										className="nav-link"
-										target="_blank"
-										rel="noreferrer noopener"
-									>
-										Login
-									</a>
-								</li>
-								<li className="nav-item">
-									<a
-										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/register`}
-										className="nav-link"
-										target="_blank"
-										rel="noreferrer noopener"
-									>
-										Register
-									</a>
-								</li>
-							</>
-						)}
-						{/* <li className="nav-item">
-							<Link
-								href={{
-									pathname: `${canonical}/api`,
-									query: {},
-								}}
-								className={`nav-link ${isActive(`${canonical}/api`)}`}
-							>
-								
-									
-								
-									API
-								
-							</Link>
-						</li> */}
-					</Nav>
-					<Nav as="ul">
 						<li className="nav-item">
 							<Link
 								href={{
 									pathname: `${canonical}/about`,
 									query: {},
 								}}
-								className={`nav-link ${isActive(`${canonical}/about`)}`}
+								className={`nav-link ${isActive(canonical)}/about`}
 							>
 								About
 							</Link>
@@ -160,6 +108,68 @@ const Menu = ({
 								Contact
 							</Link>
 						</li>
+					</Nav>
+					<Nav as="ul">
+						{auth?.data?.isOnline ? (
+							<>
+								<li className="nav-item">
+									<Link
+										href={{
+											pathname: `${canonical}/dashboard`,
+											query: {},
+										}}
+										className={`nav-link ${isActive(`${canonical}/dashboard`)}`}
+									>
+										Dashboard
+									</Link>
+								</li>
+								{/* <li className="nav-item">
+									<Link
+										href={{
+											pathname: `${canonical}/api`,
+											query: {},
+										}}
+										className={`nav-link ${isActive(`${canonical}/api`)}`}
+									>
+										API
+									</Link>
+								</li> */}
+								<li className="nav-item">
+									<Link
+										href={{
+											pathname: `${canonical}/cart`,
+											query: {},
+										}}
+										className={`nav-link ${isActive(`${canonical}/cart`)}`}
+									>
+										Cart
+									</Link>
+								</li>
+							</>
+						) : (
+							<>
+								<li className="nav-item">
+									<a
+										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}`}
+										className="nav-link"
+										target="_blank"
+										rel="noreferrer noopener"
+									>
+										Login
+									</a>
+								</li>
+								<li className="nav-item">
+									<a
+										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/register`}
+										className="nav-link"
+										target="_blank"
+										rel="noreferrer noopener"
+									>
+										Register
+									</a>
+								</li>
+							</>
+						)}
 					</Nav>
 				</Navbar.Collapse>
 			</Container>
