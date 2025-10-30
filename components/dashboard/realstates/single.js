@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { formatDateWithoutTime } from "befree-utilities";
 import DeleteModal from "@/components/global/deletemodal";
 
 const Single = ({
@@ -23,7 +24,7 @@ const Single = ({
 					<h1 className="blog-item__title">
 						<Link
 							href={{
-								pathname: `/dashboard/courses/update/${object._id}`,
+								pathname: `/dashboard/realstates/update/${object._id}`,
 								query: {},
 							}}
 							className="blog-item__title-link"
@@ -32,13 +33,16 @@ const Single = ({
 						</Link>
 					</h1>
 					<div className="blog-item__meta">
-						{/* <span className="blog-item__meta-time-status">{object.text}</span> */}
+						<span className="badge bg-dark me-1">
+							{formatDateWithoutTime(object.createdAt)}
+						</span>
+						<span className="badge bg-dark me-1">{object.status}</span>
 					</div>
 				</div>
 				<div className="blog-type-list__blog-thumbnail-wrapper has-image d-none d-md-block d-lg-block d-xl-block d-xxl-block">
 					<Link
 						href={{
-							pathname: `/dashboard/courses/update/${object._id}`,
+							pathname: `/dashboard/realstates/update/${object._id}`,
 							query: {},
 						}}
 						className="blog-type-list__blog-thumbnail-link"
@@ -60,11 +64,12 @@ const Single = ({
 						<DropdownButton title="Options" variant="secondary">
 							<Link
 								href={{
-									pathname: `/dashboard/courses/read/${object._id}`,
-									query: {},
+									pathname: `/dashboard/realstates/read/${object._id}`,
+									query: {
+										isAdmin: true,
+									},
 								}}
 								className="dropdown-item btn btn-link"
-								target="_blank"
 							>
 								View&nbsp;It
 							</Link>
@@ -98,7 +103,7 @@ const Single = ({
 									pathname: `/dashboard/comments/create`,
 									query: {
 										resourceId: object._id,
-										onModel: `Course`,
+										onModel: `RealState`,
 									},
 								}}
 								className="dropdown-item btn btn-link"
@@ -110,7 +115,7 @@ const Single = ({
 									pathname: `/dashboard/reports/create`,
 									query: {
 										resourceId: object._id,
-										onModel: `Course`,
+										onModel: `RealState`,
 									},
 								}}
 								className="dropdown-item btn btn-link"

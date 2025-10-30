@@ -36,7 +36,11 @@ const DashboardStatusesMenu = ({
 					<Link
 						href={{
 							pathname: publishedLink,
-							query: { page: 1, limit: 10, sort: `-createdAt` },
+							query: {
+								page: 1,
+								limit: 10,
+								sort: `-createdAt`,
+							},
 						}}
 						className={`btn ${isActive(publishedLink)} btn-sm`}
 					>
@@ -47,7 +51,11 @@ const DashboardStatusesMenu = ({
 				<Link
 					href={{
 						pathname: draftLink,
-						query: { page: 1, limit: 10, sort: `-createdAt` },
+						query: {
+							page: 1,
+							limit: 10,
+							sort: `-createdAt`,
+						},
 					}}
 					className={`btn ${isActive(draftLink)} btn-sm`}
 				>
@@ -60,7 +68,11 @@ const DashboardStatusesMenu = ({
 					<Link
 						href={{
 							pathname: scheduledLink,
-							query: { page: 1, limit: 10, sort: `-createdAt` },
+							query: {
+								page: 1,
+								limit: 10,
+								sort: `-createdAt`,
+							},
 						}}
 						className={`btn ${isActive(scheduledLink)} btn-sm`}
 					>
@@ -73,7 +85,11 @@ const DashboardStatusesMenu = ({
 					<Link
 						href={{
 							pathname: trashedLink,
-							query: { page: 1, limit: 10, sort: `-createdAt` },
+							query: {
+								page: 1,
+								limit: 10,
+								sort: `-createdAt`,
+							},
 						}}
 						className={`btn ${isActive(trashedLink)} btn-sm`}
 					>

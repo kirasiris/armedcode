@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { formatDateWithoutTime } from "befree-utilities";
 import DeleteModal from "@/components/global/deletemodal";
 
 const Single = ({
@@ -10,6 +11,8 @@ const Single = ({
 	handlePublish = () => {},
 	handleTrash = () => {},
 	handleSchedule = () => {},
+	handleFeature = () => {},
+	handleUnfeature = () => {},
 	handleDelete = () => {},
 	objects = [],
 	setObjects = () => {},
@@ -23,35 +26,68 @@ const Single = ({
 					<h1 className="blog-item__title">
 						<Link
 							href={{
-								pathname: `/dashboard/courses/update/${object._id}`,
+								pathname: `/dashboard/products/update/${object._id}`,
 								query: {},
 							}}
 							className="blog-item__title-link"
 						>
-							{object.title}
+							{object.price.inHumanFormat}&nbsp;-&nbsp;{object.title}
+							&nbsp;-&nbsp;
+							{object.sku}
 						</Link>
 					</h1>
 					<div className="blog-item__meta">
-						{/* <span className="blog-item__meta-time-status">{object.text}</span> */}
+						<span className="badge bg-dark me-1">
+							{formatDateWithoutTime(object.createdAt)}
+						</span>
+						<span className="badge bg-dark me-1">{object.status}</span>
+						<span className="badge bg-dark me-1">
+							Brand:&nbsp;{object.brand}
+						</span>
+						<span className="badge bg-dark me-1">
+							Model:&nbsp;{object.model}
+						</span>
+						<span className="badge bg-dark me-1">{object.category}</span>
+						<span className="badge bg-dark me-1">{object.sub_category}</span>
+						<span className="badge bg-dark me-1">
+							Stock:&nbsp;{object.stockQuantity}
+						</span>
+						<span className="badge bg-dark me-1">
+							In&nbsp;Stock&nbsp;{object?.inStock?.toString()}
+						</span>
+						<span className="badge bg-dark me-1">
+							NFA&nbsp;Item:&nbsp;{object?.nfaItem?.toString()}
+						</span>
+						<span className="badge bg-dark me-1">
+							Background&nbsp;Check?:&nbsp;
+							{object?.requiresBackgroundCheck?.toString()}
+						</span>
+						<span className="badge bg-dark me-1">
+							Age&nbsp;Restriction:&nbsp;
+							{object.ageRestriction}
+						</span>
 					</div>
 				</div>
 				<div className="blog-type-list__blog-thumbnail-wrapper has-image d-none d-md-block d-lg-block d-xl-block d-xxl-block">
 					<Link
 						href={{
-							pathname: `/dashboard/courses/update/${object._id}`,
+							pathname: `/dashboard/products/update/${object._id}`,
 							query: {},
 						}}
 						className="blog-type-list__blog-thumbnail-link"
 					>
 						<Image
 							src={
-								object.files?.avatar?.location.secure_location ||
+								object.files?.avatar?.location?.secure_location ||
 								`https://source.unsplash.com/random/83x63`
 							}
 							className="blog-type-list__blog-thumbnail"
 							alt="Blog titles image"
 							width="83"
 							height="63"
+							style={{
+								objectFit: "scale-down",
+							}}
 						/>
 					</Link>
 				</div>
@@ -60,11 +96,12 @@ const Single = ({
 						<DropdownButton title="Options" variant="secondary">
 							<Link
 								href={{
-									pathname: `/dashboard/courses/read/${object._id}`,
-									query: {},
+									pathname: `/dashboard/products/read/${object._id}`,
+									query: {
+										isAdmin: true,
+									},
 								}}
 								className="dropdown-item btn btn-link"
-								target="_blank"
 							>
 								View&nbsp;It
 							</Link>
@@ -74,6 +111,7 @@ const Single = ({
 							>
 								Draft&nbsp;It
 							</button>
+
 							<button
 								className="dropdown-item btn btn-sm"
 								onClick={() => handlePublish(object._id)}
@@ -98,7 +136,7 @@ const Single = ({
 									pathname: `/dashboard/comments/create`,
 									query: {
 										resourceId: object._id,
-										onModel: `Course`,
+										onModel: `Product`,
 									},
 								}}
 								className="dropdown-item btn btn-link"
@@ -110,7 +148,7 @@ const Single = ({
 									pathname: `/dashboard/reports/create`,
 									query: {
 										resourceId: object._id,
-										onModel: `Course`,
+										onModel: `Product`,
 									},
 								}}
 								className="dropdown-item btn btn-link"

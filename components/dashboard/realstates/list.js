@@ -13,6 +13,7 @@ const List = ({
 	pageText = "",
 	addLink = "",
 	searchOn = "",
+	searchedKeyword = "",
 	objects = [],
 	searchParams = {},
 	handleDraft = () => {},
@@ -151,10 +152,10 @@ const List = ({
 				stripeChargesEnabled ? (
 					<>
 						<ul className="list-group list-group-flush">
-							{objects?.data?.map((blog) => (
+							{objects?.data?.map((realstate) => (
 								<Single
-									key={blog._id}
-									object={blog}
+									key={realstate._id}
+									object={realstate}
 									handleDraft={handleDraft}
 									handlePublish={handlePublish}
 									handleTrash={handleTrash}
@@ -185,7 +186,7 @@ const List = ({
 			) : (
 				<NothingFoundAlert
 					classList="alert-danger rounded-0 m-0 border-0"
-					text="Nothing found"
+					text={`Nothing found with ${searchedKeyword}`}
 				/>
 			)}
 		</>

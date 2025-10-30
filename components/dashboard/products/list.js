@@ -13,12 +13,15 @@ const List = ({
 	pageText = "",
 	addLink = "",
 	searchOn = "",
+	searchedKeyword = "",
 	objects = [],
 	searchParams = {},
 	handleDraft = () => {},
 	handlePublish = () => {},
 	handleTrash = () => {},
 	handleSchedule = () => {},
+	handleFeature = () => {},
+	handleUnfeature = () => {},
 	handleDelete = () => {},
 	handleTrashAllFunction = () => {},
 	handleDeleteAllFunction = () => {},
@@ -90,6 +93,36 @@ const List = ({
 	}
 
 	if (
+		typeof handleFeature !== "function" &&
+		handleFeature !== "" &&
+		handleFeature !== undefined &&
+		handleFeature !== null
+	) {
+		return (
+			<ErrorPage
+				statusCodeMessage={
+					"The handleFeature parameter is not a function!. Please try again"
+				}
+			/>
+		);
+	}
+
+	if (
+		typeof handleUnfeature !== "function" &&
+		handleUnfeature !== "" &&
+		handleUnfeature !== undefined &&
+		handleUnfeature !== null
+	) {
+		return (
+			<ErrorPage
+				statusCodeMessage={
+					"The handleUnfeature parameter is not a function!. Please try again"
+				}
+			/>
+		);
+	}
+
+	if (
 		typeof handleDelete !== "function" &&
 		handleDelete !== "" &&
 		handleDelete !== undefined &&
@@ -143,7 +176,7 @@ const List = ({
 				totalResults={objects?.countAll}
 				addLink={addLink}
 				searchOn={searchOn}
-				handleTrashAllFunction={handleTrashAllFunction}
+				handleTrashAllFunction={""}
 				handleDeleteAllFunction={handleDeleteAllFunction}
 				classList=""
 			/>
@@ -151,14 +184,16 @@ const List = ({
 				stripeChargesEnabled ? (
 					<>
 						<ul className="list-group list-group-flush">
-							{objects?.data?.map((blog) => (
+							{objects?.data?.map((weapon) => (
 								<Single
-									key={blog._id}
-									object={blog}
+									key={weapon._id}
+									object={weapon}
 									handleDraft={handleDraft}
 									handlePublish={handlePublish}
 									handleTrash={handleTrash}
 									handleSchedule={handleSchedule}
+									handleFeature={handleFeature}
+									handleUnfeature={handleUnfeature}
 									handleDelete={handleDelete}
 									objects={newobjects.data}
 									setObjects={setNewObjects}
@@ -185,7 +220,7 @@ const List = ({
 			) : (
 				<NothingFoundAlert
 					classList="alert-danger rounded-0 m-0 border-0"
-					text="Nothing found"
+					text={`Nothing found with ${searchedKeyword}`}
 				/>
 			)}
 		</>
