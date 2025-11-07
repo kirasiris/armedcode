@@ -1,12 +1,13 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Loading from "@/app/store/loading";
 import ParseHtml from "@/layout/parseHtml";
 import { fetchurl } from "@/helpers/fetchurl";
 import Globalcontent from "@/layout/content";
 import Head from "@/app/head";
 import Globalsidebar from "@/layout/sidebar";
-import Image from "next/image";
+import AddToCartButton from "@/components/store/addtocartbutton";
 
 async function getProduct(params) {
 	const res = await fetchurl(`/global/products${params}`, "GET", "no-cache");
@@ -98,10 +99,7 @@ const StoreRead = async ({ params, searchParams }) => {
 										SKU: {product?.data?.sku}
 									</span>
 								</p>
-								<button className="btn btn-light btn-sm w-100 mb-4">
-									<i aria-hidden className="fa-solid fa-cart-shopping me-2" />
-									ADD TO CART
-								</button>
+								<AddToCartButton object={product?.data} />
 								<h2>Specifications</h2>
 								{product?.data?.category === "weapons" && (
 									<ul>

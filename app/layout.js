@@ -6,6 +6,7 @@ import Head from "@/app/head";
 import Menu from "@/layout/menu";
 import Footer from "@/layout/footer";
 import { fetchurl } from "@/helpers/fetchurl";
+import { CartProvider } from "@/context/cartcontext";
 
 async function getAuthenticatedUser() {
 	const res = await fetchurl(`/auth/me`, "GET", "default");
@@ -22,8 +23,8 @@ const RootLayout = async ({ children }) => {
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
 	return (
-		<CookiesProvider>
-			<html lang="en">
+		<html lang="en">
+			<CookiesProvider>
 				<head>
 					<Head
 						title={settings?.data?.title}
@@ -31,18 +32,20 @@ const RootLayout = async ({ children }) => {
 						favicon={settings?.data?.favicon}
 					/>
 				</head>
-				<body>
-					<Menu
-						auth={auth}
-						title={settings?.data?.title}
-						logo={settings?.data?.logo}
-						canonical={process.env.NEXT_PUBLIC_WEBSITE_URL}
-					/>
-					<main>{children}</main>
-					<Footer canonical={process.env.NEXT_PUBLIC_WEBSITE_URL} />
-				</body>
-			</html>
-		</CookiesProvider>
+				<CartProvider>
+					<body>
+						<Menu
+							auth={auth}
+							title={settings?.data?.title}
+							logo={settings?.data?.logo}
+							canonical={process.env.NEXT_PUBLIC_WEBSITE_URL}
+						/>
+						<main>{children}</main>
+						<Footer canonical={process.env.NEXT_PUBLIC_WEBSITE_URL} />
+					</body>
+				</CartProvider>
+			</CookiesProvider>
+		</html>
 	);
 };
 

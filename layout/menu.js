@@ -6,6 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import { deleteAuthTokenOnServer } from "@/helpers/fetchurl";
+import { useStoreCart } from "@/context/cartcontext";
 
 const Menu = ({
 	auth = {},
@@ -17,6 +18,9 @@ const Menu = ({
 	const isActive = (path = "") => {
 		return pathname === path ? "active" : "";
 	};
+
+	const { getItemsCount } = useStoreCart();
+
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
 			<Container>
@@ -143,7 +147,7 @@ const Menu = ({
 										}}
 										className={`nav-link ${isActive(`${canonical}/cart`)}`}
 									>
-										Cart
+										Cart {getItemsCount()} Items
 									</Link>
 								</li>
 								<li className="nav-item">

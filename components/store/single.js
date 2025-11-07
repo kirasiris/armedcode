@@ -2,17 +2,11 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { toast } from "react-toastify";
 import Loading from "@/app/store/loading";
+import { useStoreCart } from "@/context/cartcontext";
 
 const Single = ({ object = {} }) => {
-	const addToWishlist = async () => {
-		toast.success(`Added to wishlist`);
-	};
-
-	const addToCart = async () => {
-		toast.success(`Added to cart`);
-	};
+	const { addItemToCart } = useStoreCart();
 
 	return (
 		<Suspense fallback={<Loading />}>
@@ -66,7 +60,10 @@ const Single = ({ object = {} }) => {
 								{object?.cost?.inHumanFormat}
 							</span>
 						</p>
-						<button className="btn btn-light btn-sm w-100">
+						<button
+							className="btn btn-light btn-sm w-100"
+							onClick={() => addItemToCart(object)}
+						>
 							<i aria-hidden className="fa-solid fa-cart-shopping me-2" />
 							Add to cart
 						</button>
