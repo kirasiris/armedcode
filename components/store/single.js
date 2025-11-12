@@ -5,7 +5,7 @@ import Image from "next/image";
 import Loading from "@/app/store/loading";
 import { useStoreCart } from "@/context/cartcontext";
 
-const Single = ({ object = {} }) => {
+const Single = ({ object = {}, auth = {} }) => {
 	const { addItemToCart } = useStoreCart();
 
 	return (
@@ -60,13 +60,19 @@ const Single = ({ object = {} }) => {
 								{object?.cost?.inHumanFormat}
 							</span>
 						</p>
-						<button
-							className="btn btn-light btn-sm w-100"
-							onClick={() => addItemToCart(object)}
-						>
-							<i aria-hidden className="fa-solid fa-cart-shopping me-2" />
-							Add to cart
-						</button>
+						{auth?.data?.isOnline ? (
+							<button
+								className="btn btn-light btn-sm w-100"
+								onClick={() => addItemToCart(object)}
+							>
+								<i aria-hidden className="fa-solid fa-cart-shopping me-2" />
+								Add to cart
+							</button>
+						) : (
+							<button className="btn btn-light btn-sm w-100">
+								Login to Add to Cart
+							</button>
+						)}
 					</div>
 				</div>
 			</article>

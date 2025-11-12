@@ -57,7 +57,7 @@ const Single = ({ object = {} }) => {
 							</button>
 						</div>
 						<h5 className="text-nowrap">
-							{stripeCurrencyFormatter(getTotalItemCost())}
+							{stripeCurrencyFormatter(getTotalItemCost(object))}
 						</h5>
 					</div>
 				</li>

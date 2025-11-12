@@ -1,6 +1,7 @@
 import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/cart/list";
 import ErrorPage from "@/layout/errorpage";
+import { revalidatePath } from "next/cache";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
@@ -25,12 +26,24 @@ const CartIndex = async ({ params, searchParams }) => {
 	const sort = awtdSearchParams.sort || "-createdAt";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
 
-	const getCartsData = getCarts(`?page=${page}&sort=${sort}${decrypt}`);
+	const carts = await getCarts(`?page=${page}&sort=${sort}${decrypt}`);
 
-	const [carts] = await Promise.all([getCartsData]);
+	const saveCart = async (objects = []) => {
+		"use server";
+		await fetchurl(`/protected/stripe/carts`, "POST", "no-cache", {
+			items: objects,
+			onModel: "Product",
+		});
+		// revalidatePath(`/cart`);
+	};
 
 	return settings?.data?.maintenance === false ? (
-		<List objects={carts} searchedKeyword="" searchParams={awtdSearchParams} />
+		<List
+			objects={carts}
+			searchedKeyword=""
+			searchParams={awtdSearchParams}
+			handleSaveCart={saveCart}
+		/>
 	) : (
 		<ErrorPage />
 	);

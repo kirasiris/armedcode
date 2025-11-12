@@ -4,6 +4,11 @@ import ErrorPage from "@/layout/errorpage";
 import Header from "@/layout/header";
 import SearchBar from "@/layout/store/searchbar";
 
+async function getAuthenticatedUser() {
+	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
+	return res;
+}
+
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
 	return res;
@@ -20,6 +25,7 @@ async function getProducts(params) {
 
 const StoreSearchIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
+	const auth = await getAuthenticatedUser();
 	const keyword = awtdSearchParams.keyword;
 
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
@@ -66,6 +72,7 @@ const StoreSearchIndex = async ({ params, searchParams }) => {
 				</div>
 			</section>
 			<List
+				auth={auth}
 				objects={products}
 				searchedKeyword={keyword}
 				searchParams={awtdSearchParams}

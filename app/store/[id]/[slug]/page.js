@@ -9,6 +9,11 @@ import Head from "@/app/head";
 import Globalsidebar from "@/layout/sidebar";
 import AddToCartButton from "@/components/store/addtocartbutton";
 
+async function getAuthenticatedUser() {
+	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
+	return res;
+}
+
 async function getProduct(params) {
 	const res = await fetchurl(`/global/products${params}`, "GET", "no-cache");
 	if (!res.success) notFound();
@@ -18,6 +23,7 @@ async function getProduct(params) {
 const StoreRead = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
+	const auth = await getAuthenticatedUser();
 
 	const product = await getProduct(`/${awtdParams.id}`);
 
@@ -99,7 +105,13 @@ const StoreRead = async ({ params, searchParams }) => {
 										SKU: {product?.data?.sku}
 									</span>
 								</p>
-								<AddToCartButton object={product?.data} />
+								{auth?.data?.isOnline ? (
+									<AddToCartButton object={product?.data} />
+								) : (
+									<button className="btn btn-light btn-sm w-100 text-uppercase mb-4">
+										Login to Add to Cart
+									</button>
+								)}
 								<h2>Specifications</h2>
 								{product?.data?.category === "weapons" && (
 									<ul>

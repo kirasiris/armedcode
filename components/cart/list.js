@@ -3,14 +3,35 @@ import Spinner from "react-bootstrap/Spinner";
 import Link from "next/link";
 import { stripeCurrencyFormatter } from "befree-utilities";
 import Single from "./single";
-import NothingFoundAlert from "@/layout/nothingfoundalert";
 import Globalcontent from "@/layout/content";
 import Globalsidebar from "@/layout/sidebar";
 import { useStoreCart } from "@/context/cartcontext";
+import ErrorPage from "@/layout/errorpage";
 
-const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
+const List = ({
+	objects = [],
+	searchedKeyword = "",
+	searchParams = {},
+	handleSaveCart = () => {},
+}) => {
 	const { items, loading, clearCart, getItemFee, getTotalCartCost } =
 		useStoreCart();
+
+	if (
+		typeof handleSaveCart !== "function" &&
+		handleSaveCart !== "" &&
+		handleSaveCart !== undefined &&
+		handleSaveCart !== null
+	) {
+		return (
+			<ErrorPage
+				statusCodeMessage={
+					"The handleSaveCart parameter is not a function!. Please try again"
+				}
+			/>
+		);
+	}
+
 	return (
 		<section className="bg-black py-5 text-bg-dark">
 			<div className="container">
@@ -87,7 +108,16 @@ const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
 								</Link>
 								{items?.length > 0 && (
 									<button
-										className="btn btn-danger btn-sm w-100"
+										type="button"
+										className="btn btn-secondary btn-sm w-100 text-uppercase mb-3"
+										onClick={async () => await handleSaveCart(items)}
+									>
+										Save Cart
+									</button>
+								)}
+								{items?.length > 0 && (
+									<button
+										className="btn btn-danger btn-sm w-100 text-uppercase"
 										onClick={() => clearCart()}
 									>
 										Clear Cart

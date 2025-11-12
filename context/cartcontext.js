@@ -1,4 +1,5 @@
 "use client";
+import { fetchurl } from "@/helpers/fetchurl";
 import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -61,7 +62,7 @@ export function CartProvider({ children }) {
 		return quantity;
 	};
 
-	const addItemToCart = (object = {}) => {
+	const addItemToCart = async (object = {}) => {
 		const quantity = getItemQuantity(object);
 
 		// Normalize unit price to a number (in cents)
@@ -131,11 +132,11 @@ export function CartProvider({ children }) {
 	};
 
 	const getTotalItemCost = (object = {}) => {
-		let totalItemCost = 0;
-		cartItems.map((cartItem) => {
-			totalItemCost += cartItem.price * cartItem.stockQuantity;
-		});
-		return totalItemCost;
+		const foundItem = cartItems.find((item) => item._id === object?._id);
+
+		if (!foundItem) return 0;
+
+		return foundItem.price * foundItem.stockQuantity;
 	};
 
 	const getItemFee = () => {
@@ -148,7 +149,7 @@ export function CartProvider({ children }) {
 				uniqueIds.add(item._id);
 
 				const price = Number(item.price) || 0;
-				const itemFee = (price * 30) / 100; // 30% fee
+				const itemFee = (price * 3) / 100; // 3% fee
 				totalFee += itemFee;
 			}
 		}

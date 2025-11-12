@@ -4,7 +4,12 @@ import NumericPagination from "@/layout/numericpagination";
 import NothingFoundAlert from "@/layout/nothingfoundalert";
 import Globalcontent from "@/layout/content";
 
-const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
+const List = ({
+	auth = {},
+	objects = [],
+	searchedKeyword = "",
+	searchParams = {},
+}) => {
 	return (
 		<section className="bg-black py-5 text-bg-dark">
 			<div className="container">
@@ -14,7 +19,7 @@ const List = ({ objects = [], searchedKeyword = "", searchParams = {} }) => {
 							<>
 								<div className="row">
 									{objects.data?.map((blog) => (
-										<Single key={blog._id} object={blog} />
+										<Single key={blog._id} auth={auth} object={blog} />
 									))}
 								</div>
 								<NumericPagination
