@@ -13,6 +13,7 @@ const List = ({
 	searchedKeyword = "",
 	searchParams = {},
 	handleSaveCart = () => {},
+	handleItemQuantity = () => {},
 }) => {
 	const { items, loading, clearCart, getItemFee, getTotalCartCost } =
 		useStoreCart();
@@ -44,7 +45,11 @@ const List = ({
 						) : items?.length > 0 ? (
 							<ul className="list-group">
 								{items?.map((item, index) => (
-									<Single key={index} object={item} />
+									<Single
+										key={index}
+										object={item}
+										handleItemQuantity={handleItemQuantity}
+									/>
 								))}
 							</ul>
 						) : (
@@ -92,7 +97,7 @@ const List = ({
 										</h4>
 									</li>
 								</ul>
-								{items?.length > 0 && (
+								{objects?.data?.length > 0 && items?.length > 0 && (
 									<button className="btn btn-light btn-sm w-100 text-uppercase mb-3">
 										Proceed to Checkout
 									</button>
@@ -115,7 +120,7 @@ const List = ({
 										Save Cart
 									</button>
 								)}
-								{items?.length > 0 && (
+								{objects?.data?.length > 0 && items?.length > 0 && (
 									<button
 										className="btn btn-danger btn-sm w-100 text-uppercase"
 										onClick={() => clearCart()}

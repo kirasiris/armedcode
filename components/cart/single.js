@@ -5,7 +5,7 @@ import { stripeCurrencyFormatter } from "befree-utilities";
 import Loading from "@/app/blog/loading";
 import { useStoreCart } from "@/context/cartcontext";
 
-const Single = ({ object = {} }) => {
+const Single = ({ object = {}, handleItemQuantity = () => {} }) => {
 	const {
 		getItemQuantity,
 		addItemToCart,
@@ -35,7 +35,10 @@ const Single = ({ object = {} }) => {
 							<div className="btn-group me-2">
 								<button
 									className="btn btn-light btn-sm"
-									onClick={() => removeItemFromCart(object)}
+									onClick={() => {
+										removeItemFromCart(object);
+										handleItemQuantity(object);
+									}}
 								>
 									<i aria-hidden className="fa-solid fa-minus" />
 								</button>
@@ -44,7 +47,10 @@ const Single = ({ object = {} }) => {
 								</button>
 								<button
 									className="btn btn-light btn-sm"
-									onClick={() => addItemToCart(object)}
+									onClick={() => {
+										addItemToCart(object);
+										handleItemQuantity(object);
+									}}
 								>
 									<i aria-hidden className="fa-solid fa-plus" />
 								</button>

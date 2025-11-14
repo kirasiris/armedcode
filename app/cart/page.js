@@ -9,11 +9,7 @@ async function getSetting(params) {
 }
 
 async function getCarts(params) {
-	const res = await fetchurl(
-		`/protected/stripe/carts${params}`,
-		"GET",
-		"no-cache"
-	);
+	const res = await fetchurl(`/global/carts${params}`, "GET", "no-cache");
 	return res;
 }
 
@@ -30,11 +26,25 @@ const CartIndex = async ({ params, searchParams }) => {
 
 	const saveCart = async (objects = []) => {
 		"use server";
-		await fetchurl(`/protected/stripe/carts`, "POST", "no-cache", {
+		const res = await fetchurl(`/protected/stripe/carts`, "POST", "no-cache", {
 			items: objects,
 			onModel: "Product",
 		});
-		// revalidatePath(`/cart`);
+		console.log("cart added", res);
+		revalidatePath(`/cart`);
+	};
+
+	const updateItemQuantity = async (object) => {
+		"use server";
+		await fetchurl(
+			`/protected/stripe/carts/${object?._id}`,
+			"PUT",
+			"no-cache",
+			{
+				productId: object?._id,
+			}
+		);
+		revalidatePath(`/cart`);
 	};
 
 	return settings?.data?.maintenance === false ? (
@@ -43,6 +53,7 @@ const CartIndex = async ({ params, searchParams }) => {
 			searchedKeyword=""
 			searchParams={awtdSearchParams}
 			handleSaveCart={saveCart}
+			handleItemQuantity={updateItemQuantity}
 		/>
 	) : (
 		<ErrorPage />
