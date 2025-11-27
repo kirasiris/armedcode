@@ -1,7 +1,7 @@
+import { revalidatePath } from "next/cache";
 import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/cart/list";
 import ErrorPage from "@/layout/errorpage";
-import { revalidatePath } from "next/cache";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
@@ -26,23 +26,31 @@ const CartIndex = async ({ params, searchParams }) => {
 
 	const saveCart = async (objects = []) => {
 		"use server";
-		const res = await fetchurl(`/protected/stripe/carts`, "POST", "no-cache", {
+		await fetchurl(`/protected/stripe/carts`, "POST", "no-cache", {
 			items: objects,
 			onModel: "Product",
 		});
-		console.log("cart added", res);
 		revalidatePath(`/cart`);
 	};
 
-	const updateItemQuantity = async (object) => {
+	const checkout = async (object = {}, objects = []) => {
 		"use server";
-		await fetchurl(
-			`/protected/stripe/carts/${object?._id}`,
-			"PUT",
+		const res = await fetchurl(
+			`/protected/stripe/carts/checkout/${object?._id}`,
+			"POST",
 			"no-cache",
 			{
-				productId: object?._id,
+				items: objects,
 			}
+		);
+	};
+
+	const clearCart = async (object = {}) => {
+		"use server";
+		await fetchurl(
+			`/protected/stripe/carts/${object?._id}/permanently`,
+			"DELETE",
+			"no-cache"
 		);
 		revalidatePath(`/cart`);
 	};
@@ -50,10 +58,9 @@ const CartIndex = async ({ params, searchParams }) => {
 	return settings?.data?.maintenance === false ? (
 		<List
 			objects={carts}
-			searchedKeyword=""
-			searchParams={awtdSearchParams}
+			handleCheckout={checkout}
 			handleSaveCart={saveCart}
-			handleItemQuantity={updateItemQuantity}
+			handleClearCart={clearCart}
 		/>
 	) : (
 		<ErrorPage />

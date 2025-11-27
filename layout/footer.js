@@ -45,7 +45,7 @@ const Footer = ({
 					© 2025 {process.env.NEXT_PUBLIC_WEBSITE_NAME}. All rights reserved.
 				</p>
 				<ul className="list-unstyled d-flex">
-					<li className="me-3">
+					{/* <li className="me-3">
 						<Link
 							href={{
 								pathname: `${canonical}/job`,
@@ -55,7 +55,7 @@ const Footer = ({
 						>
 							Jobs
 						</Link>
-					</li>
+					</li> */}
 					<li className="me-3">
 						<Link
 							href={{
@@ -67,7 +67,7 @@ const Footer = ({
 							Store
 						</Link>
 					</li>
-					<li className="me-3">
+					{/* <li className="me-3">
 						<Link
 							href={{
 								pathname: `${canonical}/realstate`,
@@ -77,7 +77,7 @@ const Footer = ({
 						>
 							Real Estate
 						</Link>
-					</li>
+					</li> */}
 					<li className="me-3">
 						<Link
 							href={{

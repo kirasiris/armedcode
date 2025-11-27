@@ -10,13 +10,27 @@ import ErrorPage from "@/layout/errorpage";
 
 const List = ({
 	objects = [],
-	searchedKeyword = "",
-	searchParams = {},
+	handleCheckout = () => {},
 	handleSaveCart = () => {},
-	handleItemQuantity = () => {},
+	handleClearCart = () => {},
 }) => {
 	const { items, loading, clearCart, getItemFee, getTotalCartCost } =
 		useStoreCart();
+
+	if (
+		typeof handleCheckout !== "function" &&
+		handleCheckout !== "" &&
+		handleCheckout !== undefined &&
+		handleCheckout !== null
+	) {
+		return (
+			<ErrorPage
+				statusCodeMessage={
+					"The handleCheckout parameter is not a function!. Please try again"
+				}
+			/>
+		);
+	}
 
 	if (
 		typeof handleSaveCart !== "function" &&
@@ -28,6 +42,21 @@ const List = ({
 			<ErrorPage
 				statusCodeMessage={
 					"The handleSaveCart parameter is not a function!. Please try again"
+				}
+			/>
+		);
+	}
+
+	if (
+		typeof handleClearCart !== "function" &&
+		handleClearCart !== "" &&
+		handleClearCart !== undefined &&
+		handleClearCart !== null
+	) {
+		return (
+			<ErrorPage
+				statusCodeMessage={
+					"The handleClearCart parameter is not a function!. Please try again"
 				}
 			/>
 		);
@@ -45,11 +74,7 @@ const List = ({
 						) : items?.length > 0 ? (
 							<ul className="list-group">
 								{items?.map((item, index) => (
-									<Single
-										key={index}
-										object={item}
-										handleItemQuantity={handleItemQuantity}
-									/>
+									<Single key={index} object={item} />
 								))}
 							</ul>
 						) : (
@@ -98,14 +123,17 @@ const List = ({
 									</li>
 								</ul>
 								{objects?.data?.length > 0 && items?.length > 0 && (
-									<button className="btn btn-light btn-sm w-100 text-uppercase mb-3">
+									<button
+										className="btn btn-light btn-sm w-100 text-uppercase mb-3"
+										onClick={() => handleCheckout(objects?.data[0], items)}
+									>
 										Proceed to Checkout
 									</button>
 								)}
 								<Link
 									href={{
 										pathname: `/store`,
-										qeury: {},
+										query: {},
 									}}
 									className="btn btn-secondary btn-sm w-100 text-uppercase mb-3"
 								>
@@ -115,7 +143,7 @@ const List = ({
 									<button
 										type="button"
 										className="btn btn-secondary btn-sm w-100 text-uppercase mb-3"
-										onClick={async () => await handleSaveCart(items)}
+										onClick={() => handleSaveCart(items)}
 									>
 										Save Cart
 									</button>
@@ -123,7 +151,10 @@ const List = ({
 								{objects?.data?.length > 0 && items?.length > 0 && (
 									<button
 										className="btn btn-danger btn-sm w-100 text-uppercase"
-										onClick={() => clearCart()}
+										onClick={() => {
+											clearCart();
+											handleClearCart(objects?.data[0]);
+										}}
 									>
 										Clear Cart
 									</button>

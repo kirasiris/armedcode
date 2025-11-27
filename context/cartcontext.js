@@ -80,6 +80,7 @@ export function CartProvider({ children }) {
 					slug: object?.slug,
 					avatar: object?.files?.avatar?.location?.secure_location,
 					price: unitPrice,
+					priceId: object?.price?.default_price,
 				},
 			]);
 			toast.success("Item added to cart", "bottom");
