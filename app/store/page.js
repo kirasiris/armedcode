@@ -16,7 +16,7 @@ async function getSetting(params) {
 
 async function getProducts(params) {
 	const res = await fetchurl(
-		`/global/products${params}&status=published`,
+		`/global/products${params}&postType=product&status=published`,
 		"GET",
 		"no-cache"
 	);

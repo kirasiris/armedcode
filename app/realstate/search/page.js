@@ -11,7 +11,7 @@ async function getSetting(params) {
 
 async function getRealStates(params) {
 	const res = await fetchurl(
-		`/global/realstates${params}&status=published`,
+		`/global/realstates${params}&postType=realstate&status=published`,
 		"GET",
 		"no-cache"
 	);
