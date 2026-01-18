@@ -1,39 +1,37 @@
 import { fetchurl } from "@/helpers/fetchurl";
-import List from "@/components/nfatransfers/list";
 import ErrorPage from "@/layout/errorpage";
+import Globalcontent from "@/layout/content";
 
 async function getSetting(params) {
 	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
 	return res;
 }
 
-async function getAcquisitionsDisposals(params) {
-	const res = await fetchurl(
-		`/global/weaponacquisitionsdisposals${params}&status=disposed`,
-		"GET",
-		"no-cache"
-	);
-	return res;
-}
-
 const NFATransfersIndex = async ({ params, searchParams }) => {
-	const awtdSearchParams = await searchParams;
-
 	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
 
-	const page = awtdSearchParams.page || 1;
-	const limit = awtdSearchParams.limit || 10;
-	const sort = awtdSearchParams.sort || "-createdAt";
-	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
-
-	const getNFATransfersData = getAcquisitionsDisposals(
-		`?page=${page}&limit=${limit}&sort=${sort}${decrypt}`
-	);
-
-	const [acquisitionsdisposals] = await Promise.all([getNFATransfersData]);
-
 	return settings?.data?.maintenance === false ? (
-		<List objects={acquisitionsdisposals} searchParams={awtdSearchParams} />
+		<section className="bg-black py-5 text-bg-dark">
+			<div className="container">
+				<div className="row">
+					<Globalcontent classList="col-lg-12">
+						<article>
+							<h1>Sorry</h1>
+							<h2>This page is no longer public</h2>
+							<p>The NFA Transfers are usually considered public record,</p>
+							<p>
+								however, some of the few customers that I have had so far have
+								recorded their PII also.
+							</p>
+							<p>
+								In order to protect them, this page will no longer be public.
+							</p>
+							<p>Thanks for your understanding</p>
+						</article>
+					</Globalcontent>
+				</div>
+			</div>
+		</section>
 	) : (
 		<ErrorPage />
 	);
