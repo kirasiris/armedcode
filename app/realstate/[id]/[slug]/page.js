@@ -1,7 +1,10 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { formatDateWithoutTime } from "befree-utilities";
+import {
+	formatDateWithoutTime,
+	stripeCurrencyFormatter,
+} from "befree-utilities";
 import Loading from "@/app/realstate/loading";
 import ParseHtml from "@/layout/parseHtml";
 import { fetchurl } from "@/helpers/fetchurl";
@@ -72,15 +75,19 @@ const RealStateRead = async ({ params, searchParams }) => {
 										</span>
 									</p>
 									<p>
-										{realstate?.data?.businessType === "sale" && (
+										{realstate?.data?.itemType === "sale" && (
 											<span className="fw-bold display-6">
-												{realstate?.data?.price?.inHumanFormat}
+												{stripeCurrencyFormatter(
+													realstate?.data?.price?.inHumanFormat,
+												)}
 											</span>
 										)}
-										{realstate?.data?.businessType === "rent" && (
+										{realstate?.data?.itemType === "rent" && (
 											<>
 												<span className="fw-bold display-6">
-													{realstate?.data?.rates?.monthlyPrice?.inHumanFormat}
+													{stripeCurrencyFormatter(
+														realstate?.data?.rates?.monthlyPrice?.inHumanFormat,
+													)}
 												</span>
 												/<span className="text-secondary">month</span>
 											</>

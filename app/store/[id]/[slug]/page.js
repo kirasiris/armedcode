@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { stripeCurrencyFormatter } from "befree-utilities";
 import Loading from "@/app/store/loading";
 import ParseHtml from "@/layout/parseHtml";
 import { fetchurl } from "@/helpers/fetchurl";
@@ -91,10 +92,14 @@ const StoreRead = async ({ params, searchParams }) => {
 								<p className="text-secondary">{product?.data?.excerpt}</p>
 								<p>
 									<span className="fw-bold display-4 me-1">
-										{product?.data?.price?.inHumanFormat}
+										{stripeCurrencyFormatter(
+											product?.data?.price?.inHumanFormat,
+										)}
 									</span>
 									<span className="fw-bold display-6 text-secondary text-decoration-line-through">
-										{product?.data?.comparePrice?.inHumanFormat}
+										{stripeCurrencyFormatter(
+											product?.data?.comparePrice?.inHumanFormat,
+										)}
 									</span>
 								</p>
 								<p>

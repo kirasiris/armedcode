@@ -2,6 +2,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { stripeCurrencyFormatter } from "befree-utilities";
 import Loading from "@/app/realstate/loading";
 
 const Single = ({ object = {} }) => {
@@ -46,17 +47,19 @@ const Single = ({ object = {} }) => {
 							</span>
 						</div>
 						<p>
-							{object?.businessType === "sale" && (
+							{object?.itemType === "sale" && (
 								<>
 									<span className="fw-bold display-6">
-										{object?.price?.inHumanFormat}
+										{stripeCurrencyFormatter(object?.price?.inHumanFormat)}
 									</span>
 								</>
 							)}
-							{object?.businessType === "rent" && (
+							{object?.itemType === "rent" && (
 								<>
 									<span className="fw-bold display-6">
-										{object?.rates?.monthlyPrice?.inHumanFormat}
+										{stripeCurrencyFormatter(
+											object?.rates?.monthlyPrice?.inHumanFormat,
+										)}
 									</span>
 									/<span className="text-secondary">month</span>
 								</>

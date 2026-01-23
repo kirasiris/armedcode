@@ -2,6 +2,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { stripeCurrencyFormatter } from "befree-utilities";
 import Loading from "@/app/store/loading";
 import { useStoreCart } from "@/context/cartcontext";
 
@@ -53,11 +54,11 @@ const Single = ({ object = {}, auth = {} }) => {
 						<p className="text-secondary">{object?.excerpt || "No excerpt"}</p>
 						<p>
 							<span className="fw-bold display-6">
-								{object?.price.inHumanFormat}
+								{stripeCurrencyFormatter(object?.price.inHumanFormat)}
 							</span>
 							&nbsp;
 							<span className="text-secondary text-decoration-line-through">
-								{object?.cost?.inHumanFormat}
+								{stripeCurrencyFormatter(object?.cost?.inHumanFormat)}
 							</span>
 						</p>
 						{auth?.data?.isOnline ? (
