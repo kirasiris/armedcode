@@ -13,10 +13,6 @@ const UpdateForm = ({
 	params = [],
 	searchParams = {},
 }) => {
-	console.dir({
-		params: params,
-		searchParams: searchParams,
-	});
 	const router = useRouter();
 	const [rawFormData, setRawFormData] = useState({
 		manufacturer: ``,
@@ -74,7 +70,7 @@ const UpdateForm = ({
 			`/protected/weapons`,
 			"PUT",
 			"no-cache",
-			rawFormData
+			rawFormData,
 		);
 		if (res.status === "error") {
 			toast.error(res.message, "bottom");
@@ -120,7 +116,7 @@ const UpdateForm = ({
 				{},
 				abortController.signal,
 				false,
-				false
+				false,
 			);
 			if (res?.data) {
 				setWeapon(res.data);

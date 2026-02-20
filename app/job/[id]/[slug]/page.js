@@ -6,6 +6,8 @@ import { fetchurl } from "@/helpers/fetchurl";
 import Globalcontent from "@/layout/content";
 import Head from "@/app/head";
 import UseMap from "@/components/global/usemap";
+import ErrorPage from "@/layout/errorpage";
+import { getGlobalData } from "@/helpers/globalData";
 
 async function getJob(params) {
 	const res = await fetchurl(`/global/jobs${params}`, "GET", "no-cache");
@@ -16,6 +18,8 @@ async function getJob(params) {
 const JobRead = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
+
+	const { settings } = await getGlobalData();
 
 	const job = await getJob(`/${awtdParams.id}`);
 
@@ -32,12 +36,12 @@ const JobRead = async ({ params, searchParams }) => {
 	// Handle Delete All
 
 	return (
-		<Suspense fallback={<Loading />}>
+		<>
 			<Head
-				title={job.data.title}
+				title={`${settings?.data?.title} - ${job.data.title}`}
 				description={job.data.excerpt || job.data.text}
-				// favicon=""
-				postImage=""
+				favicon={settings.data.favicon}
+				postImage={settings.data.showcase_image}
 				imageWidth=""
 				imageHeight=""
 				videoWidth=""
@@ -52,26 +56,32 @@ const JobRead = async ({ params, searchParams }) => {
 				locales=""
 				posType="job"
 			/>
-			<div className="bg-black py-5 text-bg-dark">
-				<div className="container">
-					<div className="row">
-						<Globalcontent classList="col-lg-12">
-							{job.data.status === "published" ||
-							awtdSearchParams.isAdmin === "true" ? (
-								<article>
-									<section>
-										<ParseHtml text={job?.data?.text} />
-										<UseMap object={job?.data} />
-									</section>
-								</article>
-							) : (
-								<p>Not visible</p>
-							)}
-						</Globalcontent>
+			{settings?.data?.maintenance === false ? (
+				<Suspense fallback={<Loading />}>
+					<div className="bg-black py-5 text-bg-dark">
+						<div className="container">
+							<div className="row">
+								<Globalcontent classList="col-lg-12">
+									{job.data.status === "published" ||
+									awtdSearchParams.isAdmin === "true" ? (
+										<article>
+											<section>
+												<ParseHtml text={job?.data?.text} />
+												<UseMap object={job?.data} />
+											</section>
+										</article>
+									) : (
+										<p>Not visible</p>
+									)}
+								</Globalcontent>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-		</Suspense>
+				</Suspense>
+			) : (
+				<ErrorPage />
+			)}
+		</>
 	);
 };
 

@@ -1,19 +1,17 @@
 import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/job/list";
 import ErrorPage from "@/layout/errorpage";
+import Globalcontent from "@/layout/content";
 import Header from "@/layout/header";
+import Head from "@/app/head";
+import { getGlobalData } from "@/helpers/globalData";
 import SearchBar from "@/layout/job/searchbar";
-
-async function getSetting(params) {
-	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
-	return res;
-}
 
 async function getJobs(params) {
 	const res = await fetchurl(
 		`/global/jobs${params}&status=published`,
 		"GET",
-		"no-cache"
+		"no-cache",
 	);
 	return res;
 }
@@ -21,8 +19,6 @@ async function getJobs(params) {
 const JobSearchIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
 	const keyword = awtdSearchParams.keyword;
-	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
-
 	const page = awtdSearchParams.page || 1;
 	const limit = awtdSearchParams.limit || 10;
 	const sort = awtdSearchParams.sort || "-createdAt";
@@ -43,32 +39,57 @@ const JobSearchIndex = async ({ params, searchParams }) => {
 			: "";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
 
+	const { settings } = await getGlobalData();
+
 	const getJobsData = getJobs(
-		`?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${experienceLevelQuery}${jobTypeQuery}${remoteQuery}${decrypt}`
+		`?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${experienceLevelQuery}${jobTypeQuery}${remoteQuery}${decrypt}`,
 	);
 
 	const [jobs] = await Promise.all([getJobsData]);
 
-	return settings?.data?.maintenance === false ? (
+	return (
 		<>
-			<Header title="" description="" />
-			<section className="bg-dark py-5 text-bg-dark">
-				<div className="container">
-					<div className="row">
-						<div className="col-lg-12">
-							<SearchBar />
-						</div>
-					</div>
-				</div>
-			</section>
-			<List
-				objects={jobs}
-				searchedKeyword={keyword}
-				searchParams={awtdSearchParams}
+			<Head
+				title={`${settings?.data?.title} - Search results of ${awtdSearchParams.keyword}`}
+				description={"Search results..."}
+				favicon={settings?.data?.favicon}
+				postImage={settings.data.showcase_image}
+				imageWidth=""
+				imageHeight=""
+				videoWidth=""
+				videoHeight=""
+				card="summary"
+				robots=""
+				category=""
+				url={`/job/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`}
+				author=""
+				createdAt=""
+				updatedAt=""
+				locales=""
+				posType="page"
 			/>
+			{settings?.data?.maintenance === false ? (
+				<>
+					<Header title="" description="" />
+					<section className="bg-dark py-5 text-bg-dark">
+						<div className="container">
+							<div className="row">
+								<Globalcontent>
+									<SearchBar />
+								</Globalcontent>
+							</div>
+						</div>
+					</section>
+					<List
+						objects={jobs}
+						searchedKeyword={keyword}
+						searchParams={awtdSearchParams}
+					/>
+				</>
+			) : (
+				<ErrorPage />
+			)}
 		</>
-	) : (
-		<ErrorPage />
 	);
 };
 

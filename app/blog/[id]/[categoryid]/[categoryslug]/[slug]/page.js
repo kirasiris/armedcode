@@ -5,7 +5,9 @@ import Loading from "@/app/blog/loading";
 import ParseHtml from "@/layout/parseHtml";
 import { fetchurl } from "@/helpers/fetchurl";
 import Globalcontent from "@/layout/content";
+import ErrorPage from "@/layout/errorpage";
 import Head from "@/app/head";
+import { getGlobalData } from "@/helpers/globalData";
 
 async function getBlog(params) {
 	const res = await fetchurl(`/global/blogs${params}`, "GET", "no-cache");
@@ -16,6 +18,8 @@ async function getBlog(params) {
 const BlogRead = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
+
+	const { settings } = await getGlobalData();
 
 	const blog = await getBlog(`/${awtdParams.id}`);
 
@@ -32,11 +36,11 @@ const BlogRead = async ({ params, searchParams }) => {
 	// Handle Delete All
 
 	return (
-		<Suspense fallback={<Loading />}>
+		<>
 			<Head
-				title={blog.data.title}
+				title={`${settings?.data?.title} - ${blog.data.title}`}
 				description={blog.data.excerpt || blog.data.text}
-				// favicon=""
+				favicon={settings?.data?.favicon}
 				postImage={blog.data.files.avatar.location.secure_location}
 				imageWidth=""
 				imageHeight=""
@@ -52,41 +56,48 @@ const BlogRead = async ({ params, searchParams }) => {
 				locales=""
 				posType="blog"
 			/>
-			<section className="bg-black py-5 text-bg-dark">
-				<div className="container">
-					{blog.data.status === "published" ||
-					awtdSearchParams.isAdmin === "true" ? (
-						<div className="row">
-							<Globalcontent classList={`col-lg-12`}>
-								<article>
-									<figure>
-										<Image
-											className="img-fluid"
-											src={
-												blog?.data?.files?.avatar?.location?.secure_location ||
-												`https://source.unsplash.com/random/1200x900`
-											}
-											alt={`${blog?.data?.files?.avatar?.location?.filename}'s featured image`}
-											width={1200}
-											height={900}
-											priority
-										/>
-									</figure>
-									<section>
-										<ParseHtml text={blog?.data?.text} />
-										<div className="alert alert-danger">
-											Comments are closed
-										</div>
-									</section>
-								</article>
-							</Globalcontent>
+			{settings?.data?.maintenance === false ? (
+				<Suspense fallback={<Loading />}>
+					<section className="bg-black py-5 text-bg-dark">
+						<div className="container">
+							{blog.data.status === "published" ||
+							awtdSearchParams.isAdmin === "true" ? (
+								<div className="row">
+									<Globalcontent classList={`col-lg-12`}>
+										<article>
+											<figure>
+												<Image
+													className="img-fluid"
+													src={
+														blog?.data?.files?.avatar?.location
+															?.secure_location ||
+														`https://source.unsplash.com/random/1200x900`
+													}
+													alt={`${blog?.data?.files?.avatar?.location?.filename}'s featured image`}
+													width={1200}
+													height={900}
+													priority
+												/>
+											</figure>
+											<section>
+												<ParseHtml text={blog?.data?.text} />
+												<div className="alert alert-danger">
+													Comments are closed
+												</div>
+											</section>
+										</article>
+									</Globalcontent>
+								</div>
+							) : (
+								<p>Not visible</p>
+							)}
 						</div>
-					) : (
-						<p>Not visible</p>
-					)}
-				</div>
-			</section>
-		</Suspense>
+					</section>
+				</Suspense>
+			) : (
+				<ErrorPage />
+			)}
+		</>
 	);
 };
 

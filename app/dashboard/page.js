@@ -1,11 +1,5 @@
 import { redirect } from "next/navigation";
 import Header from "@/layout/header";
-import { fetchurl } from "@/helpers/fetchurl";
-
-async function getAuthenticatedUser() {
-	const res = await fetchurl(`/auth/me`, "GET", "no-cache");
-	return res;
-}
 
 const DashboardIndex = async ({ params, searchParams }) => {
 	const awtdParams = await params;
@@ -16,13 +10,11 @@ const DashboardIndex = async ({ params, searchParams }) => {
 		redirect(`/auth/set-token?xAuthToken=${awtdSearchParams?.xAuthToken}`);
 	}
 
-	const auth = await getAuthenticatedUser();
-
 	return (
 		<>
 			<Header
-				title={`Welcome back!`}
-				description="This is the place where you have full overview of everything you have done in the website!"
+				title={`Welcome back!, Root`}
+				description="This is the place where you have the full control of your website. Feel free to play with it as you like!"
 			/>
 		</>
 	);

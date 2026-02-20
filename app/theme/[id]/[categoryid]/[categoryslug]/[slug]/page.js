@@ -10,11 +10,7 @@ import ParseHtml from "@/layout/parseHtml";
 import Sidebar from "@/layout/theme/sidebar";
 import NotVisiblePage from "@/layout/notvisiblepage";
 import Head from "@/app/head";
-
-async function getSetting(params) {
-	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
-	return res;
-}
+import { getGlobalData } from "@/helpers/globalData";
 
 async function getTheme(params) {
 	const res = await fetchurl(`/global/themes${params}`, "GET", "no-cache");
@@ -32,7 +28,7 @@ async function getReadMe(repoName) {
 				Authorization: process.env.NEXT_PUBLIC_GITHUB_TOKEN,
 			},
 			cache: "no-store",
-		}
+		},
 	)
 		.then(async (res) => {
 			if (!res.ok) {
@@ -65,7 +61,7 @@ const ThemeRead = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 
-	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
+	const { settings } = await getGlobalData();
 
 	const theme = await getTheme(`/${awtdParams.id}`);
 
@@ -79,15 +75,15 @@ const ThemeRead = async ({ params, searchParams }) => {
 	};
 
 	const readme = readMEDecoder(
-		readMeResponse.content || "Tm8gcmVhZE1FIGZpbGU="
+		readMeResponse.content || "Tm8gcmVhZE1FIGZpbGU=",
 	);
 
-	return settings?.data?.maintenance === false ? (
-		<Suspense fallback={<Loading />}>
+	return (
+		<>
 			<Head
-				title={theme.data.title}
+				title={`${settings?.data?.title} - ${theme.data.title}`}
 				description={theme.data.excerpt || theme.data.text}
-				// favicon=""
+				favicon={settings?.data?.favicon}
 				postImage={theme.data.files.avatar.location.secure_location}
 				imageWidth=""
 				imageHeight=""
@@ -103,46 +99,50 @@ const ThemeRead = async ({ params, searchParams }) => {
 				locales=""
 				posType="theme"
 			/>
-			<section className="bg-black py-5 text-bg-dark">
-				<div className="container-fluid">
-					{theme.data.status === "published" ||
-					awtdSearchParams.isAdmin === "true" ? (
-						<div className="row">
-							<Globalcontent containerClasses={`col-lg-8`}>
-								<article>
-									{/* HERE GOES THE ARTICLE HEADER */}
-									{/* HERE GOES THE FIGURE */}
-									<section className="mb-5">
-										<ParseHtml text={theme.data.text} />
-										<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
-											<div className="card-header">ReadMe.md</div>
-											<div className="card-body">
-												<ParseHtml text={readme} />
-											</div>
-										</div>
-										{/* HERE GOES THE NEWSLETTER FORM */}
-										<div className="float-start">
-											{/* HERE GOES THE EXPORT MODAL */}
-										</div>
-										<div className="float-end">
-											{/* HERE GOES THE REPORT MODAL */}
-										</div>
-										<div style={{ clear: "both" }} />
-										{/* HERE GOES THE AUTHORBOX */}
-										{/* HERE GOES THE COMMENTFORM AND COMMENTBOX */}
-									</section>
-								</article>
-							</Globalcontent>
-							<Sidebar object={theme} />
+			{settings?.data?.maintenance === false ? (
+				<Suspense fallback={<Loading />}>
+					<section className="bg-black py-5 text-bg-dark">
+						<div className="container-fluid">
+							{theme.data.status === "published" ||
+							awtdSearchParams.isAdmin === "true" ? (
+								<div className="row">
+									<Globalcontent containerClasses={`col-lg-8`}>
+										<article>
+											{/* HERE GOES THE ARTICLE HEADER */}
+											{/* HERE GOES THE FIGURE */}
+											<section className="mb-5">
+												<ParseHtml text={theme.data.text} />
+												<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
+													<div className="card-header">ReadMe.md</div>
+													<div className="card-body">
+														<ParseHtml text={readme} />
+													</div>
+												</div>
+												{/* HERE GOES THE NEWSLETTER FORM */}
+												<div className="float-start">
+													{/* HERE GOES THE EXPORT MODAL */}
+												</div>
+												<div className="float-end">
+													{/* HERE GOES THE REPORT MODAL */}
+												</div>
+												<div style={{ clear: "both" }} />
+												{/* HERE GOES THE AUTHORBOX */}
+												{/* HERE GOES THE COMMENTFORM AND COMMENTBOX */}
+											</section>
+										</article>
+									</Globalcontent>
+									<Sidebar object={theme} />
+								</div>
+							) : (
+								<NotVisiblePage />
+							)}
 						</div>
-					) : (
-						<NotVisiblePage />
-					)}
-				</div>
-			</section>
-		</Suspense>
-	) : (
-		<ErrorPage />
+					</section>
+				</Suspense>
+			) : (
+				<ErrorPage />
+			)}
+		</>
 	);
 };
 

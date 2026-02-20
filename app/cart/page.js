@@ -2,11 +2,8 @@ import { revalidatePath } from "next/cache";
 import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/cart/list";
 import ErrorPage from "@/layout/errorpage";
-
-async function getSetting(params) {
-	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
-	return res;
-}
+import Head from "@/app/head";
+import { getGlobalData } from "@/helpers/globalData";
 
 async function getCarts(params) {
 	const res = await fetchurl(`/global/carts${params}`, "GET", "no-cache");
@@ -15,12 +12,11 @@ async function getCarts(params) {
 
 const CartIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
-
-	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
-
 	const page = awtdSearchParams.page || 1;
 	const sort = awtdSearchParams.sort || "-createdAt";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
+
+	const { settings } = await getGlobalData();
 
 	const carts = await getCarts(`?page=${page}&sort=${sort}${decrypt}`);
 
@@ -41,7 +37,7 @@ const CartIndex = async ({ params, searchParams }) => {
 			"no-cache",
 			{
 				items: objects,
-			}
+			},
 		);
 	};
 
@@ -50,20 +46,43 @@ const CartIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/carts/${object?._id}/permanently`,
 			"DELETE",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(`/cart`);
 	};
 
-	return settings?.data?.maintenance === false ? (
-		<List
-			objects={carts}
-			handleCheckout={checkout}
-			handleSaveCart={saveCart}
-			handleClearCart={clearCart}
-		/>
-	) : (
-		<ErrorPage />
+	return (
+		<>
+			<Head
+				title={`${settings?.data?.title} - Cart`}
+				description="Check your items before checkout!"
+				favicon={settings?.data?.favicon}
+				postImage={settings.data.showcase_image}
+				imageWidth=""
+				imageHeight=""
+				videoWidth=""
+				videoHeight=""
+				card="summary"
+				robots=""
+				category=""
+				url={`/cart`}
+				author=""
+				createdAt=""
+				updatedAt=""
+				locales=""
+				posType="page"
+			/>
+			{settings?.data?.maintenance === false ? (
+				<List
+					objects={carts}
+					handleCheckout={checkout}
+					handleSaveCart={saveCart}
+					handleClearCart={clearCart}
+				/>
+			) : (
+				<ErrorPage />
+			)}
+		</>
 	);
 };
 

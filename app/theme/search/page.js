@@ -1,17 +1,14 @@
 import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/theme/list";
 import ErrorPage from "@/layout/errorpage";
-
-async function getSetting(params) {
-	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
-	return res;
-}
+import Head from "@/app/head";
+import { getGlobalData } from "@/helpers/globalData";
 
 async function getThemes(params) {
 	const res = await fetchurl(
 		`/global/themes${params}&postType=theme&status=published`,
 		"GET",
-		"no-cache"
+		"no-cache",
 	);
 
 	return res;
@@ -23,20 +20,21 @@ async function getCategories(params) {
 }
 
 const ThemeSearchIndex = async ({ params, searchParams }) => {
-	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
-
-	const settings = await getSetting(process.env.NEXT_PUBLIC_SETTINGS_ID);
-
+	const keyword = awtdSearchParams.keyword;
 	const page = awtdSearchParams.page || 1;
 	const limit = awtdSearchParams.limit || 10;
 	const sort = awtdSearchParams.sort || "-createdAt";
+	const keywordQuery =
+		keyword !== "" && keyword !== undefined ? `&keyword=${keyword}` : "";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
+
+	const { settings } = await getGlobalData();
 
 	const getFeaturedThemesData = getThemes(`?featured=true${decrypt}`);
 
 	const getThemesData = getThemes(
-		`?page=${page}&limit=${limit}&sort=${sort}&keyword=${awtdSearchParams.keyword}${decrypt}`
+		`?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${decrypt}`,
 	);
 
 	const getCategoriesData = getCategories(`?categoryType=theme`);
@@ -47,15 +45,38 @@ const ThemeSearchIndex = async ({ params, searchParams }) => {
 		getCategoriesData,
 	]);
 
-	return settings?.data?.maintenance === false ? (
-		<List
-			featured={featured}
-			objects={themes}
-			searchParams={awtdSearchParams}
-			categories={categories}
-		/>
-	) : (
-		<ErrorPage />
+	return (
+		<>
+			<Head
+				title={`${settings?.data?.title} - Search results of ${awtdSearchParams.keyword}`}
+				description={"Search results..."}
+				favicon={settings?.data?.favicon}
+				postImage={settings.data.showcase_image}
+				imageWidth=""
+				imageHeight=""
+				videoWidth=""
+				videoHeight=""
+				card="summary"
+				robots=""
+				category=""
+				url={`/theme/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`}
+				author=""
+				createdAt=""
+				updatedAt=""
+				locales=""
+				posType="page"
+			/>
+			{settings?.data?.maintenance === false ? (
+				<List
+					featured={featured}
+					objects={themes}
+					searchParams={awtdSearchParams}
+					categories={categories}
+				/>
+			) : (
+				<ErrorPage />
+			)}
+		</>
 	);
 };
 

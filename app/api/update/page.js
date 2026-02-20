@@ -35,7 +35,7 @@ const ApiUpdate = async ({ params, searchParams }) => {
 	const sort = "-createdAt";
 
 	const weapons = await getWeapons(
-		`?user=${auth?.data?._id}&page=${page}&limit=${limit}&sort=${sort}&status=published&decrypt=true`
+		`?user=${auth?.data?._id}&page=${page}&limit=${limit}&sort=${sort}&status=published&decrypt=true`,
 	);
 
 	return settings?.data?.maintenance === false ? (
