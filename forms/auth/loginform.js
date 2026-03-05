@@ -1,0 +1,233 @@
+"use client";
+import { useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
+import { startAuthentication } from "@simplewebauthn/browser";
+import {
+	fetchurl,
+	setAuthTokenOnServer,
+	setUserOnServer,
+} from "@/helpers/fetchurl";
+
+function normalizeAuthenticationOptions(options) {
+	const normalized = { ...options };
+
+	// Normalize challenge
+	if (typeof normalized.challenge !== "string") {
+		throw new Error("Challenge must be a base64url string");
+	}
+
+	// Normalize allowCredentials
+	if (Array.isArray(normalized.allowCredentials)) {
+		normalized.allowCredentials = normalized.allowCredentials.map((cred) => {
+			let id = cred.id;
+
+			// Case: Buffer serialized from backend
+			if (typeof id === "object" && id?.data) {
+				id = Uint8Array.from(id.data);
+			}
+
+			// Case: ArrayBuffer
+			if (id instanceof ArrayBuffer) {
+				id = new Uint8Array(id);
+			}
+
+			// Case: string (best case)
+			if (typeof id !== "string" && !(id instanceof Uint8Array)) {
+				console.error("Invalid credential ID:", cred.id);
+				throw new Error("Invalid allowCredentials id format");
+			}
+
+			return {
+				...cred,
+				id,
+				transports: cred.transports || ["internal"],
+			};
+		});
+	}
+
+	return normalized;
+}
+
+function handleWebAuthnError(err) {
+	console.error("WebAuthn error:", err);
+
+	if (err.name === "NotAllowedError") {
+		alert(
+			"Authentication was cancelled or not permitted.\n\n" +
+				"Make sure FaceID, fingerprint, or PIN is set up on this device.",
+		);
+	} else if (err.name === "InvalidStateError") {
+		alert("This credential is already registered.");
+	} else if (err.name === "SecurityError") {
+		alert("Security error: domain mismatch or insecure context.");
+	} else if (err.name === "AbortError") {
+		alert("Authentication aborted.");
+	} else {
+		alert("Unexpected authentication error: " + err.message);
+	}
+}
+
+const LoginForm = () => {
+	const router = useRouter();
+	const awtdParams = useParams();
+	const awtdSearchParams = useSearchParams();
+
+	const [btnText, setBtnText] = useState("Submit");
+
+	const loginAccount = async (e) => {
+		e.preventDefault();
+		setBtnText(`Processing`);
+
+		const form = e.target;
+		const formData = new FormData(form);
+
+		const rawFormData = {
+			email: formData.get("email"),
+			password: formData.get("password"),
+			captcha: formData.get("captcha"),
+		};
+
+		if (rawFormData.captcha !== "5") {
+			toast.error("There was an error, try again");
+			setBtnText("Submit");
+			return;
+		}
+
+		let res = await fetchurl(
+			`/auth/login`,
+			"POST",
+			"no-cache",
+			{
+				...rawFormData,
+				website: "beFree",
+			},
+			undefined,
+			false,
+			false,
+		);
+		if (res.status === "error") {
+			toast.error(res.message, "bottom");
+			setBtnText("Submit");
+			return;
+		}
+		if (res.status === "fail") {
+			toast.error(res.message, "bottom");
+			setBtnText("Submit");
+			return;
+		}
+
+		// If 2fa enabled
+		if (res?.data?.twoFactorTokenEnabled) {
+			toast.info("Please enter your 2FA token", "bottom");
+			router.push(`/auth/validatetwofactorauth/${res?.data?._id}`);
+			return;
+		}
+
+		// If passkey enabled
+		if (res?.data?.biometricsEnabled) {
+			const challengeRes = await fetchurl(
+				`/auth/2fa/passkey/challenge/${res?.data?._id}`,
+				"PUT",
+				"no-cache",
+				{},
+				undefined,
+				false,
+				false,
+			);
+
+			let options = challengeRes.biometricOptions;
+
+			options = normalizeAuthenticationOptions(options);
+
+			let authResponse;
+
+			try {
+				authResponse = await startAuthentication({ optionsJSON: options });
+			} catch (err) {
+				handleWebAuthnError(err);
+				return;
+			}
+
+			res = await fetchurl(
+				`/auth/2fa/passkey/verify/${res?.data?._id}`,
+				"PUT",
+				"no-cache",
+				{
+					authResponse: authResponse,
+				},
+				undefined,
+				false,
+				false,
+			);
+		}
+
+		// Else continue,
+		// furthermore, setAuthTokenOnServer needs to be prior to setUserOnServer
+		await setAuthTokenOnServer(res?.token);
+
+		const loadUser = await fetchurl(`/auth/me`, "GET", "default");
+
+		await setUserOnServer(await loadUser?.data);
+
+		let returnpage = awtdSearchParams.get("returnpage");
+
+		router.push(returnpage || `/auth/profile`);
+	};
+
+	const resetForm = (e) => {
+		e.target.closest("form").reset();
+	};
+
+	return (
+		<form onSubmit={loginAccount}>
+			<label htmlFor="email" className="form-label">
+				Email
+			</label>
+			<input
+				id="email"
+				name="email"
+				defaultValue=""
+				type="email"
+				className="form-control text-bg-dark mb-3"
+				required
+				placeholder="john@doe.com"
+			/>
+			<label htmlFor="password" className="form-label">
+				Password
+			</label>
+			<input
+				id="password"
+				name="password"
+				defaultValue=""
+				type="password"
+				className="form-control text-bg-dark mb-3"
+				placeholder="******"
+			/>
+			<label htmlFor="captcha" className="form-label">
+				Captcha: 3+2?
+			</label>
+			<input
+				id="captcha"
+				name="captcha"
+				defaultValue=""
+				type="number"
+				className="form-control text-bg-dark mb-3"
+				required
+				placeholder="0"
+			/>
+			<button type="submit" className="btn btn-light btn-sm float-start">
+				{btnText}
+			</button>
+			<button
+				type="reset"
+				onClick={resetForm}
+				className="btn btn-light btn-sm float-end"
+			>
+				Reset
+			</button>
+		</form>
+	);
+};
+
+export default LoginForm;

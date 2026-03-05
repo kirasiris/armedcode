@@ -8,11 +8,6 @@ import ErrorPage from "@/layout/errorpage";
 import Head from "@/app/head";
 import { getGlobalData } from "@/helpers/globalData";
 
-async function getSetting(params) {
-	const res = await fetchurl(`/global/settings/${params}`, "GET", "default");
-	return res;
-}
-
 async function getReviews(params) {
 	const res = await fetchurl(
 		`/global/comments${params}&postType=review&status=published&decrypt=true`,

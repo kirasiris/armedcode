@@ -1,0 +1,71 @@
+import Globalcontent from "@/layout/content";
+import ValidateTwoFactorAuthenticationForm from "@/forms/auth/validatetwofactorauthenticationform";
+import Head from "@/app/head";
+import { getGlobalData } from "@/helpers/globalData";
+import ErrorPage from "@/layout/errorpage";
+
+const ValidateTwoFactorAuthentication = async ({ params, searchParams }) => {
+	const awtdParams = await params;
+
+	const { settings } = await getGlobalData();
+
+	return (
+		<>
+			<style>
+				{`
+					footer: {
+						margin-top: 0px !important;
+					}
+				`}
+			</style>
+			<Head
+				title={`${settings?.data?.title} - Validate 2FA`}
+				description={"Create an account"}
+				favicon={settings?.data?.favicon}
+				postImage={settings?.data?.showcase_image}
+				imageWidth=""
+				imageHeight=""
+				videoWidth=""
+				videoHeight=""
+				card="summary"
+				robots=""
+				category=""
+				url={`/auth/validatetwofactorauth/${awtdParams.userid}`}
+				author=""
+				createdAt=""
+				updatedAt=""
+				locales=""
+				posType="page"
+			/>
+			{settings?.data?.maintenance === false ? (
+				<section className="bg-black text-bg-dark">
+					<div
+						className="container align-content-center"
+						style={{
+							height: "100vh",
+						}}
+					>
+						<div className="row">
+							<Globalcontent classList="col-lg-12">
+								<div className="card border border-1 my-border-color bg-black text-bg-dark">
+									<div className="card-header text-center">
+										<div className="card-header">
+											Please&nbsp;enter&nbsp;the&nbsp;2FA&nbsp;token&nbsp;given&nbsp;to&nbsp;you&nbsp;by&nbsp;your&nbsp;Authenticator&nbsp;app
+										</div>
+									</div>
+									<div className="card-body">
+										<ValidateTwoFactorAuthenticationForm />
+									</div>
+								</div>
+							</Globalcontent>
+						</div>
+					</div>
+				</section>
+			) : (
+				<ErrorPage />
+			)}
+		</>
+	);
+};
+
+export default ValidateTwoFactorAuthentication;

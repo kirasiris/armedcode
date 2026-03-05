@@ -165,24 +165,26 @@ const Menu = ({
 						) : (
 							<>
 								<li className="nav-item">
-									<a
-										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/login?returnpage=${process.env.NEXT_PUBLIC_WEBSITE_URL}`}
-										className="nav-link"
-										target="_blank"
-										rel="noreferrer noopener"
+									<Link
+										href={{
+											pathname: `${canonical}/auth/login`,
+											query: {},
+										}}
+										className={`nav-link ${isActive(`${canonical}/auth/login`)}`}
 									>
 										Login
-									</a>
+									</Link>
 								</li>
 								<li className="nav-item">
-									<a
-										href={`${process.env.NEXT_PUBLIC_FOUNDER_WEBSITE_URL}auth/register`}
-										className="nav-link"
-										target="_blank"
-										rel="noreferrer noopener"
+									<Link
+										href={{
+											pathname: `${canonical}/auth/register`,
+											query: {},
+										}}
+										className={`nav-link ${isActive(`${canonical}/auth/register`)}`}
 									>
 										Register
-									</a>
+									</Link>
 								</li>
 							</>
 						)}

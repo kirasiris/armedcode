@@ -14,7 +14,7 @@ const ContactIndex = async () => {
 				title={`${settings?.data?.title} - Contact`}
 				description={settings.data.text}
 				favicon={settings.data.favicon}
-				postImage={settings?.data?.postImage}
+				postImage={settings.data.showcase_image}
 				imageWidth=""
 				imageHeight=""
 				videoWidth=""
