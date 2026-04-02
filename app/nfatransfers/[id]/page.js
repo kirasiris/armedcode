@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Loading from "@/app/nfatransfers/loading";
 import ParseHtml from "@/layout/parseHtml";
 import { fetchurl } from "@/helpers/fetchurl";
@@ -26,6 +27,8 @@ const NFATransferRead = async ({ params, searchParams }) => {
 	const acquisitionsdisposal = await getAcquisitionsDisposals(
 		`/${awtdParams.id}`,
 	);
+
+	const owner = acquisitionsdisposal?.data?.hasAccount;
 
 	// Draft It
 
@@ -68,7 +71,26 @@ const NFATransferRead = async ({ params, searchParams }) => {
 								{acquisitionsdisposal.data.status === "disposed" ||
 								awtdSearchParams.isAdmin === "true" ? (
 									<div className="row">
-										<div className="col-lg-6">
+										{owner && (
+											<div className={`col-lg-${owner && "4"}`}>
+												<h6 className="display-6">Picture</h6>
+												<figure>
+													<Image
+														className="img-fluid img-thumbnail w-100"
+														src={
+															owner?.files?.nfa_avatar?.location
+																?.secure_location ||
+															`https://picsum.photos/168/168?blur`
+														}
+														alt={`profile image`}
+														width={168}
+														height={168}
+														priority
+													/>
+												</figure>
+											</div>
+										)}
+										<div className={`col-lg-${owner ? "4" : "6"}`}>
 											<h6 className="display-6">Description</h6>
 											<label htmlFor="manufacturer" className="form-label">
 												Manufacturer and/or Importer
@@ -152,7 +174,7 @@ const NFATransferRead = async ({ params, searchParams }) => {
 												disabled
 											/>
 										</div>
-										<div className="col-lg-6">
+										<div className={`col-lg-${owner ? "4" : "6"}`}>
 											<h6 className="display-6">Receipt</h6>
 											<label htmlFor="fromWhomReceived" className="form-label">
 												From Whom Received
