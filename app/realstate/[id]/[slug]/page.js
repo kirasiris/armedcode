@@ -55,7 +55,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 				videoHeight=""
 				card="summary"
 				robots=""
-				category={realstate.data.type}
+				category={realstate.data.buldingType}
 				url={`/realstates/${realstate.data._id}/${realstate.data.slug}`}
 				author={realstate.data.user.name}
 				createdAt={realstate.data.createdAt}
@@ -143,7 +143,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 																className="fa-solid fa-bath fa-2x"
 															/>
 															<p className="text-capitalize mb-0">
-																{realstate?.data?.type}
+																{realstate?.data?.buldingType}
 															</p>
 															<p className="mb-0 text-secondary">Type</p>
 														</div>
@@ -250,7 +250,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 													<li className="d-flex justify-content-between border-bottom my-border-color py-2">
 														<span className="text-secondary">Type</span>
 														<span className="text-capitalize">
-															{realstate?.data?.type}
+															{realstate?.data?.buldingType}
 														</span>
 													</li>
 													<li className="d-flex justify-content-between border-bottom my-border-color py-2">
