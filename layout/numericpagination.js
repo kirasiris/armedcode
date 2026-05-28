@@ -1,7 +1,15 @@
 "use client";
-import _ from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+const range = (start, end) => {
+	const length = Math.max(end - start, 0);
+	const result = new Array(length);
+	for (let i = 0; i < length; i++) {
+		result[i] = start + i;
+	}
+	return result;
+};
 
 const NumericPagination = ({
 	totalPages,
@@ -9,112 +17,129 @@ const NumericPagination = ({
 	siblings,
 	isAdmin = true,
 }) => {
-	const page = searchParams.page || 1;
-	const limit = searchParams.limit || 10;
-	const sort = searchParams.sort || "-createdAt";
-	const keyword = searchParams.keyword;
-	const decrypt = searchParams.decrypt || "";
-	// Job query
-	const experienceLevel = searchParams.experience_level;
-	const jobType = searchParams.job_type;
-	const remote = searchParams.remote;
-	// Real state query
-	const businessType = searchParams.businessType;
-	const type = searchParams.type;
-	const bedrooms = searchParams.bedrooms;
-	const bathrooms = searchParams.bathrooms;
-	// Store query
-	const category = searchParams.category;
-	const sub_category = searchParams.sub_category;
-
 	// Initialize router
 	const router = useRouter();
 
-	// If query keyword is found
-	const keywordQuery =
-		keyword !== "" && keyword !== undefined ? `&keyword=${keyword}` : "";
-	// If query experienceLevel is found
-	const experienceLevelQuery =
-		experienceLevel !== "" && experienceLevel !== undefined
-			? `&experience_level=${experienceLevel}`
-			: "";
-	// If query jobType is found
-	const jobTypeQuery =
-		jobType !== "" && jobType !== undefined ? `&job_type=${jobType}` : "";
-	// If query remote is found
-	const remoteQuery =
-		remote !== "" && remote !== undefined ? `&remote=${remote}` : "";
-	// If businessType is found
-	const businessTypeQuery =
-		businessType !== "" && businessType !== undefined
-			? `&businessType=${businessType}`
-			: "";
-	// If type is found
-	const typeQuery = type !== "" && type !== undefined ? `&type=${type}` : "";
-	// If bedrooms is found
-	const bedroomsQuery =
-		bedrooms !== "" && bedrooms !== undefined ? `&bedrooms=${bedrooms}` : "";
-	// If bathrooms is found
-	const bathroomsQuery =
-		bathrooms !== "" && bathrooms !== undefined
-			? `&bathrooms=${bathrooms}`
-			: "";
-	// If category is found
-	const categoryQuery =
-		category !== `` && category !== undefined ? `&category=${category}` : "";
-	// sub_category is found
-	const subCategoryQuery =
-		sub_category !== `` && sub_category !== undefined
-			? `&sub_category=${sub_category}`
-			: "";
-	// If query decrypt is found
-	const decryptQuery = decrypt === "true" ? "&decrypt=true" : "";
+	const page = Number(searchParams.page) || 1;
+	const limit = Number(searchParams.limit) || 10;
+	const sort = searchParams.sort || "-createdAt";
+	const keyword = searchParams.keyword || "";
+	const decrypt = searchParams.decrypt || "";
+	// Job query
+	const experienceLevel = searchParams.experience_level || "";
+	const jobType = searchParams.job_type || "";
+	const remote = searchParams.remote || "";
+	// Real state query
+	const businessType = searchParams.businessType || "";
+	const type = searchParams.type || "";
+	const bedrooms = Number(searchParams.bedrooms) || "";
+	const bathrooms = Number(searchParams.bathrooms) || "";
+	// Store query
+	const category = searchParams.category || "";
+	const sub_category = searchParams.sub_category || "";
 
-	// Add them all together
-	const newParams = `&sort=${sort}${keywordQuery}${experienceLevelQuery}${jobTypeQuery}${remoteQuery}${businessTypeQuery}${typeQuery}${bedroomsQuery}${bathroomsQuery}${categoryQuery}${subCategoryQuery}${decryptQuery}`;
-	let pageNo;
-	if (page <= Number(totalPages)) {
-		pageNo = page;
-	} else {
-		pageNo = page;
-	}
+	// Fixes the string concatenation bug
+	const totalPagesNum = Number(totalPages);
+	const siblingsNum = Number(siblings);
 
-	const paginationRange = (siblings) => {
-		let totalPagesNoInArray = 7 + Number(siblings);
-		if (totalPagesNoInArray >= Number(totalPages)) {
-			return _.range(1, Number(totalPages) + 1);
-		}
+	// Current page
+	const currentPage = Math.max(1, Math.min(page, totalPagesNum));
 
-		let leftSiblingsIndex = Math.max(pageNo - Number(siblings), 1);
-		let rightSiblingsIndex = Math.min(
-			pageNo + Number(siblings),
-			Number(totalPages)
-		);
-
-		let showLeftDots = leftSiblingsIndex > 2;
-		let showRightDots = rightSiblingsIndex < Number(totalPages) - 2;
-
-		if (!showLeftDots && showRightDots) {
-			let leftItemsCount = 3 + 2 * Number(siblings);
-			let leftRange = _.range(1, leftItemsCount + 1);
-			return [...leftRange, "...", Number(totalPages)];
-		} else if (showLeftDots && !showRightDots) {
-			let rightItemsCount = 3 + 2 * Number(siblings);
-			let rightRange = _.range(
-				Number(totalPages) - rightItemsCount + 1,
-				Number(totalPages) + 1
-			);
-			return [1, "...", ...rightRange];
-		} else {
-			let middleRange = _.range(leftSiblingsIndex, rightSiblingsIndex + 1);
-			return [1, "...", ...middleRange, "...", Number(totalPages)];
-		}
+	/**
+	 * Build an href preserving every active query parameter.
+	 * Uses URLSearchParams so values are properly encoded.
+	 */
+	const buildHref = (targetPage) => {
+		const params = new URLSearchParams();
+		params.set("page", String(targetPage));
+		params.set("limit", String(limit));
+		params.set("sort", sort);
+		if (keyword) params.set("keyword", keyword);
+		if (decrypt === "true") params.set("decrypt", "true");
+		if (experienceLevel) params.set("experience_level", experienceLevel);
+		if (jobType) params.set("job_type", jobType);
+		if (remote) params.set("remote", remote);
+		if (businessType) params.set("businessType", businessType);
+		if (type) params.set("type", type);
+		if (bedrooms) params.set("bedrooms", String(bedrooms));
+		if (bathrooms) params.set("bathrooms", String(bathrooms));
+		if (category) params.set("category", category);
+		if (sub_category) params.set("sub_category", sub_category);
+		return `?${params.toString()}`;
+	};
+	/**
+	 * Build the extra params string for handlePageLimit.
+	 */
+	const buildExtraParams = () => {
+		const params = new URLSearchParams();
+		params.set("sort", sort);
+		if (keyword) params.set("keyword", keyword);
+		if (decrypt === "true") params.set("decrypt", "true");
+		if (experienceLevel) params.set("experience_level", experienceLevel);
+		if (jobType) params.set("job_type", jobType);
+		if (remote) params.set("remote", remote);
+		if (businessType) params.set("businessType", businessType);
+		if (type) params.set("type", type);
+		if (bedrooms) params.set("bedrooms", String(bedrooms));
+		if (bathrooms) params.set("bathrooms", String(bathrooms));
+		if (category) params.set("category", category);
+		if (sub_category) params.set("sub_category", sub_category);
+		const str = params.toString();
+		return str ? `&${str}` : "";
 	};
 
-	let array = paginationRange(siblings);
+	/**
+	 * Generate the pagination range array.
+	 * Uses unique string tokens for dots so React keys never collide.
+	 */
+	const getPaginationRange = () => {
+		const totalSlots = 7 + siblingsNum;
+
+		// If every page fits, just list them all
+		if (totalSlots >= totalPagesNum) {
+			return range(1, totalPagesNum + 1);
+		}
+
+		const leftSiblingIndex = Math.max(currentPage - siblingsNum, 1);
+		const rightSiblingIndex = Math.min(
+			currentPage + siblingsNum,
+			totalPagesNum,
+		);
+
+		const showLeftDots = leftSiblingIndex > 2;
+		const showRightDots = rightSiblingIndex < totalPagesNum - 2;
+
+		if (!showLeftDots && showRightDots) {
+			// Near the start — show a longer left run, then dots, then last page
+			const leftItemsCount = 3 + 2 * siblingsNum;
+			const leftRange = range(1, leftItemsCount + 1);
+			return [...leftRange, "dots-right", totalPagesNum];
+		}
+
+		if (showLeftDots && !showRightDots) {
+			// Near the end — first page, dots, then a longer right run
+			const rightItemsCount = 3 + 2 * siblingsNum;
+			const rightRange = range(
+				totalPagesNum - rightItemsCount + 1,
+				totalPagesNum + 1,
+			);
+			return [1, "dots-left", ...rightRange];
+		}
+
+		// In the middle — first page, dots, siblings, dots, last page
+		const middleRange = range(leftSiblingIndex, rightSiblingIndex + 1);
+		return [1, "dots-left", ...middleRange, "dots-right", totalPagesNum];
+	};
+
+	const paginationRange = getPaginationRange();
+	const isFirstPage = currentPage === 1;
+	const isLastPage = currentPage === totalPagesNum;
 
 	const handlePageLimit = (value) => {
-		router.push(`?page=${Number(pageNo)}&limit=${Number(value)}${newParams}`);
+		const newParams = buildExtraParams();
+		router.push(
+			`?page=${Number(currentPage)}&limit=${Number(value)}${newParams}`,
+		);
 	};
 
 	const selectLimit = () => {
@@ -143,137 +168,89 @@ const NumericPagination = ({
 	};
 
 	return (
-		<div className="pagination-container d-flex align-items-center justify-content-end">
+		<nav
+			aria-label="Pagination"
+			className="pagination-container d-flex align-items-center justify-content-end"
+		>
 			{isAdmin && selectLimit()}
 			<ul className="pagination justify-content-end m-0 my-1 mx-1">
-				<li className={`page-item ${Number(pageNo) - 1 === 0 && `disabled`}`}>
+				{/* First page */}
+				<li className={`page-item ${isFirstPage ? "disabled" : ""}`}>
 					<Link
-						href={`?page=1&limit=${Number(limit)}${newParams}`}
+						href={buildHref(1)}
 						scroll={false}
 						className="page-link text-bg-dark"
+						aria-label="First page"
 					>
 						&laquo;&nbsp;First
 					</Link>
 				</li>
-				{/* Previous page link */}
-				<li className={`page-item ${Number(pageNo) - 1 === 0 && `disabled`}`}>
+				{/* Previous page */}
+				<li className={`page-item ${isFirstPage ? "disabled" : ""}`}>
 					<Link
-						href={`?page=${Number(pageNo) - 1}&limit=${Number(
-							limit
-						)}${newParams}`}
-						scroll={false}
+						href={buildHref(Math.max(1, currentPage - 1))}
 						className="page-link text-bg-dark"
+						scroll={false}
+						aria-label="Previous page"
 					>
 						&lsaquo;&nbsp;
 					</Link>
 				</li>
-				{array.map((index) => {
+				{/* Numbered pages & dots */}
+				{paginationRange.map((item) => {
+					// Dots (ellipsis) — not clickable
+					if (typeof item === "string") {
+						return (
+							<li key={item} className="page-item disabled d-none d-md-block">
+								<span className="page-link bg-dark text-bg-dark">&hellip;</span>
+							</li>
+						);
+					}
+
+					// Page number
 					return (
 						<li
-							key={index}
+							key={`page-${item}`}
 							className={`page-item${
-								Number(index) === Number(pageNo)
-									? " active text-decoration-underline"
-									: ""
+								item === currentPage ? " active text-decoration-underline" : ""
 							} d-none d-md-block d-lg-block d-xl-block d-xxl-block`}
 						>
-							{index === "&laquo;" ? (
-								<Link
-									href={`?page=1&limit=${Number(limit)}${newParams}`}
-									scroll={false}
-									className={`bg-black text-bg-dark page-link${
-										index === "..." ? " disabled" : ""
-									}`}
-								>
-									{index}
-								</Link>
-							) : index === "&lsaquo;" ? (
-								pageNo !== 1 && (
-									<Link
-										href={`?page=${Number(pageNo) - 1}&limit=${Number(
-											limit
-										)}${newParams}`}
-										scroll={false}
-										className={`text-bg-dark page-link${
-											index === "..." ? " disabled" : ""
-										}`}
-									>
-										{index}
-									</Link>
-								)
-							) : index === "&rsaquo;" ? (
-								pageNo !== totalPages && (
-									<Link
-										href={`?page=${Number(pageNo) + 1}&limit=${Number(
-											limit
-										)}${newParams}`}
-										scroll={false}
-										className={`text-bg-dark page-link${
-											index === "..." ? " disabled" : ""
-										}`}
-									>
-										{index}
-									</Link>
-								)
-							) : index === "&raquo;" ? (
-								<Link
-									href={`?page=${Number(totalPages)}&limit=${Number(
-										limit
-									)}${newParams}`}
-									scroll={false}
-									className={`text-bg-dark page-link${
-										index === "..." ? " disabled" : ""
-									}`}
-								>
-									{index}
-								</Link>
-							) : (
-								<Link
-									href={`?page=${index}&limit=${Number(limit)}${newParams}`}
-									scroll={false}
-									className={`text-bg-dark page-link${
-										index === "..." ? " disabled" : ""
-									}`}
-								>
-									{index}
-								</Link>
-							)}
+							<Link
+								href={buildHref(item)}
+								className="page-link text-bg-dark"
+								scroll={false}
+								aria-label={`Page ${item}`}
+								aria-current={item === currentPage ? "page" : undefined}
+							>
+								{item}
+							</Link>
 						</li>
 					);
 				})}
-				{/* Next page link */}
-				<li
-					className={`page-item ${
-						Number(pageNo) === Number(totalPages) && "disabled"
-					}`}
-				>
+				{/* Next page */}
+				<li className={`page-item ${isLastPage ? "disabled" : ""}`}>
 					<Link
-						href={`?page=${Number(pageNo) + 1}&limit=${Number(
-							limit
-						)}${newParams}`}
-						scroll={false}
+						href={buildHref(Math.min(totalPagesNum, currentPage + 1))}
 						className="page-link text-bg-dark"
+						scroll={false}
+						aria-label="Next page"
 					>
 						&rsaquo;&nbsp;
 					</Link>
 				</li>
-				<li
-					className={`page-item ${
-						Number(pageNo) === Number(totalPages) && "disabled"
-					}`}
-				>
+				{/* Last page */}
+				<li className={`page-item ${isLastPage ? "disabled" : ""}`}>
 					<Link
-						href={`?page=${Number(totalPages)}&limit=${Number(
-							limit
-						)}${newParams}`}
-						scroll={false}
+						href={buildHref(totalPagesNum)}
 						className="page-link text-bg-dark"
+						scroll={false}
+						aria-label="Last page"
 					>
 						&raquo;&nbsp;Last
 					</Link>
 				</li>
 			</ul>
-		</div>
+		</nav>
 	);
 };
 

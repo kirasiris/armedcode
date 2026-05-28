@@ -34,20 +34,23 @@ const ContactEmailForm = ({}) => {
 			`/global/contactemails`,
 			"POST",
 			"no-cache",
-			rawFormData
+			rawFormData,
+			undefined,
+			false,
+			false,
 		);
 		if (res.status === "error") {
-			toast.error(res.message, "bottom");
+			toast.error(res.message);
 			setBtnText("Submit");
 			return;
 		}
 		if (res.status === "fail") {
-			toast.error(res.message, "bottom");
+			toast.error(res.message);
 			setBtnText("Submit");
 			return;
 		}
 		setBtnText("Submit");
-		toast.success("Email sent", "bottom");
+		toast.success("Email sent");
 		resetForm();
 		router.push(`/contact`);
 	};

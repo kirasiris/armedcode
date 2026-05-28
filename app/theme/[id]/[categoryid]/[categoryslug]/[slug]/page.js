@@ -51,6 +51,7 @@ async function getReadMe(repoName) {
 			} else {
 				// handle error
 				console.log("Error coming from setTokenOnServer file", err);
+				return (err.message = "VGhpcyBpcyBhIHByaXZhdGUgcmVwb3NpdG9yeQ==");
 			}
 		});
 
@@ -74,9 +75,16 @@ const ThemeRead = async ({ params, searchParams }) => {
 		return textConverted;
 	};
 
-	const readme = readMEDecoder(
-		readMeResponse.content || "Tm8gcmVhZE1FIGZpbGU=",
-	);
+	let readme = "";
+	if (theme.data.github_readme !== "#") {
+		// No readMe file
+		readme = readMEDecoder(readMeResponse.content || "Tm8gcmVhZE1FIGZpbGU=");
+	} else {
+		// This is a private repository
+		readme = readMEDecoder(
+			readMeResponse.content || "VGhpcyBpcyBhIHByaXZhdGUgcmVwb3NpdG9yeQ==",
+		);
+	}
 
 	return (
 		<>
@@ -112,12 +120,21 @@ const ThemeRead = async ({ params, searchParams }) => {
 											{/* HERE GOES THE FIGURE */}
 											<section className="mb-5">
 												<ParseHtml text={theme.data.text} />
-												<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
-													<div className="card-header">ReadMe.md</div>
-													<div className="card-body">
-														<ParseHtml text={readme} />
+												{theme.data.github_readme !== "#" ? (
+													<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
+														<div className="card-header">ReadMe.md</div>
+														<div className="card-body">
+															<ParseHtml text={readme} />
+														</div>
 													</div>
-												</div>
+												) : (
+													<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
+														<div className="card-header">ReadMe.md</div>
+														<div className="card-body">
+															{readme.replace(/<\/?[^>]+(>|$)/g, "")}
+														</div>
+													</div>
+												)}
 												{/* HERE GOES THE NEWSLETTER FORM */}
 												<div className="float-start">
 													{/* HERE GOES THE EXPORT MODAL */}

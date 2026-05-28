@@ -61,21 +61,21 @@ const CreateForm = ({ apitoken = "" }) => {
 			`/protected/weapons`,
 			"POST",
 			"no-cache",
-			rawFormData
+			rawFormData,
 		);
 		if (res.status === "error") {
-			toast.error(res.message, "bottom");
+			toast.error(res.message);
 			setBtnText("Submit");
 			return;
 		}
 		if (res.status === "fail") {
-			toast.error(res.message, "bottom");
+			toast.error(res.message);
 			setBtnText("Submit");
 			return;
 		}
 		setWeaponData(res);
 		setBtnText("Submit");
-		toast.success("Weapon created", "bottom");
+		toast.success("Weapon created");
 		resetForm();
 	};
 

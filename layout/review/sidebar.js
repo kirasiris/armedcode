@@ -38,12 +38,12 @@ const Sidebar = ({ auth = {}, token = null, returtopageurl = "/" }) => {
 			registeredAt: process.env.NEXT_PUBLIC_WEBSITE_URL,
 		});
 		if (res.status === "error") {
-			toast.error(res.message, `bottom`);
+			toast.error(res.message);
 			setBtnText("Submit");
 			return;
 		}
 		setBtnText("Submit");
-		toast.success(`Review added`, `bottom`);
+		toast.success(`Review added`);
 		resetForm();
 		router.push(returtopageurl);
 	};

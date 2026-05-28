@@ -25,6 +25,8 @@ const RegisterForm = () => {
 			password: formData.get("password"),
 			password2: formData.get("password2"),
 			captcha: formData.get("captcha"),
+			referralCode: awtdSearchParams.get("referral") || "",
+			website: process.env.NEXT_PUBLIC_WEBSITE_NAME,
 		};
 
 		if (rawFormData.captcha !== "5") {
@@ -38,22 +40,27 @@ const RegisterForm = () => {
 			return;
 		}
 
-		const res = await fetchurl(`/auth/register`, "POST", "no-cache", {
-			...rawFormData,
-			website: "beFree",
-		});
+		const res = await fetchurl(
+			`/auth/register`,
+			"POST",
+			"no-cache",
+			rawFormData,
+			undefined,
+			false,
+			false,
+		);
 		if (res.status === "error") {
-			toast.error(res.message, "bottom");
+			toast.error(res.message);
 			setBtnText("Submit");
 			return;
 		}
 		if (res.status === "fail") {
-			toast.error(res.message, "bottom");
+			toast.error(res.message);
 			setBtnText("Submit");
 			return;
 		}
 		setBtnText("Submit");
-		toast.success("Account registered", "bottom");
+		toast.success("Account registered");
 		toast.success(
 			`An email has been sent to ${rawFormData.email}. Please verify account`,
 		);

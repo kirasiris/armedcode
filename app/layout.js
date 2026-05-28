@@ -5,6 +5,7 @@ import Menu from "@/layout/menu";
 import Footer from "@/layout/footer";
 import { CartProvider } from "@/context/cartcontext";
 import { getGlobalData } from "@/helpers/globalData";
+import { BootstrapClient } from "@/helpers/bootstrapClient";
 
 const RootLayout = async ({ children }) => {
 	const { auth, settings } = await getGlobalData();
@@ -12,8 +13,8 @@ const RootLayout = async ({ children }) => {
 	return (
 		<html lang="en">
 			{/* HEAD SHOULD NEVER BE WITHIN LAYOUT FILE AS IT WILL ALWAYS TRY TO FETCH INFORMATION FROM ITSELF UNLESS CHILD PAGES USE THEIR OWN LAYOUT FILES WHICH ARE NOT BEING USED */}
-			<CartProvider>
-				<body>
+			<body>
+				<CartProvider>
 					<Menu
 						auth={auth}
 						title={settings?.data?.title}
@@ -22,8 +23,9 @@ const RootLayout = async ({ children }) => {
 					/>
 					<main>{children}</main>
 					<Footer canonical={process.env.NEXT_PUBLIC_WEBSITE_URL} />
-				</body>
-			</CartProvider>
+				</CartProvider>
+				<BootstrapClient />
+			</body>
 		</html>
 	);
 };

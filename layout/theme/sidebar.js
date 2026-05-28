@@ -10,14 +10,24 @@ const Sidebar = ({ object = {} }) => {
 					className="img-thumbnail"
 					src={
 						object?.data?.files?.avatar?.location?.secure_location ||
-						`https://source.unsplash.com/random/1200x900`
+						`https://picsum.photos/1200/900?blur`
 					}
-					alt={`${object?.data?.title}'s featured image`}
+					alt={`${object?.data?.avatar?.location?.fileName}'s featured image`}
 					width={1200}
 					height={900}
 					priority
 				/>
 			</figure>
+			{object?.data?.preview_theme_url !== "#" && (
+				<a
+					href={object?.data?.preview_theme_url}
+					className="btn btn-secondary btn-sm w-100"
+					target="_blank"
+					rel="noreferrer noopener"
+				>
+					Preview Theme
+				</a>
+			)}
 		</Globalsidebar>
 	);
 };

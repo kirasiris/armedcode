@@ -45,14 +45,14 @@ export function CartProvider({ children }) {
 	const getItemsCount = () => {
 		const itemsCount = cartItems.reduce(
 			(sum, product) => sum + product.stockQuantity,
-			0
+			0,
 		);
 		return itemsCount;
 	};
 
 	const getItemQuantity = (object = {}) => {
 		const quantity = cartItems.find(
-			(product) => product._id === object?._id
+			(product) => product._id === object?._id,
 		)?.stockQuantity;
 
 		if (quantity === undefined) {
@@ -83,7 +83,7 @@ export function CartProvider({ children }) {
 					priceId: object?.price?.default_price,
 				},
 			]);
-			toast.success("Item added to cart", "bottom");
+			toast.success("Item added to cart");
 		} else {
 			// Item is on cart
 			setCartItems(
@@ -92,9 +92,9 @@ export function CartProvider({ children }) {
 						? {
 								...product,
 								stockQuantity: product.stockQuantity + 1,
-						  }
-						: product
-				)
+							}
+						: product,
+				),
 			);
 		}
 	};
@@ -111,9 +111,9 @@ export function CartProvider({ children }) {
 						? {
 								...product,
 								stockQuantity: product.stockQuantity - 1,
-						  }
-						: product
-				)
+							}
+						: product,
+				),
 			);
 		}
 	};
@@ -122,14 +122,14 @@ export function CartProvider({ children }) {
 		setCartItems((cartItems) =>
 			cartItems.filter((currentProduct) => {
 				return currentProduct._id !== object?._id;
-			})
+			}),
 		);
-		cartItems.length === 0 && toast.success("Item removed from cart", "bottom");
+		cartItems.length === 0 && toast.success("Item removed from cart");
 	};
 
 	const clearCart = () => {
 		setCartItems([]);
-		toast.success("Cart has been cleared out", "bottom");
+		toast.success("Cart has been cleared out");
 	};
 
 	const getTotalItemCost = (object = {}) => {

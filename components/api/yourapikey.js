@@ -1,25 +1,45 @@
 "use client";
-import { toast } from "react-toastify";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const YourApiKey = ({ token = {} }) => {
+	const [copiedUrl, setCopiedUrl] = useState(false);
+	const timeoutRef = useRef(null);
+
+	useEffect(() => {
+		return () => {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current);
+			}
+		};
+	}, []);
+
+	const copyToClipboard = useCallback((text) => {
+		navigator.clipboard.writeText(text);
+		if (timeoutRef.current) clearTimeout(timeoutRef.current);
+		setCopiedUrl(true);
+		timeoutRef.current = setTimeout(() => setCopiedUrl(false), 2000);
+	}, []);
+
+	const presentationUrl = token?.value || "armed_code_sk_12345abcdef67890";
+
 	return (
 		<>
 			<input
-				value={token?.value || "armed_code_sk_12345abcdef67890"}
+				value={presentationUrl}
 				type="text"
 				className="form-control text-bg-dark"
+				readOnly
 				disabled
 			/>
 			<button
-				className="btn btn-light btn-sm"
-				onClick={() => {
-					navigator.clipboard.writeText(
-						token?.value || "armed_code_sk_12345abcdef67890"
-					);
-					toast.success("Copied", "bottom");
-				}}
+				className={`btn ${copiedUrl ? "btn-success" : "btn-light"}`}
+				onClick={() => copyToClipboard(presentationUrl)}
 			>
-				<i aria-hidden className="fa-regular fa-clone" />
+				{copiedUrl ? (
+					"Copied!"
+				) : (
+					<i aria-hidden className="fa-regular fa-clone" />
+				)}
 			</button>
 		</>
 	);

@@ -1,8 +1,28 @@
 "use client";
-import { toast } from "react-toastify";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ParseHtml from "@/layout/parseHtml";
 
 const JsonResponses = ({ text = "" }) => {
+	const [copiedUrl, setCopiedUrl] = useState(false);
+	const timeoutRef = useRef(null);
+
+	useEffect(() => {
+		return () => {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current);
+			}
+		};
+	}, []);
+
+	const copyToClipboard = useCallback((text) => {
+		navigator.clipboard.writeText(text);
+		if (timeoutRef.current) clearTimeout(timeoutRef.current);
+		setCopiedUrl(true);
+		timeoutRef.current = setTimeout(() => setCopiedUrl(false), 2000);
+	}, []);
+
+	const presentationUrl = text || "";
+
 	return (
 		<>
 			<ParseHtml
@@ -11,13 +31,14 @@ const JsonResponses = ({ text = "" }) => {
 				parseAs="pre"
 			/>
 			<button
-				className="btn btn-light btn-sm"
-				onClick={() => {
-					navigator.clipboard.writeText(text || "");
-					toast.success("Copied", "bottom");
-				}}
+				className={`btn ${copiedUrl ? "btn-success" : "btn-light"}`}
+				onClick={() => copyToClipboard(presentationUrl)}
 			>
-				<i aria-hidden className="fa-regular fa-clone" />
+				{copiedUrl ? (
+					"Copied!"
+				) : (
+					<i aria-hidden className="fa-regular fa-clone" />
+				)}
 			</button>
 		</>
 	);
