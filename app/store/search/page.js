@@ -61,7 +61,7 @@ const StoreSearchIndex = async ({ params, searchParams }) => {
 				card="summary"
 				robots=""
 				category=""
-				url={`/store/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`}
+				url={`/store/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${categoryQuery}${typeQuery}${subCategoryQuery}${decrypt}`}
 				author=""
 				createdAt=""
 				updatedAt=""

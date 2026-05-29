@@ -15,11 +15,13 @@ const DashboardCompaniesSearchIndex = async ({ params, searchParams }) => {
 	const page = awtdSearchParams.page || 1;
 	const limit = awtdSearchParams.limit || 10;
 	const sort = awtdSearchParams.sort || "-createdAt";
+	const keywordQuery =
+		keyword !== "" && keyword !== undefined ? `&keyword=${keyword}` : "";
 
 	const auth = await getUserOnServer();
 
 	const companies = await getCompanies(
-		`?user=${auth?.userId}&keyword=${keyword}&page=${page}&limit=${limit}&sort=${sort}`
+		`?user=${auth?.userId}&page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`,
 	);
 
 	const draftIt = async (id) => {
@@ -27,7 +29,7 @@ const DashboardCompaniesSearchIndex = async ({ params, searchParams }) => {
 		// const rawFormData = {}
 		await fetchurl(`/protected/companies/${id}/draftit`, "PUT", "no-cache");
 		revalidatePath(
-			`/dashboard/companies/search?keyword=${keyword}&page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/companies/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`,
 		);
 	};
 
@@ -36,7 +38,7 @@ const DashboardCompaniesSearchIndex = async ({ params, searchParams }) => {
 		// const rawFormData = {}
 		await fetchurl(`/protected/companies/${id}/publishit`, "PUT", "no-cache");
 		revalidatePath(
-			`/dashboard/companies/search?keyword=${keyword}&page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/companies/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`,
 		);
 	};
 
@@ -45,7 +47,7 @@ const DashboardCompaniesSearchIndex = async ({ params, searchParams }) => {
 		// const rawFormData = {}
 		await fetchurl(`/protected/companies/${id}/trashit`, "PUT", "no-cache");
 		revalidatePath(
-			`/dashboard/companies/search?keyword=${keyword}&page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/companies/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`,
 		);
 	};
 
@@ -54,7 +56,7 @@ const DashboardCompaniesSearchIndex = async ({ params, searchParams }) => {
 		// const rawFormData = {}
 		await fetchurl(`/protected/companies/${id}/scheduleit`, "PUT", "no-cache");
 		revalidatePath(
-			`/dashboard/companies/search?keyword=${keyword}&page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/companies/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`,
 		);
 	};
 
@@ -64,10 +66,10 @@ const DashboardCompaniesSearchIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/companies/${id}/permanently`,
 			"DELETE",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/companies/search?keyword=${keyword}&page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/companies/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`,
 		);
 	};
 
@@ -76,7 +78,7 @@ const DashboardCompaniesSearchIndex = async ({ params, searchParams }) => {
 		// const rawFormData = {}
 		await fetchurl(`/protected/companies/deleteall`, "PUT", "no-cache");
 		revalidatePath(
-			`/dashboard/companies/search?keyword=${keyword}&page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/companies/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`,
 		);
 	};
 
@@ -86,10 +88,10 @@ const DashboardCompaniesSearchIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/companies/deleteall/permanently`,
 			"DELETE",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/companies/search?keyword=${keyword}&page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/companies/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`,
 		);
 	};
 

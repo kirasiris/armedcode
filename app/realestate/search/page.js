@@ -66,7 +66,7 @@ const RealEstateSearchIndex = async ({ params, searchParams }) => {
 				card="summary"
 				robots=""
 				category=""
-				url={`/realestate/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`}
+				url={`/realestate/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${businessTypeQuery}${typeQuery}${bedroomsQuery}${bathroomsQuery}${decrypt}`}
 				author=""
 				createdAt=""
 				updatedAt=""

@@ -59,7 +59,7 @@ const ThemeSearchIndex = async ({ params, searchParams }) => {
 				card="summary"
 				robots=""
 				category=""
-				url={`/theme/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`}
+				url={`/theme/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${decrypt}`}
 				author=""
 				createdAt=""
 				updatedAt=""

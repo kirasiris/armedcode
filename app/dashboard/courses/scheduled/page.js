@@ -5,9 +5,9 @@ import List from "@/components/dashboard/courses/list";
 
 async function getCourses(params) {
 	const res = await fetchurl(
-		`/global/courses${params}&status=scheduled`,
+		`/global/courses${params}&postType=course&status=scheduled`,
 		"GET",
-		"no-cache"
+		"no-cache",
 	);
 	return res;
 }
@@ -22,7 +22,7 @@ const DashboardCoursesScheduledIndex = async ({ params, searchParams }) => {
 	const auth = await getUserOnServer();
 
 	const courses = await getCourses(
-		`?user=${auth?.userId}&page=${page}&limit=${limit}&sort=${sort}`
+		`?user=${auth?.userId}&page=${page}&limit=${limit}&sort=${sort}`,
 	);
 
 	const draftIt = async (id) => {
@@ -31,10 +31,10 @@ const DashboardCoursesScheduledIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/courses/${id}/draftit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -44,10 +44,10 @@ const DashboardCoursesScheduledIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/courses/${id}/publishit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -57,10 +57,10 @@ const DashboardCoursesScheduledIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/courses/${id}/trashit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -70,10 +70,10 @@ const DashboardCoursesScheduledIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/courses/${id}/scheduleit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -83,10 +83,10 @@ const DashboardCoursesScheduledIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/courses/${id}/permanently`,
 			"DELETE",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -95,7 +95,7 @@ const DashboardCoursesScheduledIndex = async ({ params, searchParams }) => {
 		// const rawFormData = {}
 		await fetchurl(`/protected/stripe/courses/deleteall`, "PUT", "no-cache");
 		revalidatePath(
-			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -105,10 +105,10 @@ const DashboardCoursesScheduledIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/courses/deleteall/permanently`,
 			"DELETE",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/courses/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 

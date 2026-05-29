@@ -5,9 +5,9 @@ import List from "@/components/dashboard/products/list";
 
 async function getProducts(params) {
 	const res = await fetchurl(
-		`/global/products${params}&status=trash`,
+		`/global/products${params}&postType=product&status=archived`,
 		"GET",
-		"no-cache"
+		"no-cache",
 	);
 	return res;
 }
@@ -22,7 +22,7 @@ const DashboardProductsTrashedIndex = async ({ params, searchParams }) => {
 	const auth = await getUserOnServer();
 
 	const products = await getProducts(
-		`?user=${auth?.userId}&page=${page}&limit=${limit}&sort=${sort}`
+		`?user=${auth?.userId}&page=${page}&limit=${limit}&sort=${sort}`,
 	);
 
 	const draftIt = async (id) => {
@@ -31,10 +31,10 @@ const DashboardProductsTrashedIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/products/${id}/draftit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -44,10 +44,10 @@ const DashboardProductsTrashedIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/products/${id}/publishit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -57,10 +57,10 @@ const DashboardProductsTrashedIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/products/${id}/trashit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -70,10 +70,10 @@ const DashboardProductsTrashedIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/products/${id}/scheduleit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -83,10 +83,10 @@ const DashboardProductsTrashedIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/products/${id}/permanently`,
 			"DELETE",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -95,7 +95,7 @@ const DashboardProductsTrashedIndex = async ({ params, searchParams }) => {
 		// const rawFormData = {}
 		await fetchurl(`/protected/stripe/products/deleteall`, "PUT", "no-cache");
 		revalidatePath(
-			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -105,10 +105,10 @@ const DashboardProductsTrashedIndex = async ({ params, searchParams }) => {
 		await fetchurl(
 			`/protected/stripe/products/deleteall/permanently`,
 			"DELETE",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/products/trashed?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
