@@ -5,30 +5,30 @@ import {
 	formatDateWithoutTime,
 	stripeCurrencyFormatter,
 } from "befree-utilities";
-import Loading from "@/app/realstate/loading";
+import Loading from "@/app/realestate/loading";
 import ParseHtml from "@/layout/parseHtml";
 import { fetchurl } from "@/helpers/fetchurl";
 import Globalcontent from "@/layout/content";
 import Head from "@/app/head";
 import UseMap from "@/components/global/usemap";
 import Globalsidebar from "@/layout/sidebar";
-import Gallery from "@/components/realstates/gallery";
+import Gallery from "@/components/realestates/gallery";
 import ErrorPage from "@/layout/errorpage";
 import { getGlobalData } from "@/helpers/globalData";
 
-async function getRealState(params) {
-	const res = await fetchurl(`/global/realstates${params}`, "GET", "no-cache");
+async function getRealEstate(params) {
+	const res = await fetchurl(`/global/realestates${params}`, "GET", "no-cache");
 	if (!res.success) notFound();
 	return res;
 }
 
-const RealStateRead = async ({ params, searchParams }) => {
+const RealEstateRead = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 
 	const { settings } = await getGlobalData();
 
-	const realstate = await getRealState(`/${awtdParams.id}`);
+	const realestate = await getRealEstate(`/${awtdParams.id}`);
 
 	// Draft It
 
@@ -45,21 +45,21 @@ const RealStateRead = async ({ params, searchParams }) => {
 	return (
 		<>
 			<Head
-				title={`${settings?.data?.title} - ${realstate.data.title}`}
-				description={realstate.data.excerpt || realstate.data.text}
+				title={`${settings?.data?.title} - ${realestate.data.title}`}
+				description={realestate.data.excerpt || realestate.data.text}
 				favicon={settings?.data?.favicon}
-				postImage={realstate.data.files.avatar.location.secure_location}
+				postImage={realestate.data.files.avatar.location.secure_location}
 				imageWidth=""
 				imageHeight=""
 				videoWidth=""
 				videoHeight=""
 				card="summary"
 				robots=""
-				category={realstate.data.buldingType}
-				url={`/realstates/${realstate.data._id}/${realstate.data.slug}`}
-				author={realstate.data.user.name}
-				createdAt={realstate.data.createdAt}
-				updatedAt={realstate.data.updatedAt}
+				category={realestate.data.buldingType}
+				url={`/realestates/${realestate.data._id}/${realestate.data.slug}`}
+				author={realestate.data.user.name}
+				createdAt={realestate.data.createdAt}
+				updatedAt={realestate.data.updatedAt}
 				locales=""
 				posType="blog"
 			/>
@@ -67,35 +67,35 @@ const RealStateRead = async ({ params, searchParams }) => {
 				<Suspense fallback={<Loading />}>
 					<div className="bg-black py-5 text-bg-dark">
 						<div className="container">
-							{realstate.data.status === "published" ||
+							{realestate.data.status === "published" ||
 							awtdSearchParams.isAdmin === "true" ? (
 								<div className="row">
-									<Gallery objects={realstate?.data?.files?.extras} />
+									<Gallery objects={realestate?.data?.files?.extras} />
 									<Globalcontent classList={`col-lg-8`}>
 										<article>
-											<h1>{realstate?.data?.title}</h1>
+											<h1>{realestate?.data?.title}</h1>
 											<p>
 												<i
 													aria-hidden
 													className="fa-solid fa-location-dot me-2"
 												/>
 												<span className="text-secondary">
-													{realstate?.data?.location?.formattedAddress}
+													{realestate?.data?.location?.formattedAddress}
 												</span>
 											</p>
 											<p>
-												{realstate?.data?.itemType === "sale" && (
+												{realestate?.data?.itemType === "sale" && (
 													<span className="fw-bold display-6">
 														{stripeCurrencyFormatter(
-															realstate?.data?.price?.inHumanFormat,
+															realestate?.data?.price?.inHumanFormat,
 														)}
 													</span>
 												)}
-												{realstate?.data?.itemType === "rent" && (
+												{realestate?.data?.itemType === "rent" && (
 													<>
 														<span className="fw-bold display-6">
 															{stripeCurrencyFormatter(
-																realstate?.data?.rates?.monthlyPrice
+																realestate?.data?.rates?.monthlyPrice
 																	?.inHumanFormat,
 															)}
 														</span>
@@ -113,7 +113,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 																className="fa-solid fa-bed fa-2x"
 															/>
 															<p className="mb-0">
-																{realstate?.data?.bedrooms}
+																{realestate?.data?.bedrooms}
 															</p>
 															<p className="mb-0 text-secondary">Bedrooms</p>
 														</div>
@@ -123,7 +123,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 																className="fa-solid fa-bath fa-2x"
 															/>
 															<p className="mb-0">
-																{realstate?.data?.bathrooms}
+																{realestate?.data?.bathrooms}
 															</p>
 															<p className="mb-0 text-secondary">Bathrooms</p>
 														</div>
@@ -133,7 +133,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 																className="fa-solid fa-bath fa-2x"
 															/>
 															<p className="mb-0">
-																{realstate?.data?.squarefeet}
+																{realestate?.data?.squarefeet}
 															</p>
 															<p className="mb-0 text-secondary">Sq Ft</p>
 														</div>
@@ -143,7 +143,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 																className="fa-solid fa-bath fa-2x"
 															/>
 															<p className="text-capitalize mb-0">
-																{realstate?.data?.buldingType}
+																{realestate?.data?.buldingType}
 															</p>
 															<p className="mb-0 text-secondary">Type</p>
 														</div>
@@ -154,7 +154,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 												<div className="card-body">
 													<h3 className="mb-4">Description</h3>
 													<ParseHtml
-														text={realstate?.data?.text}
+														text={realestate?.data?.text}
 														classList="text-secondary"
 													/>
 												</div>
@@ -168,12 +168,12 @@ const RealStateRead = async ({ params, searchParams }) => {
 															maxHeight: "calc(1.5rem * 5 + 1rem)", // roughly height for 5 items
 															flexDirection: "column",
 															alignContent:
-																realstate?.data?.amenities?.length > 10
+																realestate?.data?.amenities?.length > 10
 																	? "space-between"
 																	: "space-evenly",
 														}}
 													>
-														{realstate?.data?.amenities.map(
+														{realestate?.data?.amenities.map(
 															(ameniti, index) => (
 																<li
 																	key={index}
@@ -196,16 +196,16 @@ const RealStateRead = async ({ params, searchParams }) => {
 															className="fa-solid fa-location-dot me-2"
 														/>
 														<p>
-															{realstate?.data?.location?.street}
+															{realestate?.data?.location?.street}
 															<br />
 															<span className="text-secondary">
-																{realstate?.data?.location?.city},&nbsp;
-																{realstate?.data?.location?.state}&nbsp;
-																{realstate?.data?.location?.zipcode}
+																{realestate?.data?.location?.city},&nbsp;
+																{realestate?.data?.location?.state}&nbsp;
+																{realestate?.data?.location?.zipcode}
 															</span>
 														</p>
 													</div>
-													<UseMap object={realstate?.data} />
+													<UseMap object={realestate?.data} />
 												</div>
 											</div>
 										</article>
@@ -217,7 +217,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 												<div className="d-flex align-items-baseline">
 													<i aria-hidden className="fa-solid fa-user me-2" />
 													<p>
-														{realstate?.data?.user.name}
+														{realestate?.data?.user.name}
 														<br />
 														<span className="text-secondary">
 															Real&nbsp;Estate&nbsp;Agent
@@ -226,7 +226,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 												</div>
 												<hr />
 												<a
-													href={`mailto:${realstate?.data?.user?.email}?subject=${realstate?.data?.title}`}
+													href={`mailto:${realestate?.data?.user?.email}?subject=${realestate?.data?.title}`}
 													className="btn btn-light btn-sm w-100"
 													target="_blank"
 													rel="noreferrer noopener"
@@ -245,25 +245,25 @@ const RealStateRead = async ({ params, searchParams }) => {
 												<ul className="list-unstyled">
 													<li className="d-flex justify-content-between border-bottom my-border-color py-2">
 														<span className="text-secondary">P.&nbsp;ID</span>
-														<span>{realstate?.data?._id}</span>
+														<span>{realestate?.data?._id}</span>
 													</li>
 													<li className="d-flex justify-content-between border-bottom my-border-color py-2">
 														<span className="text-secondary">Type</span>
 														<span className="text-capitalize">
-															{realstate?.data?.buldingType}
+															{realestate?.data?.buldingType}
 														</span>
 													</li>
 													<li className="d-flex justify-content-between border-bottom my-border-color py-2">
 														<span className="text-secondary">Status</span>
 														<span className="text-capitalize">
-															{realstate?.data?.status}
+															{realestate?.data?.status}
 														</span>
 													</li>
 													<li className="d-flex justify-content-between border-bottom my-border-color py-2">
 														<span className="text-secondary">Listed</span>
 														<span>
 															{formatDateWithoutTime(
-																realstate?.data?.createdAt,
+																realestate?.data?.createdAt,
 															)}
 														</span>
 													</li>
@@ -271,7 +271,7 @@ const RealStateRead = async ({ params, searchParams }) => {
 														<span className="text-secondary">
 															R.&nbsp;S.&nbsp;Agent
 														</span>
-														<span>{realstate?.data?.user?.name}</span>
+														<span>{realestate?.data?.user?.name}</span>
 													</li>
 													<li className="d-flex justify-content-between border-bottom my-border-color py-2">
 														<span className="text-secondary">
@@ -279,11 +279,11 @@ const RealStateRead = async ({ params, searchParams }) => {
 														</span>
 														<Link
 															href={{
-																pathname: `/company/${realstate?.data?.resourceId?._id}/${realstate?.data?.resourceId?.slug}`,
+																pathname: `/company/${realestate?.data?.resourceId?._id}/${realestate?.data?.resourceId?.slug}`,
 																query: {},
 															}}
 														>
-															<span>{realstate?.data?.resourceId?.title}</span>
+															<span>{realestate?.data?.resourceId?.title}</span>
 														</Link>
 													</li>
 												</ul>
@@ -304,4 +304,4 @@ const RealStateRead = async ({ params, searchParams }) => {
 	);
 };
 
-export default RealStateRead;
+export default RealEstateRead;

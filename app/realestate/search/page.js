@@ -1,22 +1,22 @@
 import { fetchurl } from "@/helpers/fetchurl";
-import List from "@/components/realstates/list";
+import List from "@/components/realestates/list";
 import ErrorPage from "@/layout/errorpage";
 import Globalcontent from "@/layout/content";
 import Header from "@/layout/header";
 import Head from "@/app/head";
 import { getGlobalData } from "@/helpers/globalData";
-import SearchBar from "@/layout/realstate/searchbar";
+import SearchBar from "@/layout/realestate/searchbar";
 
-async function getRealStates(params) {
+async function getRealEstates(params) {
 	const res = await fetchurl(
-		`/global/realstates${params}&postType=realstate&status=published`,
+		`/global/realestates${params}&postType=realestate&status=published`,
 		"GET",
 		"no-cache",
 	);
 	return res;
 }
 
-const RealStateSearchIndex = async ({ params, searchParams }) => {
+const RealEstateSearchIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
 	const keyword = awtdSearchParams.keyword;
 	const page = awtdSearchParams.page || 1;
@@ -46,11 +46,11 @@ const RealStateSearchIndex = async ({ params, searchParams }) => {
 
 	const { settings } = await getGlobalData();
 
-	const getRealStatesData = getRealStates(
+	const getRealEstatesData = getRealEstates(
 		`?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}${businessTypeQuery}${typeQuery}${bedroomsQuery}${bathroomsQuery}${decrypt}`,
 	);
 
-	const [realstates] = await Promise.all([getRealStatesData]);
+	const [realestates] = await Promise.all([getRealEstatesData]);
 
 	return (
 		<>
@@ -66,7 +66,7 @@ const RealStateSearchIndex = async ({ params, searchParams }) => {
 				card="summary"
 				robots=""
 				category=""
-				url={`/realstate/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`}
+				url={`/realestate/search?page=${page}&limit=${limit}&sort=${sort}${keywordQuery}`}
 				author=""
 				createdAt=""
 				updatedAt=""
@@ -115,7 +115,7 @@ const RealStateSearchIndex = async ({ params, searchParams }) => {
 						</div>
 					</section>
 					<List
-						objects={realstates}
+						objects={realestates}
 						searchedKeyword={keyword}
 						searchParams={awtdSearchParams}
 					/>
@@ -127,4 +127,4 @@ const RealStateSearchIndex = async ({ params, searchParams }) => {
 	);
 };
 
-export default RealStateSearchIndex;
+export default RealEstateSearchIndex;

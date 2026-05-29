@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Loading from "@/app/realstate/loading";
+import Loading from "@/app/realestate/loading";
 import { fetchurl } from "@/helpers/fetchurl";
 import Globalcontent from "@/layout/content";
 import ErrorPage from "@/layout/errorpage";
 import Head from "@/app/head";
 import JobSingle from "@/components/job/single";
-import RealStateSingle from "@/components/realstates/single";
+import RealEstateSingle from "@/components/realestates/single";
 import ProductSingle from "@/components/store/single";
 import CompanyHeader from "@/components/company/header";
 import { getGlobalData } from "@/helpers/globalData";
@@ -19,17 +19,29 @@ async function getCompany(params) {
 }
 
 async function getJobs(params) {
-	const res = await fetchurl(`/global/jobs${params}`, "GET", "no-cache");
+	const res = await fetchurl(
+		`/global/jobs${params}&status=published`,
+		"GET",
+		"no-cache",
+	);
 	return res;
 }
 
-async function getRealStates(params) {
-	const res = await fetchurl(`/global/realstates${params}`, "GET", "no-cache");
+async function getRealEstates(params) {
+	const res = await fetchurl(
+		`/global/realestates${params}&postType=realestate&status=published`,
+		"GET",
+		"no-cache",
+	);
 	return res;
 }
 
-async function getProduct(params) {
-	const res = await fetchurl(`/global/products${params}`, "GET", "no-cache");
+async function getProducts(params) {
+	const res = await fetchurl(
+		`/global/products${params}&postType=product&status=published`,
+		"GET",
+		"no-cache",
+	);
 	return res;
 }
 
@@ -43,10 +55,10 @@ const CompanyRead = async ({ params, searchParams }) => {
 	const jobs = await getJobs(
 		`?resourceId=${company?.data?._id}&page=1&limit=10&sort=-createdAt`,
 	);
-	const realstates = await getRealStates(
+	const realstates = await getRealEstates(
 		`?resourceId=${company?.data?._id}&page=1&limit=10&sort=-createdAt`,
 	);
-	const products = await getProduct(
+	const products = await getProducts(
 		`?resourceId=${company?.data?._id}&page=1&limit=10&sort=-createdAt`,
 	);
 
@@ -112,7 +124,7 @@ const CompanyRead = async ({ params, searchParams }) => {
 										</div>
 										<Link
 											href={{
-												pathname: `/realstate`,
+												pathname: `/realestate`,
 												query: {
 													resourceId: company?.data?._id,
 													page: 1,
@@ -125,7 +137,10 @@ const CompanyRead = async ({ params, searchParams }) => {
 										</Link>
 										<div className="row">
 											{realstates?.data?.map((property) => (
-												<RealStateSingle key={property._id} object={property} />
+												<RealEstateSingle
+													key={property._id}
+													object={property}
+												/>
 											))}
 										</div>
 										<Link

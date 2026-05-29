@@ -1,18 +1,18 @@
 import { revalidatePath } from "next/cache";
 import { fetchurl, getUserOnServer } from "@/helpers/fetchurl";
 import DashboardStatusesMenu from "@/components/dashboard/dashboardstatusesmenu";
-import List from "@/components/dashboard/realstates/list";
+import List from "@/components/dashboard/realestates/list";
 
-async function getRealStates(params) {
+async function getRealEstates(params) {
 	const res = await fetchurl(
-		`/global/realstates${params}&status=trash`,
+		`/global/realestates${params}&postType=realestate&status=scheduled`,
 		"GET",
-		"no-cache"
+		"no-cache",
 	);
 	return res;
 }
 
-const DashboardRealStatesTrashedIndex = async ({ params, searchParams }) => {
+const DashboardRealEstatesScheduledIndex = async ({ params, searchParams }) => {
 	const awtdParams = await params;
 	const awtdSearchParams = await searchParams;
 	const page = awtdSearchParams.page || 1;
@@ -21,20 +21,20 @@ const DashboardRealStatesTrashedIndex = async ({ params, searchParams }) => {
 
 	const auth = await getUserOnServer();
 
-	const realstates = await getRealStates(
-		`?user=${auth?.userId}&page=${page}&limit=${limit}&sort=${sort}`
+	const realestates = await getRealEstates(
+		`?user=${auth?.userId}&page=${page}&limit=${limit}&sort=${sort}`,
 	);
 
 	const draftIt = async (id) => {
 		"use server";
 		// const rawFormData = {}
 		await fetchurl(
-			`/protected/stripe/realstates/${id}/draftit`,
+			`/protected/stripe/realestates/${id}/draftit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/realstates/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/realestates/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -42,12 +42,12 @@ const DashboardRealStatesTrashedIndex = async ({ params, searchParams }) => {
 		"use server";
 		// const rawFormData = {}
 		await fetchurl(
-			`/protected/stripe/realstates/${id}/publishit`,
+			`/protected/stripe/realestates/${id}/publishit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/realstates/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/realestates/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -55,12 +55,12 @@ const DashboardRealStatesTrashedIndex = async ({ params, searchParams }) => {
 		"use server";
 		// const rawFormData = {}
 		await fetchurl(
-			`/protected/stripe/realstates/${id}/trashit`,
+			`/protected/stripe/realestates/${id}/trashit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/realstates/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/realestates/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -68,12 +68,12 @@ const DashboardRealStatesTrashedIndex = async ({ params, searchParams }) => {
 		"use server";
 		// const rawFormData = {}
 		await fetchurl(
-			`/protected/stripe/realstates/${id}/scheduleit`,
+			`/protected/stripe/realestates/${id}/scheduleit`,
 			"PUT",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/realstates/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/realestates/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -81,21 +81,25 @@ const DashboardRealStatesTrashedIndex = async ({ params, searchParams }) => {
 		"use server";
 		// const rawFormData = {}
 		await fetchurl(
-			`/protected/stripe/realstates/${id}/permanently`,
+			`/protected/stripe/realestates/${id}/permanently`,
 			"DELETE",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/realstates/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/realestates/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
 	const handleTrashAll = async () => {
 		"use server";
 		// const rawFormData = {}
-		await fetchurl(`/protected/stripe/realstates/deleteall`, "PUT", "no-cache");
+		await fetchurl(
+			`/protected/stripe/realestates/deleteall`,
+			"PUT",
+			"no-cache",
+		);
 		revalidatePath(
-			`/dashboard/realstates/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/realestates/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
@@ -103,35 +107,35 @@ const DashboardRealStatesTrashedIndex = async ({ params, searchParams }) => {
 		"use server";
 		// const rawFormData = {}
 		await fetchurl(
-			`/protected/stripe/realstates/deleteall/permanently`,
+			`/protected/stripe/realestates/deleteall/permanently`,
 			"DELETE",
-			"no-cache"
+			"no-cache",
 		);
 		revalidatePath(
-			`/dashboard/realstates/trashed?page=${page}&limit=${limit}&sort=${sort}`
+			`/dashboard/realestates/scheduled?page=${page}&limit=${limit}&sort=${sort}`,
 		);
 	};
 
 	return (
 		<>
 			<DashboardStatusesMenu
-				allLink="/dashboard/realstates"
-				publishedLink="/dashboard/realstates/published"
-				draftLink="/dashboard/realstates/draft"
-				scheduledLink="/dashboard/realstates/scheduled"
-				trashedLink="/dashboard/realstates/trashed"
+				allLink="/dashboard/realestates"
+				publishedLink="/dashboard/realestates/published"
+				draftLink="/dashboard/realestates/draft"
+				scheduledLink="/dashboard/realestates/scheduled"
+				trashedLink="/dashboard/realestates/trashed"
 				categoriesLink=""
 				categoryType=""
 			/>
 			<div className="card rounded-0">
 				<List
 					stripeChargesEnabled={auth?.userStripeChargesEnabled}
-					allLink="/dashboard/realstates"
-					pageText="Real States"
-					addLink="/dashboard/realstates/create"
-					searchOn="/dashboard/realstates"
+					allLink="/dashboard/realestates"
+					pageText="Real Estates"
+					addLink="/dashboard/realestates/create"
+					searchOn="/dashboard/realestates"
 					searchedKeyword=""
-					objects={realstates}
+					objects={realestates}
 					searchParams={awtdSearchParams}
 					handleDraft={draftIt}
 					handlePublish={publishIt}
@@ -146,4 +150,4 @@ const DashboardRealStatesTrashedIndex = async ({ params, searchParams }) => {
 	);
 };
 
-export default DashboardRealStatesTrashedIndex;
+export default DashboardRealEstatesScheduledIndex;

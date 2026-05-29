@@ -26,7 +26,7 @@ const SearchBar = ({ objects = [] }) => {
 	const searchData = async (e) => {
 		e.preventDefault();
 		router.push(
-			`/realstate/search?page=1&limit=10&sort=${sort}${businessTypeQuery}${typeQuery}${bedroomsQuery}${bathroomsQuery}${keywordQuery}`
+			`/realestate/search?page=1&limit=10&sort=${sort}${businessTypeQuery}${typeQuery}${bedroomsQuery}${bathroomsQuery}${keywordQuery}`,
 		);
 	};
 

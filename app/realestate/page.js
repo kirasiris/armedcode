@@ -1,22 +1,22 @@
 import { fetchurl } from "@/helpers/fetchurl";
-import List from "@/components/realstates/list";
+import List from "@/components/realestates/list";
 import ErrorPage from "@/layout/errorpage";
 import Globalcontent from "@/layout/content";
 import Header from "@/layout/header";
 import Head from "@/app/head";
 import { getGlobalData } from "@/helpers/globalData";
-import SearchBar from "@/layout/realstate/searchbar";
+import SearchBar from "@/layout/realestate/searchbar";
 
-async function getRealStates(params) {
+async function getRealEstates(params) {
 	const res = await fetchurl(
-		`/global/realstates${params}&postType=realstate&status=published`,
+		`/global/realestates${params}&postType=realestate&status=published`,
 		"GET",
 		"no-cache",
 	);
 	return res;
 }
 
-const RealStateIndex = async ({ params, searchParams }) => {
+const RealEstateIndex = async ({ params, searchParams }) => {
 	const awtdSearchParams = await searchParams;
 	const page = awtdSearchParams.page || 1;
 	const limit = awtdSearchParams.limit || 10;
@@ -25,11 +25,11 @@ const RealStateIndex = async ({ params, searchParams }) => {
 
 	const { settings } = await getGlobalData();
 
-	const getRealStatesData = getRealStates(
+	const getRealEstatesData = getRealEstates(
 		`?page=${page}&limit=${limit}&sort=${sort}${decrypt}`,
 	);
 
-	const [realstates] = await Promise.all([getRealStatesData]);
+	const [realestates] = await Promise.all([getRealEstatesData]);
 
 	return (
 		<>
@@ -45,7 +45,7 @@ const RealStateIndex = async ({ params, searchParams }) => {
 				card="summary"
 				robots=""
 				category=""
-				url={`/realstate`}
+				url={`/realestate`}
 				author=""
 				createdAt=""
 				updatedAt=""
@@ -94,7 +94,7 @@ const RealStateIndex = async ({ params, searchParams }) => {
 						</div>
 					</section>
 					<List
-						objects={realstates}
+						objects={realestates}
 						searchedKeyword=""
 						searchParams={awtdSearchParams}
 					/>
@@ -106,4 +106,4 @@ const RealStateIndex = async ({ params, searchParams }) => {
 	);
 };
 
-export default RealStateIndex;
+export default RealEstateIndex;

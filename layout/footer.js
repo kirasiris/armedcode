@@ -70,7 +70,7 @@ const Footer = ({
 					{/* <li className="me-3">
 						<Link
 							href={{
-								pathname: `${canonical}/realstate`,
+								pathname: `${canonical}/realestate`,
 								query: {},
 							}}
 							className="text-secondary text-decoration-underline"

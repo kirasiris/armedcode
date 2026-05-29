@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { stripeCurrencyFormatter } from "befree-utilities";
-import Loading from "@/app/realstate/loading";
+import Loading from "@/app/realestate/loading";
 
 const Single = ({ object = {} }) => {
 	return (
@@ -14,7 +14,7 @@ const Single = ({ object = {} }) => {
 				>
 					<Link
 						href={{
-							pathname: `/realstate/${object?._id}/${object?.slug}`,
+							pathname: `/realestate/${object?._id}/${object?.slug}`,
 							query: {},
 						}}
 					>
@@ -33,7 +33,7 @@ const Single = ({ object = {} }) => {
 					<div className="card-body">
 						<Link
 							href={{
-								pathname: `/realstate/${object?._id}/${object?.slug}`,
+								pathname: `/realestate/${object?._id}/${object?.slug}`,
 								query: {},
 							}}
 							className="text-white"

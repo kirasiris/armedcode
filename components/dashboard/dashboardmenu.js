@@ -28,7 +28,7 @@ const DashboardMenu = () => {
 					<Link href={"/dashboard/products"}>Products</Link>
 				</li>
 				<li className={`list-group-item ${isActive(`/dashboard/realstates`)}`}>
-					<Link href={"/dashboard/realstates"}>Real Estate</Link>
+					<Link href={"/dashboard/realestates"}>Real Estate</Link>
 				</li>
 				<li className={`list-group-item ${isActive(`/dashboard/revenue`)}`}>
 					<Link href={"/dashboard/revenue"}>Revenue</Link>

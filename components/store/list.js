@@ -18,8 +18,8 @@ const List = ({
 						{objects?.data?.length > 0 ? (
 							<>
 								<div className="row">
-									{objects.data?.map((blog) => (
-										<Single key={blog._id} auth={auth} object={blog} />
+									{objects.data?.map((product) => (
+										<Single key={product._id} auth={auth} object={product} />
 									))}
 								</div>
 								<NumericPagination
