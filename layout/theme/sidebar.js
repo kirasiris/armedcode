@@ -4,7 +4,7 @@ import Globalsidebar from "../sidebar";
 
 const Sidebar = ({ object = {} }) => {
 	return (
-		<Globalsidebar sidebarClasses={`col-lg-4`}>
+		<Globalsidebar classList={`col-lg-4`}>
 			<figure className="mb-4">
 				<Image
 					className="img-thumbnail"
@@ -21,7 +21,7 @@ const Sidebar = ({ object = {} }) => {
 			{object?.data?.preview_theme_url !== "#" && (
 				<a
 					href={object?.data?.preview_theme_url}
-					className="btn btn-secondary btn-sm w-100"
+					className="btn btn-secondary btn-sm mb-3 w-100"
 					target="_blank"
 					rel="noreferrer noopener"
 				>
