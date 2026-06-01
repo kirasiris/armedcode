@@ -6,7 +6,7 @@ async function getBalance() {
 	const res = await fetchurl(
 		`/extras/stripe/accounts/balance`,
 		"GET",
-		"no-cache"
+		"no-cache",
 	);
 	return res;
 }
@@ -20,13 +20,13 @@ const RevenueIndex = async ({ params, searchParams }) => {
 		const res = await fetchurl(
 			`/extras/stripe/accounts/payoutsettings`,
 			"GET",
-			"no-cache"
+			"no-cache",
 		);
 		redirect(res.data.url);
 	};
 
 	return (
-		<div className="card">
+		<div className="card rounded-0">
 			<div className="card-header">Revenue</div>
 			<p className="lead p-within-card-without-body mb-0">
 				You&nbsp;get&nbsp;paid&nbsp;directly&nbsp;from&nbsp;Stripe&nbsp;to&nbsp;your&nbsp;bank&nbsp;account&nbsp;every&nbsp;48hrs.

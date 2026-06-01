@@ -123,14 +123,18 @@ const ThemeRead = async ({ params, searchParams }) => {
 												<ParseHtml text={theme.data.text} />
 												{theme.data.github_readme !== "#" ? (
 													<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
-														<div className="card-header">ReadMe.md</div>
+														<div className="card-header text-bg-dark">
+															ReadMe.md
+														</div>
 														<div className="card-body">
 															<ParseHtml text={readme} />
 														</div>
 													</div>
 												) : (
 													<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
-														<div className="card-header">ReadMe.md</div>
+														<div className="card-header text-bg-dark">
+															ReadMe.md
+														</div>
 														<div className="card-body">
 															{readme.replace(/<\/?[^>]+(>|$)/g, "")}
 														</div>

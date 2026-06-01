@@ -33,7 +33,7 @@ const UseDropzone = ({
 				onDrop={async (acceptedFiles) => {
 					for (let i = 0; i < acceptedFiles.length; i++) {
 						try {
-							await new Promise((resolve, reject) => {
+							const res = await new Promise((resolve, reject) => {
 								const formData = new FormData();
 								formData.append("userId", auth?.userId);
 								formData.append("username", auth?.username);

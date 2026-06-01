@@ -18,7 +18,7 @@ const DashboardStatusesMenu = ({
 	};
 
 	return (
-		<div className="admin-statuses-menu mb-3">
+		<div className="admin-statuses-menu mb-1">
 			{allLink !== "" && allLink !== undefined && allLink !== null && (
 				<Link
 					href={{
