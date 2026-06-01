@@ -41,18 +41,17 @@ const Home = async ({ params, searchParams }) => {
 			{settings?.data?.maintenance === false ? (
 				<>
 					<header className="bg-dark text-bg-dark py-5">
-						<div className="container py-5">
-							<h1 className="display-1 text-center text-uppercase">
+						<div className="container text-center py-5">
+							<h1 className="display-1 text-uppercase">
 								NFA Transfers and Software Development
 							</h1>
-							<p className="display-6 text-center text-uppercase">
+							<p className="display-6 text-uppercase">
 								Streamlining your NFA transfers and building powerful software
 								solutions for your business needs.
 							</p>
-							{/* <div className="text-center">
-						<a className="btn btn-light me-1">Get Started</a>
-						<a className="btn btn-secondary ms-1">Learn More</a>
-					</div> */}
+							<a href="#contactme" className="btn btn-light btn-sm">
+								Get Started
+							</a>
 						</div>
 					</header>
 					{/* OUR SERVICES */}
@@ -96,7 +95,7 @@ const Home = async ({ params, searchParams }) => {
 						</div>
 					</section>
 					{/* CONTACT US */}
-					<section className="bg-black text-bg-dark py-5">
+					<section id="contactme" className="bg-black text-bg-dark py-5">
 						<div className="container">
 							<h2 className="text-center">CONTACT US</h2>
 							<p className="text-center text-secondary">
