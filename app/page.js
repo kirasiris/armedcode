@@ -45,11 +45,14 @@ const Home = async ({ params, searchParams }) => {
 							<h1 className="display-1 text-uppercase">
 								NFA Transfers and Software Development
 							</h1>
-							<p className="display-6 text-uppercase">
+							<p className="display-6 text-uppercase mb-5">
 								Streamlining your NFA transfers and building powerful software
 								solutions for your business needs.
 							</p>
-							<a href="#contactme" className="btn btn-light btn-sm">
+							<a
+								href="#contactme"
+								className="btn btn-light btn-sm text-uppercase w-25"
+							>
 								Get Started
 							</a>
 						</div>
