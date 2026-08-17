@@ -42,7 +42,8 @@ const Footer = ({
 			</div>
 			<div className="container d-flex justify-content-between">
 				<p className="text-secondary">
-					© 2025 {process.env.NEXT_PUBLIC_WEBSITE_NAME}. All rights reserved.
+					©&nbsp;2026&nbsp;{process.env.NEXT_PUBLIC_WEBSITE_NAME}
+					.&nbsp;All&nbsp;rights&nbsp;reserved.
 				</p>
 				<ul className="list-unstyled d-flex">
 					{/* <li className="me-3">
@@ -67,7 +68,7 @@ const Footer = ({
 							Store
 						</Link>
 					</li>
-					{/* <li className="me-3">
+					<li className="me-3">
 						<Link
 							href={{
 								pathname: `${canonical}/realestate`,
@@ -75,9 +76,9 @@ const Footer = ({
 							}}
 							className="text-secondary text-decoration-underline"
 						>
-							Real Estate
+							Real&nbsp;Estate
 						</Link>
-					</li> */}
+					</li>
 					<li className="me-3">
 						<Link
 							href={{
@@ -86,7 +87,7 @@ const Footer = ({
 							}}
 							className="text-secondary text-decoration-underline"
 						>
-							Privacy Policy
+							Privacy&nbsp;Policy
 						</Link>
 					</li>
 					<li>
@@ -97,7 +98,7 @@ const Footer = ({
 							}}
 							className="text-secondary text-decoration-underline"
 						>
-							Terms of Service
+							Terms&nbsp;of&nbsp;Service
 						</Link>
 					</li>
 				</ul>

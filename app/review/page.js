@@ -1,8 +1,4 @@
-import {
-	fetchurl,
-	getAuthTokenOnServer,
-	getUserOnServer,
-} from "@/helpers/fetchurl";
+import { fetchurl, getAuthTokenOnServer } from "@/helpers/fetchurl";
 import List from "@/components/review/list";
 import ErrorPage from "@/layout/errorpage";
 import Head from "@/app/head";
@@ -27,10 +23,9 @@ const ReviewIndex = async ({ params, searchParams }) => {
 			? `&rating=${awtdSearchParams.rating}`
 			: "";
 
-	const auth = await getUserOnServer();
 	const token = await getAuthTokenOnServer();
 
-	const { settings } = await getGlobalData();
+	const { auth, settings } = await getGlobalData();
 
 	const getReviewsData = getReviews(
 		`?page=${page}&limit=${limit}&sort=${sort}${rating}`,

@@ -12,32 +12,25 @@ const UseDropzone = ({
 	name = "",
 	multipleFiles = true,
 	onModel = "Blog",
-	objectData = {},
 	setObjectData,
 }) => {
 	const [uploadPercentage, setUploadPercentage] = useState(0);
 
-	return (auth?.userId !== "" &&
-		auth?.userId !== undefined &&
-		auth?.userId !== null) ||
-		(auth?.username !== "" &&
-			auth?.username !== undefined &&
-			auth?.username !== null) ||
-		(auth?.email !== "" &&
-			auth?.email !== undefined &&
-			auth?.email !== null) ? (
+	return (
 		<>
 			<UseProgress percentage={uploadPercentage} />
 			<Dropzone
 				// accept={}
 				onDrop={async (acceptedFiles) => {
+					const uploadedFileIds = [];
+					const uploadedFileUrls = [];
 					for (let i = 0; i < acceptedFiles.length; i++) {
 						try {
 							const res = await new Promise((resolve, reject) => {
 								const formData = new FormData();
-								formData.append("userId", auth?.userId);
-								formData.append("username", auth?.username);
-								formData.append("userEmail", auth?.email);
+								formData.append("userId", auth?.data?._id);
+								formData.append("username", auth?.data?.username);
+								formData.append("userEmail", auth?.data?.email);
 								formData.append("onModel", onModel);
 								formData.append("file", acceptedFiles[i]);
 								formData.append("album", "comments-and-reviews");
@@ -84,38 +77,25 @@ const UseDropzone = ({
 
 								xhr.send(formData);
 							});
-							setObjectData({ ...objectData, files: res?.data?.data });
+							if (res?.data) {
+								uploadedFileIds.push(res.data._id);
+								uploadedFileUrls.push(res.data.location.secure_location);
+							}
 						} catch (err) {
 							toast.error(err?.message || "Something went wrong during upload");
 						} finally {
 							toast.success("Files uploaded");
 						}
-						// const res = await axios.put(
-						// 	`${process.env.NEXT_PUBLIC_FILE_UPLOADER_URL}/uploads/uploadobject`,
-						// 	{
-						// 		userId: auth?.userId,
-						// 		username: auth?.username,
-						// 		userEmail: auth?.email,
-						// 		onModel: onModel,
-						// 		file: acceptedFiles[i],
-						// 		album: "comments-and-reviews",
-						// 	},
-						// 	{
-						// 		headers: {
-						// 			Authorization: `Bearer ${token?.value}`,
-						// 			"Content-Type": "multipart/form-data",
-						// 		},
-						// 		onUploadProgress: (ProgressEvent) => {
-						// 			setUploadPercentage(
-						// 				parseInt(
-						// 					Math.round(ProgressEvent.loaded * 100) /
-						// 						ProgressEvent.total,
-						// 				),
-						// 			);
-						// 			setTimeout(() => setUploadPercentage(0), 10000);
-						// 		},
-						// 	},
-						// );
+					}
+					if (uploadedFileIds.length > 0) {
+						setObjectData((prev) => ({
+							...prev,
+							files: [...(prev.files || []), ...uploadedFileIds],
+							uploadedFileData: uploadedFileUrls, // Store data from the last uploaded file
+						}));
+						toast.success(
+							`${uploadedFileIds.length} file(s) uploaded successfully`,
+						);
 					}
 					setUploadPercentage(0);
 				}}
@@ -153,10 +133,6 @@ const UseDropzone = ({
 				)}
 			</Dropzone>
 		</>
-	) : (
-		<div className="alert alert-warning">
-			Sorry you can not use the uploader
-		</div>
 	);
 };
 

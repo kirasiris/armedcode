@@ -4,7 +4,7 @@ import { stripeCurrencyFormatter } from "befree-utilities";
 
 async function getBalance() {
 	const res = await fetchurl(
-		`/extras/stripe/accounts/balance`,
+		`/protected/stripe/accounts/balance`,
 		"GET",
 		"no-cache",
 	);
@@ -18,7 +18,7 @@ const RevenueIndex = async ({ params, searchParams }) => {
 		"use server";
 		// const rawFormData = {}
 		const res = await fetchurl(
-			`/extras/stripe/accounts/payoutsettings`,
+			`/protected/stripe/accounts/payoutsettings`,
 			"GET",
 			"no-cache",
 		);
@@ -34,6 +34,7 @@ const RevenueIndex = async ({ params, searchParams }) => {
 			<ul className="list-group list-group-flush">
 				<li className="list-group-item d-flex justify-content-between align-items-center">
 					<p className="m-0">Pending&nbsp;Balance</p>
+					{console.log("balance", balance)}
 					{balance?.data?.pending &&
 						balance?.data?.pending.map((bp, i) => (
 							<span key={i}>{stripeCurrencyFormatter(bp.amount, "USD")}</span>

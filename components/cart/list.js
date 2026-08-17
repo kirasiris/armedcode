@@ -1,66 +1,66 @@
 "use client";
+import { useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import Link from "next/link";
 import { stripeCurrencyFormatter } from "befree-utilities";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import Single from "./single";
 import Globalcontent from "@/layout/content";
 import Globalsidebar from "@/layout/sidebar";
 import { useStoreCart } from "@/context/cartcontext";
-import ErrorPage from "@/layout/errorpage";
+import { fetchurl } from "@/helpers/fetchurl";
 
-const List = ({
-	objects = [],
-	handleCheckout = () => {},
-	handleSaveCart = () => {},
-	handleClearCart = () => {},
-}) => {
-	const { items, loading, clearCart, getItemFee, getTotalCartCost } =
-		useStoreCart();
+const List = ({ objects = [] }) => {
+	const router = useRouter();
 
-	if (
-		typeof handleCheckout !== "function" &&
-		handleCheckout !== "" &&
-		handleCheckout !== undefined &&
-		handleCheckout !== null
-	) {
-		return (
-			<ErrorPage
-				statusCodeMessage={
-					"The handleCheckout parameter is not a function!. Please try again"
-				}
-			/>
+	const {
+		items,
+		loading,
+		clearCart,
+		getItemFee,
+		getCartSubtotal,
+		getTotalCartCost,
+	} = useStoreCart();
+
+	const [saveBtnText, setSaveBtnText] = useState("Save Cart");
+	const [clearBtnText, setClearBtnText] = useState("Clear Cart");
+
+	const saveCart = async (objects = []) => {
+		setSaveBtnText("Saving Cart...");
+		const rawFormData = {
+			items: objects,
+		};
+		const res = await fetchurl(
+			`/protected/stripe/carts`,
+			"POST",
+			"no-cache",
+			rawFormData,
 		);
-	}
+		if (res.status === "error") {
+			toast.error(res.message);
+			setSaveBtnText("Save Cart");
+			return;
+		}
+		if (res.status === "fail") {
+			toast.error(res.message);
+			setSaveBtnText("Save Cart");
+			return;
+		}
+		setSaveBtnText("Save Cart");
+		toast.success("Cart saved");
+		router.push(`/cart/${res?.data?._id}`);
+	};
 
-	if (
-		typeof handleSaveCart !== "function" &&
-		handleSaveCart !== "" &&
-		handleSaveCart !== undefined &&
-		handleSaveCart !== null
-	) {
-		return (
-			<ErrorPage
-				statusCodeMessage={
-					"The handleSaveCart parameter is not a function!. Please try again"
-				}
-			/>
+	const handleClearCart = async (objectId) => {
+		setClearBtnText("Clearing Out Cart...");
+		await fetchurl(
+			`/protected/stripe/carts/${objectId}/permanently`,
+			"DELETE",
+			"no-cache",
 		);
-	}
-
-	if (
-		typeof handleClearCart !== "function" &&
-		handleClearCart !== "" &&
-		handleClearCart !== undefined &&
-		handleClearCart !== null
-	) {
-		return (
-			<ErrorPage
-				statusCodeMessage={
-					"The handleClearCart parameter is not a function!. Please try again"
-				}
-			/>
-		);
-	}
+		clearCart();
+	};
 
 	return (
 		<section className="bg-black py-5 text-bg-dark">
@@ -72,11 +72,13 @@ const List = ({
 								<Spinner />
 							</div>
 						) : items?.length > 0 ? (
-							<ul className="list-group">
-								{items?.map((item, index) => (
-									<Single key={index} object={item} />
-								))}
-							</ul>
+							<>
+								<ul className="list-group">
+									{items?.map((item, index) => (
+										<Single key={index} object={item} />
+									))}
+								</ul>
+							</>
 						) : (
 							<div className="border border-1 my-border-color rounded-1 d-flex justify-content-center align-items-center h-100">
 								<div className="text-center">
@@ -96,7 +98,7 @@ const List = ({
 										<span>
 											{loading
 												? "Loading..."
-												: stripeCurrencyFormatter(getTotalCartCost())}
+												: stripeCurrencyFormatter(getCartSubtotal())}
 										</span>
 									</li>
 									<li className="d-flex justify-content-between border-bottom my-border-color py-2">
@@ -116,20 +118,10 @@ const List = ({
 										<h4>
 											{loading
 												? "Loading..."
-												: stripeCurrencyFormatter(
-														getItemFee() + getTotalCartCost()
-												  )}
+												: stripeCurrencyFormatter(getTotalCartCost())}
 										</h4>
 									</li>
 								</ul>
-								{objects?.data?.length > 0 && items?.length > 0 && (
-									<button
-										className="btn btn-light btn-sm w-100 text-uppercase mb-3"
-										onClick={() => handleCheckout(objects?.data[0], items)}
-									>
-										Proceed to Checkout
-									</button>
-								)}
 								<Link
 									href={{
 										pathname: `/store`,
@@ -143,22 +135,22 @@ const List = ({
 									<button
 										type="button"
 										className="btn btn-secondary btn-sm w-100 text-uppercase mb-3"
-										onClick={() => handleSaveCart(items)}
+										onClick={() => saveCart(items)}
 									>
-										Save Cart
+										{saveBtnText}
 									</button>
 								)}
-								{objects?.data?.length > 0 && items?.length > 0 && (
-									<button
-										className="btn btn-danger btn-sm w-100 text-uppercase"
-										onClick={() => {
-											clearCart();
-											handleClearCart(objects?.data[0]);
-										}}
-									>
-										Clear Cart
-									</button>
-								)}
+								{objects?.data?.[0].length > 0 ||
+									(items?.length > 0 && (
+										<button
+											className="btn btn-danger btn-sm w-100 text-uppercase"
+											onClick={() => {
+												handleClearCart(objects?.data?.[0]?._id);
+											}}
+										>
+											{clearBtnText}
+										</button>
+									))}
 							</div>
 						</div>
 					</Globalsidebar>

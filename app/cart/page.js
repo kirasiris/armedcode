@@ -1,4 +1,3 @@
-import { revalidatePath } from "next/cache";
 import { fetchurl } from "@/helpers/fetchurl";
 import List from "@/components/cart/list";
 import ErrorPage from "@/layout/errorpage";
@@ -16,40 +15,11 @@ const CartIndex = async ({ params, searchParams }) => {
 	const sort = awtdSearchParams.sort || "-createdAt";
 	const decrypt = awtdSearchParams.decrypt === "true" ? "&decrypt=true" : "";
 
-	const { settings } = await getGlobalData();
+	const { auth, settings } = await getGlobalData();
 
-	const carts = await getCarts(`?page=${page}&sort=${sort}${decrypt}`);
-
-	const saveCart = async (objects = []) => {
-		"use server";
-		await fetchurl(`/protected/stripe/carts`, "POST", "no-cache", {
-			items: objects,
-			onModel: "Product",
-		});
-		revalidatePath(`/cart`);
-	};
-
-	const checkout = async (object = {}, objects = []) => {
-		"use server";
-		const res = await fetchurl(
-			`/protected/stripe/carts/checkout/${object?._id}`,
-			"POST",
-			"no-cache",
-			{
-				items: objects,
-			},
-		);
-	};
-
-	const clearCart = async (object = {}) => {
-		"use server";
-		await fetchurl(
-			`/protected/stripe/carts/${object?._id}/permanently`,
-			"DELETE",
-			"no-cache",
-		);
-		revalidatePath(`/cart`);
-	};
+	const carts = await getCarts(
+		`?user=${auth?.data?._id}&page=${page}&sort=${sort}${decrypt}`,
+	);
 
 	return (
 		<>
@@ -73,12 +43,7 @@ const CartIndex = async ({ params, searchParams }) => {
 				posType="page"
 			/>
 			{settings?.data?.maintenance === false ? (
-				<List
-					objects={carts}
-					handleCheckout={checkout}
-					handleSaveCart={saveCart}
-					handleClearCart={clearCart}
-				/>
+				<List objects={carts} />
 			) : (
 				<ErrorPage />
 			)}

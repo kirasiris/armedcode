@@ -3,11 +3,9 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { stripeCurrencyFormatter } from "befree-utilities";
 import Loading from "@/app/store/loading";
-import ParseHtml from "@/layout/parseHtml";
 import { fetchurl } from "@/helpers/fetchurl";
 import Globalcontent from "@/layout/content";
 import Head from "@/app/head";
-import Globalsidebar from "@/layout/sidebar";
 import AddToCartButton from "@/components/store/addtocartbutton";
 import ErrorPage from "@/layout/errorpage";
 import { getGlobalData } from "@/helpers/globalData";
@@ -94,12 +92,12 @@ const StoreRead = async ({ params, searchParams }) => {
 										<p>
 											<span className="fw-bold display-4 me-1">
 												{stripeCurrencyFormatter(
-													product?.data?.price?.inHumanFormat,
+													product?.data?.price?.inCentsFormat,
 												)}
 											</span>
 											<span className="fw-bold display-6 text-secondary text-decoration-line-through">
 												{stripeCurrencyFormatter(
-													product?.data?.comparePrice?.inHumanFormat,
+													product?.data?.comparePrice?.inCentsFormat,
 												)}
 											</span>
 										</p>

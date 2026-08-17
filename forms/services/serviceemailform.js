@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { fetchurl } from "@/helpers/fetchurl";
 
-const ServiceForm = ({}) => {
+const ServiceEmailForm = ({}) => {
 	const router = useRouter();
 
 	const [btnText, setBtnText] = useState("Submit");
@@ -137,4 +137,4 @@ const ServiceForm = ({}) => {
 	);
 };
 
-export default ServiceForm;
+export default ServiceEmailForm;

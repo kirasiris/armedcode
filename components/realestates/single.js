@@ -47,23 +47,9 @@ const Single = ({ object = {} }) => {
 							</span>
 						</div>
 						<p>
-							{object?.itemType === "sale" && (
-								<>
-									<span className="fw-bold display-6">
-										{stripeCurrencyFormatter(object?.price?.inHumanFormat)}
-									</span>
-								</>
-							)}
-							{object?.itemType === "rent" && (
-								<>
-									<span className="fw-bold display-6">
-										{stripeCurrencyFormatter(
-											object?.rates?.monthlyPrice?.inHumanFormat,
-										)}
-									</span>
-									/<span className="text-secondary">month</span>
-								</>
-							)}
+							<span className="fw-bold display-6">
+								{stripeCurrencyFormatter(object?.price?.inCentsFormat)}
+							</span>
 						</p>
 						<div className="row">
 							<div className="col text-center">

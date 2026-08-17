@@ -36,25 +36,25 @@
   "homepage": "https://github.com/kirasiris/armedcode#readme",
   "dependencies": {
     "@simplewebauthn/browser": "^13.3.0",
-    "@stripe/stripe-js": "^9.6.0",
+    "@stripe/stripe-js": "^9.13.0",
     "base-64": "^1.0.0",
     "befree-utilities": "^1.0.4",
     "bootstrap": "^5.3.8",
     "depcheck": "^1.4.7",
     "he": "^1.2.0",
-    "next": "^16.2.6",
+    "next": "^16.3.1",
     "next-client-cookies": "^2.1.1",
-    "react": "^19.2.6",
+    "react": "^19.2.8",
     "react-bootstrap": "^2.10.10",
-    "react-dom": "^19.2.6",
-    "react-dropzone": "^15.0.0",
+    "react-dom": "^19.2.8",
+    "react-dropzone": "^20.1.0",
     "react-loading-skeleton": "^3.5.0",
     "react-toastify": "^11.1.0",
     "rss": "^1.2.2",
     "showdown": "^2.1.0"
   },
   "devDependencies": {
-    "eslint": "^9.39.4",
-    "eslint-config-next": "^16.2.6"
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.1"
   }
 }

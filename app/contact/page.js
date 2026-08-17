@@ -40,55 +40,69 @@ const ContactIndex = async () => {
 							</p>
 							<div className="row">
 								<div className="col-lg-6 mb-3">
-									<div className="border border-1 my-border-color p-5 rounded">
-										<h3>Send Us a Message</h3>
-										<p className="text-secondary">
-											Fill out the form below and we&apos;ll get back to you
-											shortly.
-										</p>
-										<ContactEmailForm />
+									<div
+										className="card border border-1 my-border-color bg-black text-bg-dark"
+										style={{
+											padding: "32px",
+										}}
+									>
+										<div className="card-body">
+											<h3 className="mb-4">Send&nbsp;Us&nbsp;a&nbsp;Message</h3>
+											<p className="text-secondary">
+												Fill out the form below and we&apos;ll get back to you
+												shortly.
+											</p>
+											<ContactEmailForm />
+										</div>
 									</div>
 								</div>
 								<div className="col-lg-6 mb-3">
-									<div className="border border-1 my-border-color p-5 rounded">
-										<h3>Contact Information</h3>
-										<p className="text-secondary">
-											Reach out directly through any of these channels.
-										</p>
-										<ul className="list-unstyled">
-											<li>
-												<p className="fw-bold mb-0">Phone</p>
-												<p className="text-secondary mb-0">682-375-9607</p>
-												<p className="text-secondary">
-													Tuesday-Thursday, 9am-6pm
-												</p>
-											</li>
-											<li>
-												<p className="fw-bold mb-0">Email</p>
-												<p className="text-secondary mb-0">
-													{process.env.NEXT_PUBLIC_WEBSITE_EMAIL}
-												</p>
-												<p className="text-secondary">
-													We&apos;ll respond within 24 hours
-												</p>
-											</li>
-										</ul>
-										<div className="bg-dark p-4 rounded">
-											<h4>Business Hours</h4>
+									<div
+										className="card border border-1 my-border-color bg-black text-bg-dark"
+										style={{
+											padding: "32px",
+										}}
+									>
+										<div className="card-body">
+											<h3>Contact Information</h3>
+											<p className="text-secondary">
+												Reach out directly through any of these channels.
+											</p>
 											<ul className="list-unstyled">
-												<li className="d-flex justify-content-between">
-													<span>Tuesday</span>
-													<span>9:00 AM - 10:00 PM</span>
+												<li>
+													<p className="fw-bold mb-0">Phone</p>
+													<p className="text-secondary mb-0">682-375-9607</p>
+													<p className="text-secondary">
+														Tuesday-Thursday, 9am-6pm
+													</p>
 												</li>
-												<li className="d-flex justify-content-between">
-													<span>Wednesday</span>
-													<span>9:00 AM - 10:00 PM</span>
-												</li>
-												<li className="d-flex justify-content-between">
-													<span>Thursday</span>
-													<span>9:00 AM - 6:00 PM</span>
+												<li>
+													<p className="fw-bold mb-0">Email</p>
+													<p className="text-secondary mb-0">
+														{process.env.NEXT_PUBLIC_WEBSITE_EMAIL}
+													</p>
+													<p className="text-secondary">
+														We&apos;ll respond within 24 hours
+													</p>
 												</li>
 											</ul>
+											<div className="bg-dark p-4 rounded">
+												<h4>Business Hours</h4>
+												<ul className="list-unstyled">
+													<li className="d-flex justify-content-between">
+														<span>Tuesday</span>
+														<span>9:00 AM - 10:00 PM</span>
+													</li>
+													<li className="d-flex justify-content-between">
+														<span>Wednesday</span>
+														<span>9:00 AM - 10:00 PM</span>
+													</li>
+													<li className="d-flex justify-content-between">
+														<span>Thursday</span>
+														<span>9:00 AM - 6:00 PM</span>
+													</li>
+												</ul>
+											</div>
 										</div>
 									</div>
 								</div>

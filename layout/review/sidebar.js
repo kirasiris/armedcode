@@ -11,27 +11,26 @@ const Sidebar = ({ auth = {}, token = null, returtopageurl = "/" }) => {
 	const router = useRouter();
 
 	const [reviewData, setReviewData] = useState({
-		rating: 1,
+		rating: 10,
 		title: ``,
 		text: ``,
-		name: ``,
-		email: ``,
 		website: ``,
 		files: [],
 		uploadedFileData: [], // Store data from secondary API
 	});
 	const [btnText, setBtnText] = useState("Submit");
 
-	const { rating, title, text, name, email, website, files, uploadedFileData } =
-		reviewData;
+	const { rating, title, text, website } = reviewData;
 
 	const createReview = async (e) => {
 		e.preventDefault();
 		setBtnText("Processing...");
 		const res = await fetchurl(`/global/comments`, "POST", "no-cache", {
 			...reviewData,
-			user: undefined,
-			onModel: undefined,
+			user: auth?.data?._id,
+			name: auth?.data?.name,
+			email: auth?.data?.email,
+			onModel: "Comment",
 			status: "published",
 			postType: "review",
 			registeredFrom: process.env.NEXT_PUBLIC_WEBSITE_NAME,
@@ -50,11 +49,9 @@ const Sidebar = ({ auth = {}, token = null, returtopageurl = "/" }) => {
 
 	const resetForm = () => {
 		setReviewData({
-			rating: 1,
+			rating: 10,
 			title: ``,
 			text: ``,
-			name: ``,
-			email: ``,
 			website: ``,
 			files: [],
 			uploadedFileData: [], // Store data from secondary API
@@ -256,175 +253,174 @@ const Sidebar = ({ auth = {}, token = null, returtopageurl = "/" }) => {
 					</Link>
 				</div>
 			</div>
-			<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
-				<div className="card-body">
-					<h3>Write a Review</h3>
-					<p className="text-secondary">
-						Share your experience with our services
-					</p>
-					<form onSubmit={createReview}>
-						<label htmlFor="rating" className="form-label">
-							Rating
-						</label>
-						<select
-							id="rating"
-							name="rating"
-							value={rating}
-							onChange={(e) => {
-								setReviewData({
-									...reviewData,
-									rating: e.target.value,
-								});
-							}}
-							className="form-control text-bg-dark mb-3"
-						>
-							{[...Array(10)].map((_, index) => (
-								<option key={index} value={index + 1}>
-									{index + 1}
-								</option>
-							))}
-						</select>
-						<label htmlFor="title" className="form-label">
-							Title
-						</label>
-						<input
-							id={`title`}
-							name={`title`}
-							value={title}
-							onChange={(e) => {
-								setReviewData({
-									...reviewData,
-									title: e.target.value,
-								});
-							}}
-							type="text"
-							className="form-control text-bg-dark mb-3"
-							required
-							placeholder="Title *"
-						/>
-						<label htmlFor="text" className="form-label">
-							Text
-						</label>
-						<textarea
-							id="text"
-							name="text"
-							value={text}
-							onChange={(e) => {
-								setReviewData({
-									...reviewData,
-									text: e.target.value,
-								});
-							}}
-							className="form-control text-bg-dark mb-3"
-							required
-							placeholder="Tell us what you think!"
-							rows="3"
-						/>
-						<label htmlFor="name" className="form-label">
-							Name
-						</label>
-						<input
-							id={`name`}
-							name={`name`}
-							value={name}
-							onChange={(e) => {
-								setReviewData({
-									...reviewData,
-									name: e.target.value,
-								});
-							}}
-							type="text"
-							className="form-control text-bg-dark mb-3"
-							required
-							placeholder="Name *"
-						/>
-						<label htmlFor="email" className="form-label">
-							Email
-						</label>
-						<input
-							id={`email`}
-							name={`email`}
-							value={email}
-							onChange={(e) => {
-								setReviewData({
-									...reviewData,
-									email: e.target.value,
-								});
-							}}
-							type="email"
-							className="form-control text-bg-dark mb-3"
-							required
-							placeholder="Email *"
-						/>
-						<label htmlFor="website" className="form-label">
-							Website
-						</label>
-						<input
-							id={`website`}
-							name={`website`}
-							value={website}
-							onChange={(e) => {
-								setReviewData({
-									...reviewData,
-									website: e.target.value,
-								});
-							}}
-							type="url"
-							className="form-control text-bg-dark mb-3"
-							placeholder="Website"
-						/>
-						<label htmlFor="files" className="form-label">
-							Add Photos or Videos (Optional)
-						</label>
-						<UseDropzone
-							auth={auth}
-							token={token}
-							id="review-dropzone"
-							name="review-dropzone"
-							multipleFiles={true}
-							onModel="Comment"
-							objectData={reviewData}
-							setObjectData={setReviewData}
-						/>
+			{auth?.data?.isOnline && (
+				<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
+					<div className="card-body">
+						<h3>Write a Review</h3>
+						<p className="text-secondary">
+							Share your experience with our services
+						</p>
+						<form onSubmit={createReview}>
+							<label htmlFor="rating" className="form-label">
+								Rating
+							</label>
+							<select
+								id="rating"
+								name="rating"
+								value={rating}
+								onChange={(e) => {
+									setReviewData({
+										...reviewData,
+										rating: e.target.value,
+									});
+								}}
+								className="form-control text-bg-dark mb-3"
+							>
+								{[...Array(10)].map((_, index) => (
+									<option key={index} value={index + 1}>
+										{index + 1}
+									</option>
+								))}
+							</select>
+							<label htmlFor="title" className="form-label">
+								Title
+							</label>
+							<input
+								id={`title`}
+								name={`title`}
+								value={title}
+								onChange={(e) => {
+									setReviewData({
+										...reviewData,
+										title: e.target.value,
+									});
+								}}
+								type="text"
+								className="form-control text-bg-dark mb-3"
+								required
+								placeholder="Title *"
+							/>
+							<label htmlFor="text" className="form-label">
+								Text
+							</label>
+							<textarea
+								id="text"
+								name="text"
+								value={text}
+								onChange={(e) => {
+									setReviewData({
+										...reviewData,
+										text: e.target.value,
+									});
+								}}
+								className="form-control text-bg-dark mb-3"
+								required
+								placeholder="Tell us what you think!"
+								rows="3"
+							/>
+							<label htmlFor="website" className="form-label">
+								Website
+							</label>
+							<input
+								id={`website`}
+								name={`website`}
+								value={website}
+								onChange={(e) => {
+									setReviewData({
+										...reviewData,
+										website: e.target.value,
+									});
+								}}
+								type="url"
+								className="form-control text-bg-dark mb-3"
+								placeholder="Website"
+							/>
+							<label htmlFor="files" className="form-label">
+								Add Photos or Videos (Optional)
+							</label>
+							<UseDropzone
+								auth={auth}
+								token={token}
+								id="review-dropzone"
+								name="review-dropzone"
+								multipleFiles={true}
+								onModel="Comment"
+								setObjectData={setReviewData}
+							/>
+							{reviewData.files.length > 0 && (
+								<div className="mb-3">
+									<div className="row g-3 mb-3">
+										{reviewData.uploadedFileData.map((file, index) => {
+											// normalize the URL regardless of the response shape
+											const url = file || "/placeholder.svg";
 
-						{/* {mediaPreviewUrls.length > 0 && (
-							<div className="mb-3">
-								<div className="row g-3 mb-3">
-									{mediaPreviewUrls.map((url, index) => (
-										<div key={index} className="col-12 col-md-6">
-											<div
-												className="position-relative border rounded overflow-hidden bg-secondary"
-												style={{ aspectRatio: "16/9" }}
-											>
-												<img
-													src={
-														uploadedFiles[index]?.location?.secure_location ||
-														mediaPreviewUrls[index] ||
-														"/placeholder.svg"
-													}
-													alt={`Preview ${index + 1}`}
-													className="w-100 h-100"
-													style={{ objectFit: "cover" }}
-												/>
-											</div>
-										</div>
-									))}
+											const isImage =
+												/\.(jpe?g|png|gif|webp|avif|svg)$/i.test(url) ||
+												file?.mimetype?.startsWith?.("image/");
+
+											return (
+												<div key={index} className="col-12 col-md-6">
+													<div
+														className="position-relative border rounded overflow-hidden bg-secondary"
+														style={{ aspectRatio: "16/9" }}
+													>
+														{isImage ? (
+															<img
+																src={url}
+																alt={`Preview ${index + 1}`}
+																className="w-100 h-100"
+																style={{ objectFit: "cover" }}
+															/>
+														) : (
+															<div className="d-flex flex-column align-items-center justify-content-center w-100 h-100 text-white p-3">
+																<span className="fw-semibold text-truncate w-100 text-center">
+																	{`File ${index + 1}`}
+																</span>
+																<small className="opacity-75">
+																	No preview available
+																</small>
+															</div>
+														)}
+
+														<button
+															type="button"
+															className="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
+															onClick={() =>
+																setObjectData((prev) => ({
+																	...prev,
+																	files: prev.files.filter(
+																		(_, i) => i !== index,
+																	),
+																}))
+															}
+															aria-label={`Remove ${`file ${index + 1}`}`}
+														>
+															&times;
+														</button>
+													</div>
+												</div>
+											);
+										})}
+									</div>
 								</div>
-							</div>
-						)} */}
-						<button type="submit" className="btn btn-light btn-sm float-start">
-							{btnText}
-						</button>
-						<button
-							type="reset"
-							onClick={resetForm}
-							className="btn btn-light btn-sm float-end"
-						>
-							Reset
-						</button>
-					</form>
+							)}
+							<button
+								type="submit"
+								className="btn btn-light btn-sm float-start"
+							>
+								{btnText}
+							</button>
+							<button
+								type="reset"
+								onClick={resetForm}
+								className="btn btn-light btn-sm float-end"
+							>
+								Reset
+							</button>
+						</form>
+					</div>
 				</div>
-			</div>
+			)}
 		</Globalsidebar>
 	);
 };

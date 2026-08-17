@@ -54,11 +54,11 @@ const Single = ({ object = {}, auth = {} }) => {
 						<p className="text-secondary">{object?.excerpt || "No excerpt"}</p>
 						<p>
 							<span className="fw-bold display-6">
-								{stripeCurrencyFormatter(object?.price.inHumanFormat)}
+								{stripeCurrencyFormatter(object?.price.inCentsFormat)}
 							</span>
 							&nbsp;
 							<span className="text-secondary text-decoration-line-through">
-								{stripeCurrencyFormatter(object?.cost?.inHumanFormat)}
+								{stripeCurrencyFormatter(object?.comparePrice?.inCentsFormat)}
 							</span>
 						</p>
 						{auth?.data?.isOnline ? (
@@ -70,9 +70,17 @@ const Single = ({ object = {}, auth = {} }) => {
 								Add to cart
 							</button>
 						) : (
-							<button className="btn btn-light btn-sm w-100">
+							<Link
+								href={{
+									pathname: `/auth/login`,
+									query: {
+										returnpage: `/store/${object?._id}/${object?.slug}`,
+									},
+								}}
+								className="btn btn-light btn-sm w-100"
+							>
 								Login to Add to Cart
-							</button>
+							</Link>
 						)}
 					</div>
 				</div>

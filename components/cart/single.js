@@ -16,22 +16,33 @@ const Single = ({ object = {} }) => {
 
 	const itemQuantity = getItemQuantity(object);
 
+	const id = object?._id;
+	const avatar =
+		object?.avatar ||
+		object?.resourceId?.files?.avatar?.location?.secure_location;
+	const slug = object?.slug || object?.resourceId?.slug;
+	const title = object?.title || object?.resourceId?.title;
+	const price = Number(object?.price) || Number(object?.price?.inCentsFormat);
+	const quantity = itemQuantity || object?.quantity;
+
 	return (
 		<Suspense fallback={<Loading />}>
-			<article className={`${object?._id}`}>
+			<article className={`${id}`}>
 				<li className="list-group-item d-flex gap-3 my-border-color bg-black text-bg-dark rounded-1 mb-3">
-					<img src={object?.avatar} width={96} height={96} />
+					<img src={avatar} width={96} height={96} />
 					<div className="d-flex gap-2 w-100 justify-content-between">
 						<div>
 							<Link
 								href={{
-									pathname: `/store/${object?._id}/${object?.slug}`,
+									pathname: `/store/${id}/${slug}`,
 									query: {},
 								}}
 							>
-								<h6 className="text-secondary mb-2">{object?.title}</h6>
+								<h6 className="text-secondary mb-2">{title}</h6>
 							</Link>
-							<h5 className="mb-2">{stripeCurrencyFormatter(object?.price)}</h5>
+							<h5 className="mb-2">
+								{object?.price?.default_price || stripeCurrencyFormatter(price)}
+							</h5>
 							<div className="btn-group me-2">
 								<button
 									className="btn btn-light btn-sm"
@@ -41,9 +52,7 @@ const Single = ({ object = {} }) => {
 								>
 									<i aria-hidden className="fa-solid fa-minus" />
 								</button>
-								<button className="btn btn-secondary btn-sm">
-									{itemQuantity}
-								</button>
+								<button className="btn btn-secondary btn-sm">{quantity}</button>
 								<button
 									className="btn btn-light btn-sm"
 									onClick={() => {
@@ -63,7 +72,7 @@ const Single = ({ object = {} }) => {
 							</button>
 						</div>
 						<h5 className="text-nowrap">
-							{stripeCurrencyFormatter(getTotalItemCost(object))}
+							{stripeCurrencyFormatter(getTotalItemCost(object) || price)}
 						</h5>
 					</div>
 				</li>

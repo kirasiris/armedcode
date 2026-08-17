@@ -13,6 +13,7 @@ import Head from "@/app/head";
 import UseMap from "@/components/global/usemap";
 import Globalsidebar from "@/layout/sidebar";
 import Gallery from "@/components/realestates/gallery";
+import AddToCartButton from "@/components/realestates/addtocartbutton";
 import ErrorPage from "@/layout/errorpage";
 import { getGlobalData } from "@/helpers/globalData";
 
@@ -84,24 +85,11 @@ const RealEstateRead = async ({ params, searchParams }) => {
 												</span>
 											</p>
 											<p>
-												{realestate?.data?.itemType === "sale" && (
-													<span className="fw-bold display-6">
-														{stripeCurrencyFormatter(
-															realestate?.data?.price?.inHumanFormat,
-														)}
-													</span>
-												)}
-												{realestate?.data?.itemType === "rent" && (
-													<>
-														<span className="fw-bold display-6">
-															{stripeCurrencyFormatter(
-																realestate?.data?.rates?.monthlyPrice
-																	?.inHumanFormat,
-															)}
-														</span>
-														/<span className="text-secondary">month</span>
-													</>
-												)}
+												<span className="fw-bold display-6">
+													{stripeCurrencyFormatter(
+														realestate?.data?.price?.inCentsFormat,
+													)}
+												</span>
 											</p>
 											<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
 												<div className="card-body">
@@ -227,7 +215,7 @@ const RealEstateRead = async ({ params, searchParams }) => {
 												<hr />
 												<a
 													href={`mailto:${realestate?.data?.user?.email}?subject=${realestate?.data?.title}`}
-													className="btn btn-light btn-sm w-100"
+													className="btn btn-light btn-sm w-100 mb-3"
 													target="_blank"
 													rel="noreferrer noopener"
 												>
@@ -237,6 +225,7 @@ const RealEstateRead = async ({ params, searchParams }) => {
 													/>
 													Send&nbsp;Message
 												</a>
+												<AddToCartButton object={realestate?.data} />
 											</div>
 										</div>
 										<div className="card border border-1 my-border-color bg-black text-bg-dark mb-4">
@@ -269,7 +258,7 @@ const RealEstateRead = async ({ params, searchParams }) => {
 													</li>
 													<li className="d-flex justify-content-between border-bottom my-border-color py-2">
 														<span className="text-secondary">
-															R.&nbsp;S.&nbsp;Agent
+															R.&nbsp;E.&nbsp;Agent
 														</span>
 														<span>{realestate?.data?.user?.name}</span>
 													</li>

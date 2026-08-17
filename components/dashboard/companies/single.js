@@ -98,31 +98,6 @@ const Single = ({
 								Schedule&nbsp;It
 							</button>
 							<hr />
-							<Link
-								href={{
-									pathname: `/dashboard/comments/create`,
-									query: {
-										resourceId: object._id,
-										onModel: `Company`,
-									},
-								}}
-								className="dropdown-item btn btn-link"
-							>
-								Add&nbsp;Comment
-							</Link>
-							<Link
-								href={{
-									pathname: `/dashboard/reports/create`,
-									query: {
-										resourceId: object._id,
-										onModel: `Company`,
-									},
-								}}
-								className="dropdown-item btn btn-link"
-							>
-								Add&nbsp;Report
-							</Link>
-							<hr />
 							<DeleteModal
 								id={object._id ? object._id : object._id}
 								action={handleDelete}

@@ -1,5 +1,4 @@
 "use client";
-import { fetchurl } from "@/helpers/fetchurl";
 import { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -13,6 +12,7 @@ const StoreContext = createContext({
 	clearItemFromCart: () => {},
 	clearCart: () => {},
 	getTotalItemCost: () => {},
+	getCartSubtotal: () => {},
 	getItemFee: () => {},
 	getTotalCartCost: () => {},
 });
@@ -65,8 +65,6 @@ export function CartProvider({ children }) {
 	const addItemToCart = async (object = {}) => {
 		const quantity = getItemQuantity(object);
 
-		// Normalize unit price to a number (in cents)
-		// Ensure object?.price?.inCentsFormat is a numeric value
 		const unitPrice = Number(object?.price?.inCentsFormat) || 0;
 
 		if (quantity === 0) {
@@ -96,6 +94,7 @@ export function CartProvider({ children }) {
 						: product,
 				),
 			);
+			toast.success(`You have now ${quantity + 1} items`);
 		}
 	};
 
@@ -140,32 +139,22 @@ export function CartProvider({ children }) {
 		return foundItem.price * foundItem.stockQuantity;
 	};
 
+	const getCartSubtotal = () => {
+		const subtotal = cartItems.reduce((total, cartItem) => {
+			const price = Number(cartItem.price) || 0;
+			const quantity = Number(cartItem.stockQuantity) || 0;
+			return total + price * quantity;
+		}, 0);
+		return subtotal;
+	};
+
 	const getItemFee = () => {
-		// Use a Set to track unique product IDs
-		const uniqueIds = new Set();
-		let totalFee = 0;
-
-		for (const item of cartItems) {
-			if (!uniqueIds.has(item._id)) {
-				uniqueIds.add(item._id);
-
-				const price = Number(item.price) || 0;
-				const itemFee = (price * 3) / 100; // 3% fee
-				totalFee += itemFee;
-			}
-		}
-
-		return totalFee;
+		const subtotal = getCartSubtotal();
+		return Math.round(subtotal * 0.03);
 	};
 
 	const getTotalCartCost = () => {
-		const totalCartCost = cartItems.reduce((total, cartItem) => {
-			const price = cartItem.price || 0; // fallback in case of missing price
-			const quantity = cartItem.stockQuantity || 0;
-			return total + price * quantity;
-		}, 0);
-
-		return totalCartCost;
+		return getCartSubtotal() + getItemFee();
 	};
 
 	const value = {
@@ -178,6 +167,7 @@ export function CartProvider({ children }) {
 		clearItemFromCart,
 		clearCart,
 		getTotalItemCost,
+		getCartSubtotal,
 		getItemFee,
 		getTotalCartCost,
 	};

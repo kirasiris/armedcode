@@ -2,6 +2,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import {
+	formatDateWithoutTime,
+	stripeCurrencyFormatter,
+} from "befree-utilities";
 import DeleteModal from "@/components/global/deletemodal";
 
 const Single = ({
@@ -32,7 +36,13 @@ const Single = ({
 						</Link>
 					</h1>
 					<div className="blog-item__meta">
-						{/* <span className="blog-item__meta-time-status">{object.text}</span> */}
+						<span className="badge bg-dark me-1">
+							{formatDateWithoutTime(object.createdAt)}
+						</span>
+						<span className="badge bg-dark me-1">{object.status}</span>
+						<span className="badge bg-danger">
+							{stripeCurrencyFormatter(object.price.inCentsFormat)}
+						</span>
 					</div>
 				</div>
 				<div className="blog-type-list__blog-thumbnail-wrapper has-image d-none d-md-block d-lg-block d-xl-block d-xxl-block">
@@ -92,31 +102,6 @@ const Single = ({
 							>
 								Schedule&nbsp;It
 							</button>
-							<hr />
-							<Link
-								href={{
-									pathname: `/dashboard/comments/create`,
-									query: {
-										resourceId: object._id,
-										onModel: `Course`,
-									},
-								}}
-								className="dropdown-item btn btn-link"
-							>
-								Add&nbsp;Comment
-							</Link>
-							<Link
-								href={{
-									pathname: `/dashboard/reports/create`,
-									query: {
-										resourceId: object._id,
-										onModel: `Course`,
-									},
-								}}
-								className="dropdown-item btn btn-link"
-							>
-								Add&nbsp;Report
-							</Link>
 							<hr />
 							<DeleteModal
 								id={object._id ? object._id : object._id}
