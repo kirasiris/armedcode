@@ -23,7 +23,7 @@ const SearchBar = ({ objects = [] }) => {
 	const searchData = async (e) => {
 		e.preventDefault();
 		router.push(
-			`/store/search?page=1&limit=10&sort=${sort}${categoryQuery}${typeQuery}${subCategoryQuery}${keywordQuery}`
+			`/store/search?page=1&limit=10&sort=${sort}${categoryQuery}${typeQuery}${subCategoryQuery}${keywordQuery}`,
 		);
 	};
 
@@ -56,7 +56,7 @@ const SearchBar = ({ objects = [] }) => {
 							category: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="all">Category</option>
 					<option value="weapons">Weapons</option>
@@ -76,7 +76,7 @@ const SearchBar = ({ objects = [] }) => {
 								type: e.target.value,
 							});
 						}}
-						className="form-control text-bg-dark mb-3"
+						className="form-select text-bg-dark mb-3"
 					>
 						<option value="all">Type</option>
 						<option value="rifle">Rifle</option>
@@ -103,7 +103,7 @@ const SearchBar = ({ objects = [] }) => {
 								sub_category: e.target.value,
 							});
 						}}
-						className="form-control text-bg-dark mb-3"
+						className="form-select text-bg-dark mb-3"
 					>
 						<option value="all">All</option>
 						<option value="magazines">Magazines</option>
@@ -129,7 +129,7 @@ const SearchBar = ({ objects = [] }) => {
 								sub_category: e.target.value,
 							});
 						}}
-						className="form-control text-bg-dark mb-3"
+						className="form-select text-bg-dark mb-3"
 					>
 						<option value="all">All</option>
 						<option value="male">Male</option>
@@ -154,7 +154,7 @@ const SearchBar = ({ objects = [] }) => {
 							sort: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="">Sort</option>
 					<option value="title">Name A to Z</option>

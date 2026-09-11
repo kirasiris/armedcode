@@ -274,7 +274,7 @@ const Sidebar = ({ auth = {}, token = null, returtopageurl = "/" }) => {
 										rating: e.target.value,
 									});
 								}}
-								className="form-control text-bg-dark mb-3"
+								className="form-select text-bg-dark mb-3"
 							>
 								{[...Array(10)].map((_, index) => (
 									<option key={index} value={index + 1}>

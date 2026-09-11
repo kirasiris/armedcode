@@ -145,7 +145,7 @@ const CreateForm = ({ apitoken = "" }) => {
 								type: e.target.value,
 							});
 						}}
-						className="form-control text-bg-dark mb-3"
+						className="form-select text-bg-dark mb-3"
 						required
 					>
 						<option value="none">Choose an option</option>
@@ -207,7 +207,7 @@ const CreateForm = ({ apitoken = "" }) => {
 								nfaClassification: e.target.value,
 							});
 						}}
-						className="form-control text-bg-dark mb-3"
+						className="form-select text-bg-dark mb-3"
 						required
 					>
 						<option value="none">Choose an option</option>

@@ -28,7 +28,7 @@ const SearchBar = ({}) => {
 	const searchData = async (e) => {
 		e.preventDefault();
 		router.push(
-			`/job/search?page=1&limit=10&sort=${sort}${experienceLevelQuery}${jobTypeQuery}${remoteQuery}${keywordQuery}`
+			`/job/search?page=1&limit=10&sort=${sort}${experienceLevelQuery}${jobTypeQuery}${remoteQuery}${keywordQuery}`,
 		);
 	};
 
@@ -61,7 +61,7 @@ const SearchBar = ({}) => {
 							experience_level: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="all">All</option>
 					<option value="graduate">Graduate</option>
@@ -81,7 +81,7 @@ const SearchBar = ({}) => {
 							job_type: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="all">All</option>
 					<option value="full-time">Full Time</option>
@@ -102,7 +102,7 @@ const SearchBar = ({}) => {
 							remote: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="all">All</option>
 					<option value="hybrid">Hybrid</option>
@@ -121,7 +121,7 @@ const SearchBar = ({}) => {
 							sort: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="">Sort</option>
 					<option value="title">Name A to Z</option>

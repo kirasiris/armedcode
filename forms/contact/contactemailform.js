@@ -91,7 +91,7 @@ const ContactEmailForm = ({}) => {
 			<select
 				id="subject"
 				name="subject"
-				className="form-control text-bg-dark mb-3"
+				className="form-select text-bg-dark mb-3"
 				required
 				defaultValue=""
 			>

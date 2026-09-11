@@ -59,7 +59,7 @@ const SearchBar = ({ objects = [] }) => {
 							businessType: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="">Listing Type</option>
 					<option value="sale">Sale</option>
@@ -77,7 +77,7 @@ const SearchBar = ({ objects = [] }) => {
 							type: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="">Type</option>
 					<option value="apartment">Apartment</option>
@@ -102,7 +102,7 @@ const SearchBar = ({ objects = [] }) => {
 							bedrooms: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="">Bedrooms</option>
 					<option value={1}>1+</option>
@@ -122,7 +122,7 @@ const SearchBar = ({ objects = [] }) => {
 							bathrooms: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="">Bathrooms</option>
 					<option value={1}>1+</option>
@@ -142,7 +142,7 @@ const SearchBar = ({ objects = [] }) => {
 							sort: e.target.value,
 						});
 					}}
-					className="form-control text-bg-dark mb-3"
+					className="form-select text-bg-dark mb-3"
 				>
 					<option value="">Sort</option>
 					<option value="title">Title</option>

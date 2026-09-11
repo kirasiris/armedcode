@@ -23,7 +23,7 @@ const Menu = ({
 
 	return (
 		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-			<Container>
+			<div className="container">
 				<div className="navbar-header">
 					<Navbar.Toggle
 						aria-controls="responsive-navbar-nav"
@@ -190,7 +190,7 @@ const Menu = ({
 						)}
 					</Nav>
 				</Navbar.Collapse>
-			</Container>
+			</div>
 		</Navbar>
 	);
 };
