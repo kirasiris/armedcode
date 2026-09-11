@@ -91,7 +91,7 @@ const ThemeRead = async ({ params, searchParams }) => {
 			<Head
 				title={`${settings?.data?.title} - ${theme.data.title}`}
 				description={theme.data.excerpt || theme.data.text}
-				favicon={settings?.data?.favicon}
+				favicon={settings?.data?.favicon?.location?.secure_location}
 				postImage={theme.data.files.avatar.location.secure_location}
 				imageWidth=""
 				imageHeight=""

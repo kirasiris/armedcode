@@ -47,8 +47,8 @@ const NFATransferRead = async ({ params, searchParams }) => {
 			<Head
 				title={`${settings?.data?.title} - ${acquisitionsdisposal.data.title}`}
 				description="Sorry. This page is no longer public"
-				favicon={settings?.data?.favicon}
-				postImage={settings.data.showcase_image}
+				favicon={settings?.data?.favicon?.location?.secure_location}
+				postImage={settings.data.showcase_image?.location?.secure_location}
 				imageWidth=""
 				imageHeight=""
 				videoWidth=""

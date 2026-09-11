@@ -36,8 +36,8 @@ const RealEstateIndex = async ({ params, searchParams }) => {
 			<Head
 				title={`${settings?.data?.title} - Real Estate`}
 				description="Discover exceptional homes, land, and investment opportunities across the country. Your perfect property is waiting."
-				favicon={settings?.data?.favicon}
-				postImage={settings.data.showcase_image}
+				favicon={settings?.data?.favicon?.location?.secure_location}
+				postImage={settings.data.showcase_image?.location?.secure_location}
 				imageWidth=""
 				imageHeight=""
 				videoWidth=""

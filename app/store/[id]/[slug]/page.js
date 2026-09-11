@@ -41,7 +41,7 @@ const StoreRead = async ({ params, searchParams }) => {
 			<Head
 				title={`${settings?.data?.title} - ${product.data.title}`}
 				description={product.data.excerpt || product.data.text}
-				favicon={settings?.data?.favicon}
+				favicon={settings?.data?.favicon?.location?.secure_location}
 				postImage={product.data.files.avatar.location.secure_location}
 				imageWidth=""
 				imageHeight=""

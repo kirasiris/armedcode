@@ -18,7 +18,7 @@ const RootLayout = async ({ children }) => {
 					<Menu
 						auth={auth}
 						title={settings?.data?.title}
-						logo={settings?.data?.logo}
+						logo={settings?.data?.logo?.location?.secure_location}
 						canonical={process.env.NEXT_PUBLIC_WEBSITE_URL}
 					/>
 					<main>{children}</main>

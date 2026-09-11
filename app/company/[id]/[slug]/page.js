@@ -79,7 +79,7 @@ const CompanyRead = async ({ params, searchParams }) => {
 			<Head
 				title={`${settings?.data?.title} - ${company.data.title}`}
 				description={company.data.excerpt || company.data.text}
-				favicon={settings?.data?.favicon}
+				favicon={settings?.data?.favicon?.location?.secure_location}
 				postImage={company.data.files.avatar.location.secure_location}
 				imageWidth=""
 				imageHeight=""

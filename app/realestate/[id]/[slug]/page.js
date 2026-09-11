@@ -48,7 +48,7 @@ const RealEstateRead = async ({ params, searchParams }) => {
 			<Head
 				title={`${settings?.data?.title} - ${realestate.data.title}`}
 				description={realestate.data.excerpt || realestate.data.text}
-				favicon={settings?.data?.favicon}
+				favicon={settings?.data?.favicon?.location?.secure_location}
 				postImage={realestate.data.files.avatar.location.secure_location}
 				imageWidth=""
 				imageHeight=""

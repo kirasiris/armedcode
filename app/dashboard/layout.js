@@ -19,7 +19,7 @@ export default async function AdminLayout({ children }) {
 			<Head
 				title={`${settings?.data?.title} - Dashboard`}
 				description={"Manage business"}
-				favicon={settings?.data?.favicon}
+				favicon={settings?.data?.favicon?.location?.secure_location}
 				postImage=""
 				imageWidth=""
 				imageHeight=""
