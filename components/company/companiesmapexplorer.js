@@ -46,7 +46,7 @@ const toFeatureCollection = (companies) => {
 // 		company.slug ?? "",
 // 	)}`;
 
-const defaultHref = (company) => `/company/${company._id}/${company.slug}`;
+const defaultHref = (company) => `/company/${company?._id}/${company?.slug}`;
 
 // The API answers an empty result set with this "fail" instead of an empty array.
 const isEmptyResult = (res) =>
