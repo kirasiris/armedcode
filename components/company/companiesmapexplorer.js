@@ -41,10 +41,12 @@ const toFeatureCollection = (companies) => {
 	return { type: "FeatureCollection", features };
 };
 
-const defaultHref = (company) =>
-	`/company/${encodeURIComponent(company._id ?? company.id ?? "")}/${encodeURIComponent(
-		company.slug ?? "",
-	)}`;
+// const defaultHref = (company) =>
+// 	`/company/${encodeURIComponent(company._id ?? company.id ?? "")}/${encodeURIComponent(
+// 		company.slug ?? "",
+// 	)}`;
+
+const defaultHref = (company) => `/company/${company._id}/${company.slug}`;
 
 // The API answers an empty result set with this "fail" instead of an empty array.
 const isEmptyResult = (res) =>
