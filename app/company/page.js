@@ -2,6 +2,7 @@ import { fetchurl } from "@/helpers/fetchurl";
 import ErrorPage from "@/layout/errorpage";
 import Head from "@/app/head";
 import { getGlobalData } from "@/helpers/globalData";
+import CompanyMapExplorer from "@/components/company/companiesmapexplorer";
 
 async function getCompanies(params) {
 	const res = await fetchurl(
@@ -49,7 +50,10 @@ const CompanyIndex = async ({ params, searchParams }) => {
 				posType="page"
 			/>
 			{settings?.data?.maintenance === false ? (
-				<>Nothing to show here</>
+				<CompanyMapExplorer
+					objects={companies}
+					searchParams={awtdSearchParams}
+				/>
 			) : (
 				<ErrorPage />
 			)}
